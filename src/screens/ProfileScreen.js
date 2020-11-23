@@ -9,6 +9,9 @@ const ProfileScreen = ({ navigation }) => {
             <Text> Profile Page </Text>
 
             <BottomButton navigation={navigation} />
+            <TouchableOpacity style={styles.signOut} onPress={() => navigation.navigate('Login')}>
+                <Text style={styles.logo}>Sign out</Text>
+            </TouchableOpacity>
 
         </View>
     );
@@ -40,6 +43,20 @@ const styles = StyleSheet.create({
     profileRight: {
         fontSize: 30,
         marginRight: 10
+    },
+    logo:{
+        fontWeight:"bold",
+        fontSize:18
+    },
+    signOut: {
+        position: "absolute",
+        bottom: 75,
+        width:"100%",
+        backgroundColor:"#7cfc00",
+        borderRadius: 25,
+        height: 36,
+        alignItems: "center",
+        justifyContent: "center",
     }
 });
 
