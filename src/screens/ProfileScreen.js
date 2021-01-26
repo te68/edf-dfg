@@ -7,7 +7,7 @@ const ProfileScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Profile></Profile>
-            <Text style={styles.title}> Interests</Text>
+            <Interests></Interests>
             <Text style={styles.title}> Notifications</Text>
             <Text style={styles.title}> Saved Content </Text>
             <BottomButton navigation={navigation} />
@@ -47,7 +47,7 @@ class Profile extends React.Component {
             <Text style={styles.title}> Profile </Text>
             <Text style={styles.textSettings}> Email: </Text>
             <Text style={styles.textSettings}> Location: </Text>
-            <View style={styles.twoButtons}>
+            <View style={styles.buttons}>
                 <TouchableOpacity style={
                     [styles.settingsLeft, { backgroundColor: this.state.employment == "Seeking Employment" ? "#7cfc00" : "#ffffff" }]
                 } onPress={() => this.setState({
@@ -63,7 +63,7 @@ class Profile extends React.Component {
                     <Text style={styles.textSettings}> Employed Full Time </Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.twoButtons}>
+            <View style={styles.buttons}>
                 <TouchableOpacity style={
                     [styles.settingsLeft, { backgroundColor: this.state.education == "Student" ? "#7cfc00" : "#ffffff" }]
                 } onPress={() => this.setState({
@@ -90,7 +90,52 @@ class Interests extends React.Component {
         this.state = {
             climateNews: "",
             corporateInsights: "",
+            climateAdvocacy: "",
+            sustainabilityResearch: "",
         }
+    }
+    render() {
+        return <View style={styles.container}>
+            <Text style={styles.title}> Interests </Text>
+            <Text style={styles.interestSettings}> Climate News: </Text>
+            <Text style={styles.textSettings}> Corporate Insights: </Text>
+            <Text style={styles.textSettings}> Climate Advocacy: </Text>
+            <Text style={styles.textSettings}> Sustainability Research: </Text>
+        </View >
+    }
+}
+
+class DegreeInterest extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            degree: ""
+        }
+    }
+    render() {
+        return <View style={styles.buttons}>
+            <TouchableOpacity style={
+                [styles.smallButton, { backgroundColor: this.state.degree == "A Little" ? "#7cfc00" : "#ffffff" }]
+            } onPress={() => this.setState({
+                degree: "A Little"
+            })}>
+                <Text style={styles.textSettings}> A Little </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={
+                [styles.smallButton, { left: "30%", backgroundColor: this.state.degree == "Average" ? "#7cfc00" : "#ffffff" }]
+            } onPress={() => this.setState({
+                degree: "Average"
+            })}>
+                <Text style={styles.textSettings}> Average </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={
+                [styles.smallButton, { left: "50%", backgroundColor: this.state.degree == "A Lot" ? "#7cfc00" : "#ffffff" }]
+            } onPress={() => this.setState({
+                degree: "A Lot"
+            })}>
+                <Text style={styles.textSettings}> A Lot </Text>
+            </TouchableOpacity>
+        </View>
     }
 }
 
@@ -109,7 +154,7 @@ const styles = StyleSheet.create({
     title: {
         fontWeight: "bold",
         fontSize: 30,
-        flex: 1,
+        flex: 1.1,
         left: "4%"
     },
     logo: {
@@ -120,6 +165,13 @@ const styles = StyleSheet.create({
         fontSize: 12,
         alignContent: "center",
         left: "5%",
+        flex: 1
+    },
+    interestSettings: {
+        flexDirection: "row",
+        fontSize: 12,
+        alignContent: "center",
+        left: "10%",
         flex: 1
     },
     signOut: {
@@ -144,10 +196,16 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         height: 24,
     },
-    twoButtons: {
+    buttons: {
         flexDirection: "row",
         flex: .8,
         left: "10%"
+    },
+    smallButton: {
+        width: "15%",
+        left: "10%",
+        borderRadius: 25,
+        height: 24,
     }
 });
 
