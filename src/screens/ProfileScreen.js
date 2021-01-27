@@ -1,21 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-navigation'
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import BottomButton from '../components/BottomButton';
 
 const ProfileScreen = ({ navigation }) => {
     return (
-        <View style={styles.container}>
-            <Profile></Profile>
-            <Interests></Interests>
-            <Text style={styles.title}> Notifications</Text>
-            <Text style={styles.title}> Saved Content </Text>
-            <BottomButton navigation={navigation} />
+        <SafeAreaView style={styles.container}>
+            <ScrollView style={{ flex: 5 }}>
+                <Profile style={{ flex: 1 }}></Profile>
+                <Interests style={{ flex: 1 }}></Interests>
+                <Notifications style={{ flex: 1 }}></Notifications>
+                <Text style={styles.title}> Saved Content </Text>
+            </ScrollView>
             <TouchableOpacity style={styles.signOut} onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.logo}>Sign out</Text>
             </TouchableOpacity>
+            <BottomButton navigation={navigation} />
+        </SafeAreaView>
 
-        </View>
     );
 };
 
@@ -53,14 +56,14 @@ class Profile extends React.Component {
                 } onPress={() => this.setState({
                     employment: "Seeking Employment"
                 })}>
-                    <Text style={styles.textSettings}> Seeking Employment </Text>
+                    <Text style={{ textAlign: "center" }}> Seeking Employment </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={
                     [styles.settingsRight, { backgroundColor: this.state.employment == "Employed Full Time" ? "#7cfc00" : "#ffffff" }]
                 } onPress={() => this.setState({
                     employment: "Employed Full Time"
                 })}>
-                    <Text style={styles.textSettings}> Employed Full Time </Text>
+                    <Text style={{ textAlign: "center" }}> Employed Full Time </Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.buttons}>
@@ -69,14 +72,14 @@ class Profile extends React.Component {
                 } onPress={() => this.setState({
                     education: "Student"
                 })}>
-                    <Text style={styles.textSettings}> Student </Text>
+                    <Text style={{ flex: 1, justifyContent: "center", textAlign: "center" }}> Student </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={
                     [styles.settingsRight, { backgroundColor: this.state.education == "Graduate" ? "#7cfc00" : "#ffffff" }]
                 } onPress={() => this.setState({
                     education: "Graduate"
                 })}>
-                    <Text style={styles.textSettings}> Graduate </Text>
+                    <Text style={{ textAlign: "center" }}> Graduate </Text>
                 </TouchableOpacity>
             </View>
         </View>;
@@ -97,10 +100,20 @@ class Interests extends React.Component {
     render() {
         return <View style={styles.container}>
             <Text style={styles.title}> Interests </Text>
-            <Text style={styles.interestSettings}> Climate News: </Text>
-            <Text style={styles.textSettings}> Corporate Insights: </Text>
-            <Text style={styles.textSettings}> Climate Advocacy: </Text>
-            <Text style={styles.textSettings}> Sustainability Research: </Text>
+            <View style={{ flexDirection: "row" }}>
+                <View style={[styles.container, { top: 8, left: 11 }]}>
+                    <Text style={styles.textSettings}> Climate News: </Text>
+                    <Text style={styles.textSettings}> Corporate Insights: </Text>
+                    <Text style={styles.textSettings}> Climate Advocacy: </Text>
+                    <Text style={styles.textSettings}> Sustainability Research: </Text>
+                </View>
+                <View style={{ flex: 1.3 }}>
+                    <DegreeInterest> </DegreeInterest>
+                    <DegreeInterest></DegreeInterest>
+                    <DegreeInterest></DegreeInterest>
+                    <DegreeInterest></DegreeInterest>
+                </View>
+            </View>
         </View >
     }
 }
@@ -139,6 +152,36 @@ class DegreeInterest extends React.Component {
     }
 }
 
+class Notifications extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            notify: "On"
+        }
+    }
+    render() {
+        return <View>
+            <Text style={styles.title}> Notifications</Text>
+            <View style={[styles.buttons, { top: "0%" }]}>
+                <TouchableOpacity style={
+                    [styles.smallButton, { left: 10, backgroundColor: this.state.notify == "On" ? "#7cfc00" : "#ffffff" }]
+                } onPress={() => this.setState({
+                    notify: "On"
+                })}>
+                    <Text style={{ flex: 1, justifyContent: "center", textAlign: "center" }}> On </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={
+                    [styles.smallButton, { left: 20, backgroundColor: this.state.notify == "Off" ? "#7cfc00" : "#ffffff" }]
+                } onPress={() => this.setState({
+                    notify: "Off"
+                })}>
+                    <Text style={{ textAlign: "center" }}> Off </Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    }
+}
+
 const styles = StyleSheet.create({
     container: {
         flex: 1
@@ -153,18 +196,19 @@ const styles = StyleSheet.create({
     },
     title: {
         fontWeight: "bold",
+        margin: "5%",
         fontSize: 30,
-        flex: 1.1,
-        left: "4%"
+        flex: 1,
     },
     logo: {
         fontWeight: "bold",
         fontSize: 18,
     },
     textSettings: {
-        fontSize: 12,
+        fontSize: 14,
         alignContent: "center",
         left: "5%",
+        top: "5%",
         flex: 1
     },
     interestSettings: {
@@ -176,6 +220,7 @@ const styles = StyleSheet.create({
     },
     signOut: {
         position: "absolute",
+        flex: 1,
         bottom: 75,
         width: "100%",
         backgroundColor: "#7cfc00",
@@ -188,24 +233,26 @@ const styles = StyleSheet.create({
         width: "35%",
         left: "10%",
         borderRadius: 25,
-        height: 24,
+        height: 20,
     },
     settingsRight: {
         width: "35%",
         left: "50%",
         borderRadius: 25,
-        height: 24,
+        height: 20,
     },
     buttons: {
         flexDirection: "row",
-        flex: .8,
-        left: "10%"
+        padding: 4,
+        flex: 1,
+        left: "10%",
+        top: "3%",
     },
     smallButton: {
-        width: "15%",
+        width: "28%",
         left: "10%",
         borderRadius: 25,
-        height: 24,
+        height: 20,
     }
 });
 
