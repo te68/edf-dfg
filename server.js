@@ -7,7 +7,11 @@ const connectDB = require('./config/db')
 //Connect DB
 connectDB();
 //Init Middlware
-app.use(express.json({extended:false}))
+app.use(express.json({ extended: false }))
+
+app.use('/api/users',require('./routes/api/users'))
+app.use('/api/auth',require('./routes/api/auth'))
+
 
 app.get('/',auth,(req, res) => {
     res.send("Hello world")
