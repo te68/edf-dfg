@@ -40,7 +40,7 @@ const ProfileScreen = ({ navigation }) => {
                             placeholder="Email"
                             placeholderTextColor="rgba(60, 60, 67, 0.3)"
                             value={email}
-                            onChangeText={(text) => setName(text)}
+                            onChangeText={(text) => setEmail(text)}
                         />
                     </View>
                     <View style={styles.profileSettings}>
