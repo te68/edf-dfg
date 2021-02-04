@@ -33,6 +33,7 @@ app.use((req, res, next) => {
 // ROUTES
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
+app.use("/api/articles", require("./routes/api/articles"));
 
 // route not found
 app.use("/", (req, res, next) => {
