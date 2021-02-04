@@ -41,7 +41,7 @@ app.use("/", (req, res, next) => {
 
 // handling errors
 app.use((err, req, res, next) => {
-  const status = err.statusCode || 500;
+  const status = err.statusCode || 500; // default error code
   const message = err.message;
 
   res.status(status).json({ message });
