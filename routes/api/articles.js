@@ -8,10 +8,14 @@ const auth = require("../../middleware/auth");
 
 const router = express.Router();
 
-// GET /api/articles
+// @route    GET /api/articles
+// @desc     Get articles
+// @access   Private
 router.get("/", auth, articlesController.getArticles);
 
-// POST /api/articles
+// @route    POST /api/articles
+// @desc     Create new article
+// @access   Private
 router.post(
   "/",
   auth,
@@ -20,7 +24,9 @@ router.post(
   articlesController.createArticle
 );
 
-// PUT /api/articles/<articleId>
+// @route    PUT /api/articles/<articleId>
+// @desc     Edit specific article
+// @access   Private
 router.put(
   "/:articleId",
   auth,
@@ -29,10 +35,14 @@ router.put(
   articlesController.updateArticle
 );
 
-// DELETE /api/articles/<articleId>
+// @route    DELETE /api/articles/<articleId>
+// @desc     Delete articles
+// @access   Private
 router.delete("/:articleId", auth, articlesController.deleteArticle);
 
-// GET /api/articles/<articleId>
+// @route    GET /api/articles/<articleId>
+// @desc     Get specific article
+// @access   Private
 router.get("/:articleId", auth, articlesController.getArticle);
 
 module.exports = router;
