@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import BottomButton from '../components/BottomButton';
 
 const HomeScreen = ({ navigation }) => {
+    const [notifications, setNotifications] = useState(""); 
+
     return (
         <View style={styles.container}>
-            <Text> Home Page </Text>
-
             <TouchableOpacity style={styles.searchStyle} onPress={() => navigation.navigate('Search')}>
                 <Text style={styles.textStyle}>Search All </Text>
-                <FontAwesome style={styles.arrowStyle} name="arrow-right" />
+                <FontAwesome style={styles.arrowStyle} name="search" />
             </TouchableOpacity>
-
+            <View style={styles.row}>
+                <Button title="Articles" notifications={2}></Button>
+                <Button title="Podcasts" notifications={3} color="#6EC6B3"></Button>
+                <Button title="Blogs" notifications={1} color="#C5DB65" ></Button>
+                <Button title="Career Advice" notifications={2} color="#F7F6F1"></Button>
+                <Button title="Videos" notifications={1} ></Button>
+                <Button title="Events" notifications={3} color="#6EC6B3"></Button>
+                <Button title="Authenticity Meter" notifications={3} color="#C5DB65"></Button>
+                <Button title="Guides" notifications={3} color="#F7F6F1"></Button>
+                <Button title="Resources" notifications={1}></Button>
+            </View>
             <BottomButton navigation={navigation} />
 
         </View>
@@ -34,9 +44,48 @@ HomeScreen.navigationOptions = ({ navigation }) => {
     };
 };
 
+function Button(props) {
+    const maxThreeNotifs = Math.min(props.notifications, 3);
+
+    return <View>
+        <TouchableOpacity style={[styles.button, {
+            backgroundColor: props.color == null ? "#1B8AE6" : props.color, 
+            borderRadius: 25+ maxThreeNotifs*20,
+            width: 50+ maxThreeNotifs *40,
+            height: 50+ maxThreeNotifs *40,
+        }]}> 
+            <Text style={{
+                fontSize: Math.max(17,10*maxThreeNotifs),
+                textAlign: "center"
+            }}>
+                {props.title}
+            </Text>
+        </TouchableOpacity>
+    </View>;
+    
+}
+
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    button: {
+        borderRadius: 50,
+        width:100,
+        height:100,
+        alignItems:'center',
+        justifyContent: 'center',
+        shadowColor: 'rgba(0,0,0, .4)', 
+        shadowOffset: { height: 4, width: 4 }, 
+        shadowOpacity: 1, 
+        shadowRadius: 1,
+        margin: 10
+    },
+    row: {
+        flexDirection: "row", 
+        flexWrap: 'wrap',
+        alignItems:'center',
+        justifyContent: 'center',
     },
     icon: {
         flex: 1,

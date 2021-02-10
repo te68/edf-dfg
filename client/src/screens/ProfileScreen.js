@@ -14,7 +14,7 @@ import BottomButton from '../components/BottomButton';
 const ProfileScreen = ({ navigation }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [location, setLocation] = useState("");
+    const [location, setLocation] = useState(""); 
 
     return (
         <SafeAreaView style={styles.container}>
@@ -77,11 +77,6 @@ ProfileScreen.navigationOptions = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                 <AntDesign style={styles.profile} name="back" />
             </TouchableOpacity>
-        ),
-        headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                <Ionicons style={styles.profile} name="md-person" />
-            </TouchableOpacity>
         )
     };
 };
@@ -94,49 +89,59 @@ class Profile extends React.Component {
             education: "",
         }
     }
+    
     render() {
-        return <View style={{ flex: 1, marginBottom: 10 }}>
+        return <View style={styles.container}>
             <View style={styles.rowSettings}>
                 <TouchableOpacity style={
                     [styles.button, {
-                        borderColor: "#000000", backgroundColor: this.state.employment == "Seeking Employment" ? "#007AFF" : "transparent"
+                        backgroundColor: this.state.employment == "Seeking Employment" ? "#0A4D95" : "#ffffff"
                     }]
                 } onPress={() => this.setState({
                     employment: "Seeking Employment"
                 })}>
-                    <Text style={{ textAlign: "center" }}> Seeking Employment </Text>
+                    <Text style={{
+                        textAlign: "center",
+                        color: this.state.employment == "Seeking Employment" ?  "#ffffff" : "#000000"
+                    }}> Seeking Employment </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={
                     [styles.button, {
-                        backgroundColor: this.state.employment == "Employed Full Time" ? "#007AFF" : "#ffffff"
+                        backgroundColor: this.state.employment == "Employed Full Time" ?  "#0A4D95": "#ffffff"
                     }]
                 } onPress={() => this.setState({
                     employment: "Employed Full Time"
                 })}>
-                    <Text style={{ textAlign: "center" }}> Employed Full Time </Text>
+                    <Text style={{
+                        textAlign: "center",
+                        color: this.state.employment == "Employed Full Time" ? "#ffffff" : "#000000",
+                    }}> Employed Full Time </Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.rowSettings}>
                 <TouchableOpacity style={
                     [styles.button, {
-                        backgroundColor: this.state.education == "Student" ? "#007AFF" : "#ffffff"
+                        backgroundColor: this.state.education == "Student" ? "#0A4D95" : "#ffffff"
                     }]
                 } onPress={() => this.setState({
                     education: "Student"
                 })}>
                     <Text style={{
                         textAlign: "center",
-                        textColor: this.state.education == "Student" ? "#ffffff" : "#000000",
+                        color: this.state.education == "Student" ? "#ffffff" : "#000000",
                     }}> Student </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={
                     [styles.button, {
-                        backgroundColor: this.state.education == "Graduate" ? "#007AFF" : "#ffffff"
+                        backgroundColor: this.state.education == "Graduate" ? "#0A4D95" : "#ffffff"
                     }]
                 } onPress={() => this.setState({
                     education: "Graduate"
                 })}>
-                    <Text style={{ textAlign: "center" }}> Graduate </Text>
+                    <Text style={{
+                        textAlign: "center",
+                        color: this.state.education == "Graduate" ? "#ffffff" : "#000000"
+                    }}> Graduate </Text>
                 </TouchableOpacity>
             </View>
         </View>;
@@ -158,7 +163,7 @@ class Interests extends React.Component {
         return <View style={styles.container}>
             <Text style={styles.title}> Interests </Text>
             <View style={{ flexDirection: "row" }}>
-                <View style={[styles.container]}>
+                <View style={[styles.container, {left: "3%"}]}>
                     <Text style={styles.body}> Climate News: </Text>
                     <Text style={styles.body}> Corporate Insights: </Text>
                     <Text style={styles.body}> Climate Advocacy: </Text>
@@ -185,25 +190,31 @@ class DegreeInterest extends React.Component {
     render() {
         return <View style={{ flexDirection: 'row', }}>
             <TouchableOpacity style={
-                [styles.smallButton, { backgroundColor: this.state.degree == "A Little" ? "#007AFF" : "#ffffff" }]
+                [styles.smallButton, { backgroundColor: this.state.degree == "A Little" ? "#0A4D95" : "#ffffff" }]
             } onPress={() => this.setState({
                 degree: "A Little"
             })}>
-                <Text style={styles.body}> A Little </Text>
+                <Text style={[styles.body, {
+                    color: this.state.degree == "A Little" ? "#ffffff" : "#000000"
+                }]}> A Little </Text>
             </TouchableOpacity>
             <TouchableOpacity style={
-                [styles.smallButton, { left: "30%", backgroundColor: this.state.degree == "Average" ? "#007AFF" : "#ffffff" }]
+                [styles.smallButton, {backgroundColor: this.state.degree == "Average" ? "#0A4D95" : "#ffffff" }]
             } onPress={() => this.setState({
                 degree: "Average"
             })}>
-                <Text style={styles.body}> Average </Text>
+                <Text style={[styles.body, {
+                    color: this.state.degree == "Average" ? "#ffffff" : "#000000"
+                }]}> Average </Text>
             </TouchableOpacity>
             <TouchableOpacity style={
-                [styles.smallButton, { left: "50%", backgroundColor: this.state.degree == "A Lot" ? "#007AFF" : "#ffffff" }]
+                [styles.smallButton, {backgroundColor: this.state.degree == "A Lot" ? "#0A4D95" : "#ffffff" }]
             } onPress={() => this.setState({
                 degree: "A Lot"
             })}>
-                <Text style={styles.body}> A Lot </Text>
+                <Text style={[styles.body, {
+                    color: this.state.degree == "A Lot" ? "#ffffff" : "#000000"
+                }]}> A Lot </Text>
             </TouchableOpacity>
         </View>
     }
@@ -219,27 +230,40 @@ class Notifications extends React.Component {
     render() {
         return <View>
             <Text style={styles.title}> Notifications</Text>
-            <View style={[styles.rowSettings, { marginRight: "30%" }]}>
+            <View style={{ flexDirection: "row", marginRight: "30%" }}>
                 <TouchableOpacity style={
-                    [styles.smallButton, { left: 10, backgroundColor: this.state.notify == "On" ? "#007AFF" : "#ffffff" }]
+                    [styles.smallButton, { backgroundColor: this.state.notify == "On" ? "#0A4D95" : "#ffffff" }]
                 } onPress={() => this.setState({
                     notify: "On"
                 })}>
-                    <Text style={{ flex: 1, justifyContent: "center", textAlign: "center" }}> On </Text>
+                    <Text style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        textAlign: "center",
+                        color: this.state.notify == "On" ? "#ffffff" : "#000000"
+                    }}> On </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={
-                    [styles.smallButton, { left: 20, backgroundColor: this.state.notify == "Events Only" ? "#007AFF" : "#ffffff" }]
+                    [styles.smallButton, { backgroundColor: this.state.notify == "Events Only" ? "#0A4D95" : "#ffffff" }]
                 } onPress={() => this.setState({
                     notify: "Events Only"
                 })}>
-                    <Text style={{ flex: 1, justifyContent: "center", textAlign: "center" }}> Events Only </Text>
+                    <Text style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        textAlign: "center",
+                        color: this.state.notify == "Events Only" ? "#ffffff" : "#000000"
+                    }}> Events Only </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={
-                    [styles.smallButton, { left: 30, backgroundColor: this.state.notify == "Off" ? "#007AFF" : "#ffffff" }]
+                    [styles.smallButton, {backgroundColor: this.state.notify == "Off" ? "#0A4D95" : "#ffffff" }]
                 } onPress={() => this.setState({
                     notify: "Off"
                 })}>
-                    <Text style={{ textAlign: "center" }}> Off </Text>
+                    <Text style={{
+                        textAlign: "center",
+                        color: this.state.notify == "Off" ? "#ffffff" : "#000000"
+                    }}> Off </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -249,7 +273,6 @@ class Notifications extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "white",
     },
     profile: {
         fontSize: 30,
@@ -262,8 +285,6 @@ const styles = StyleSheet.create({
     },
     body: {
         fontSize: 14,
-        alignContent: "center",
-        left: "5%",
         top: "5%",
         flex: 1
     },
@@ -276,20 +297,26 @@ const styles = StyleSheet.create({
         width: "35%",
         height: 20,
         borderRadius: 25,
-        borderColor: 'black'
+        borderColor: 'black',
+        borderWidth:1,
     },
     rowSettings: {
         flexDirection: "row",
+        width: "110%",
         padding: 4,
         flex: 1,
-        left: "10%",
-        top: "3%",
+        margin: 3,
+        padding: 2
     },
     smallButton: {
-        width: "28%",
+        width: "30%",
         left: "10%",
         borderRadius: 25,
         height: 20,
+        borderWidth: 1,
+        alignItems:'center',
+        justifyContent: 'center',
+       margin: 3,
     },
     signOut: {
         fontWeight: "bold",
