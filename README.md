@@ -10,7 +10,7 @@ git clone https://github.com/te68/edf-dfg
 ```
 Install packages
 ```
-cd pdf-dfg && npm install
+cd edf-dfg && npm install
 ```
 Run back-end and front-end servers
 ```
