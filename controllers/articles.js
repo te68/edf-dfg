@@ -33,8 +33,31 @@ exports.createArticle = async (req, res, next) => {
   }
 
   try {
-    // TODO: parse body data
-    // TODO: call model
+    // parse body data
+    const title = req.body.title;
+    const url = req.body.url;
+    const preview = req.body.preview;
+    const authorId = req.body.authorId;
+    const categories = [...req.body.categories];
+    const likes = 0;
+    const celebrates = 0;
+    const dislikes = 0;
+
+    // create article
+    const article = new Article({
+      title,
+      url,
+      preview,
+      author: authorId,
+      categories,
+      likes,
+      celebrates,
+      dislikes,
+    });
+
+    const result = await article.save();
+
+    res.status(201).json({ message: "Article created", article: result });
   } catch (error) {
     return next(error);
   }
