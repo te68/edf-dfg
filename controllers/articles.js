@@ -119,11 +119,37 @@ exports.updateArticle = async (req, res, next) => {
 
 // delete
 exports.deleteArticle = async (req, res, next) => {
+  // checking validation
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const err = new Error("Validation failed");
+    err.statusCode = 422;
+    return next(err);
+  }
+
   const articleId = req.params.articleId;
 
-  // TODO: call model
-
   try {
+    // find article
+    const article = await Article.findById(articleId);
+
+    if (!article) {
+      const error = new Error("No article found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    // check user is owner
+    if (article.author.toString() != req.user.id) {
+      const error = new Error("Forbidden");
+      error.statusCode = 403;
+      throw error;
+    }
+
+    // delete if no errors
+    const result = await Article.findByIdAndDelete(articleId);
+
+    res.json(result);
   } catch (error) {
     return next(error);
   }
@@ -131,11 +157,28 @@ exports.deleteArticle = async (req, res, next) => {
 
 // get article details
 exports.getArticle = (req, res, next) => {
-  const articleId = req.params.articleId;
-
-  // TODO: call model
+  // checking validation
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const err = new Error("Validation failed");
+    err.statusCode = 422;
+    return next(err);
+  }
 
   try {
+    const articleId = req.params.articleId;
+
+    const result = await Article.findById(articleId).populate('author', 'name');
+
+    // article not found
+    if (!result) {
+      const error = new Error("No article found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    res.json(result)
+  
   } catch (error) {
     return next(error);
   }
