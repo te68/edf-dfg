@@ -20,7 +20,12 @@ router.post(
   "/",
   auth,
   // validation
-  [body("title").notEmpty(), body("author").notEmpty()],
+  [
+    body("title").notEmpty(),
+    body("url").notEmpty(),
+    body("preview").notEmpty(),
+    body("author").notEmpty(),
+  ],
   articlesController.createArticle
 );
 
@@ -31,7 +36,16 @@ router.put(
   "/:articleId",
   auth,
   // validation
-  [body("title").notEmpty(), body("author").notEmpty()],
+  [
+    body("title").notEmpty(),
+    body("url").notEmpty(),
+    body("preview").notEmpty(),
+    body("author").notEmpty(),
+    body("categoris").notEmpty,
+    body("likes").notEmpty(),
+    body("dislikes").notEmpty(),
+    body("celebrates").notEmpty(),
+  ],
   articlesController.updateArticle
 );
 

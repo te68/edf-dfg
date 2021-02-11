@@ -74,8 +74,44 @@ exports.updateArticle = async (req, res, next) => {
   }
 
   try {
-    // TODO: parse body data
-    // TODO: call model
+    // parse body data
+    const articleId = req.body.articleId;
+    const title = req.body.title;
+    const url = req.body.url;
+    const preview = req.body.preview;
+    const authorId = req.body.authorId;
+    const categories = [...req.body.categories];
+    const likes = 0;
+    const celebrates = 0;
+    const dislikes = 0;
+
+    // find article
+    const article = await Article.findById(articleId);
+
+    if (!article) {
+      const error = new Error("No article found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    // check user is owner
+    if (article.author.toString() != req.user.id) {
+      const error = new Error("Forbidden");
+      error.statusCode = 403;
+      throw error;
+    }
+
+    // update
+    article.title = title;
+    article.url = url;
+    article.preview = preview;
+    article.categories = categories;
+    article.likes = likes;
+    article.dislikes = dislikes;
+    article.celebrates = celebrates;
+
+    const result = await article.save();
+    res.status(200).json(result);
   } catch (error) {
     return next(error);
   }
