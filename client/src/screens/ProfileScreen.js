@@ -80,11 +80,6 @@ ProfileScreen.navigationOptions = ({ navigation }) => {
         <AntDesign style={styles.profile} name="back" />
       </TouchableOpacity>
     ),
-    headerRight: () => (
-      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-        <Ionicons style={styles.profile} name="md-person" />
-      </TouchableOpacity>
-    ),
   };
 };
 
@@ -96,19 +91,19 @@ class Profile extends React.Component {
       education: "",
     };
   }
+
   render() {
     return (
-      <View style={{ flex: 1, marginBottom: 10 }}>
+      <View style={styles.container}>
         <View style={styles.rowSettings}>
           <TouchableOpacity
             style={[
               styles.button,
               {
-                borderColor: "#000000",
                 backgroundColor:
                   this.state.employment == "Seeking Employment"
-                    ? "#007AFF"
-                    : "transparent",
+                    ? "#0A4D95"
+                    : "#ffffff",
               },
             ]}
             onPress={() =>
@@ -117,7 +112,18 @@ class Profile extends React.Component {
               })
             }
           >
-            <Text style={{ textAlign: "center" }}> Seeking Employment </Text>
+            <Text
+              style={{
+                textAlign: "center",
+                color:
+                  this.state.employment == "Seeking Employment"
+                    ? "#ffffff"
+                    : "#000000",
+              }}
+            >
+              {" "}
+              Seeking Employment{" "}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -125,7 +131,7 @@ class Profile extends React.Component {
               {
                 backgroundColor:
                   this.state.employment == "Employed Full Time"
-                    ? "#007AFF"
+                    ? "#0A4D95"
                     : "#ffffff",
               },
             ]}
@@ -135,7 +141,18 @@ class Profile extends React.Component {
               })
             }
           >
-            <Text style={{ textAlign: "center" }}> Employed Full Time </Text>
+            <Text
+              style={{
+                textAlign: "center",
+                color:
+                  this.state.employment == "Employed Full Time"
+                    ? "#ffffff"
+                    : "#000000",
+              }}
+            >
+              {" "}
+              Employed Full Time{" "}
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.rowSettings}>
@@ -144,7 +161,7 @@ class Profile extends React.Component {
               styles.button,
               {
                 backgroundColor:
-                  this.state.education == "Student" ? "#007AFF" : "#ffffff",
+                  this.state.education == "Student" ? "#0A4D95" : "#ffffff",
               },
             ]}
             onPress={() =>
@@ -169,7 +186,7 @@ class Profile extends React.Component {
               styles.button,
               {
                 backgroundColor:
-                  this.state.education == "Graduate" ? "#007AFF" : "#ffffff",
+                  this.state.education == "Graduate" ? "#0A4D95" : "#ffffff",
               },
             ]}
             onPress={() =>
@@ -178,7 +195,16 @@ class Profile extends React.Component {
               })
             }
           >
-            <Text style={{ textAlign: "center" }}> Graduate </Text>
+            <Text
+              style={{
+                textAlign: "center",
+                color:
+                  this.state.education == "Graduate" ? "#ffffff" : "#000000",
+              }}
+            >
+              {" "}
+              Graduate{" "}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -201,7 +227,7 @@ class Interests extends React.Component {
       <View style={styles.container}>
         <Text style={styles.title}> Interests </Text>
         <View style={{ flexDirection: "row" }}>
-          <View style={[styles.container]}>
+          <View style={[styles.container, { left: "3%" }]}>
             <Text style={styles.body}> Climate News: </Text>
             <Text style={styles.body}> Corporate Insights: </Text>
             <Text style={styles.body}> Climate Advocacy: </Text>
@@ -234,7 +260,7 @@ class DegreeInterest extends React.Component {
             styles.smallButton,
             {
               backgroundColor:
-                this.state.degree == "A Little" ? "#007AFF" : "#ffffff",
+                this.state.degree == "A Little" ? "#0A4D95" : "#ffffff",
             },
           ]}
           onPress={() =>
@@ -243,15 +269,24 @@ class DegreeInterest extends React.Component {
             })
           }
         >
-          <Text style={styles.body}> A Little </Text>
+          <Text
+            style={[
+              styles.body,
+              {
+                color: this.state.degree == "A Little" ? "#ffffff" : "#000000",
+              },
+            ]}
+          >
+            {" "}
+            A Little{" "}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.smallButton,
             {
-              left: "30%",
               backgroundColor:
-                this.state.degree == "Average" ? "#007AFF" : "#ffffff",
+                this.state.degree == "Average" ? "#0A4D95" : "#ffffff",
             },
           ]}
           onPress={() =>
@@ -260,15 +295,24 @@ class DegreeInterest extends React.Component {
             })
           }
         >
-          <Text style={styles.body}> Average </Text>
+          <Text
+            style={[
+              styles.body,
+              {
+                color: this.state.degree == "Average" ? "#ffffff" : "#000000",
+              },
+            ]}
+          >
+            {" "}
+            Average{" "}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.smallButton,
             {
-              left: "50%",
               backgroundColor:
-                this.state.degree == "A Lot" ? "#007AFF" : "#ffffff",
+                this.state.degree == "A Lot" ? "#0A4D95" : "#ffffff",
             },
           ]}
           onPress={() =>
@@ -277,7 +321,17 @@ class DegreeInterest extends React.Component {
             })
           }
         >
-          <Text style={styles.body}> A Lot </Text>
+          <Text
+            style={[
+              styles.body,
+              {
+                color: this.state.degree == "A Lot" ? "#ffffff" : "#000000",
+              },
+            ]}
+          >
+            {" "}
+            A Lot{" "}
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -295,14 +349,13 @@ class Notifications extends React.Component {
     return (
       <View>
         <Text style={styles.title}> Notifications</Text>
-        <View style={[styles.rowSettings, { marginRight: "30%" }]}>
+        <View style={{ flexDirection: "row", marginRight: "30%" }}>
           <TouchableOpacity
             style={[
               styles.smallButton,
               {
-                left: 10,
                 backgroundColor:
-                  this.state.notify == "On" ? "#007AFF" : "#ffffff",
+                  this.state.notify == "On" ? "#0A4D95" : "#ffffff",
               },
             ]}
             onPress={() =>
@@ -312,7 +365,12 @@ class Notifications extends React.Component {
             }
           >
             <Text
-              style={{ flex: 1, justifyContent: "center", textAlign: "center" }}
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                textAlign: "center",
+                color: this.state.notify == "On" ? "#ffffff" : "#000000",
+              }}
             >
               {" "}
               On{" "}
@@ -322,9 +380,8 @@ class Notifications extends React.Component {
             style={[
               styles.smallButton,
               {
-                left: 20,
                 backgroundColor:
-                  this.state.notify == "Events Only" ? "#007AFF" : "#ffffff",
+                  this.state.notify == "Events Only" ? "#0A4D95" : "#ffffff",
               },
             ]}
             onPress={() =>
@@ -334,7 +391,13 @@ class Notifications extends React.Component {
             }
           >
             <Text
-              style={{ flex: 1, justifyContent: "center", textAlign: "center" }}
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                textAlign: "center",
+                color:
+                  this.state.notify == "Events Only" ? "#ffffff" : "#000000",
+              }}
             >
               {" "}
               Events Only{" "}
@@ -344,9 +407,8 @@ class Notifications extends React.Component {
             style={[
               styles.smallButton,
               {
-                left: 30,
                 backgroundColor:
-                  this.state.notify == "Off" ? "#007AFF" : "#ffffff",
+                  this.state.notify == "Off" ? "#0A4D95" : "#ffffff",
               },
             ]}
             onPress={() =>
@@ -355,7 +417,15 @@ class Notifications extends React.Component {
               })
             }
           >
-            <Text style={{ textAlign: "center" }}> Off </Text>
+            <Text
+              style={{
+                textAlign: "center",
+                color: this.state.notify == "Off" ? "#ffffff" : "#000000",
+              }}
+            >
+              {" "}
+              Off{" "}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -366,7 +436,6 @@ class Notifications extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
   },
   profile: {
     fontSize: 30,
@@ -379,8 +448,6 @@ const styles = StyleSheet.create({
   },
   body: {
     fontSize: 14,
-    alignContent: "center",
-    left: "5%",
     top: "5%",
     flex: 1,
   },
@@ -394,19 +461,25 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 25,
     borderColor: "black",
+    borderWidth: 1,
   },
   rowSettings: {
     flexDirection: "row",
+    width: "110%",
     padding: 4,
     flex: 1,
-    left: "10%",
-    top: "3%",
+    margin: 3,
+    padding: 2,
   },
   smallButton: {
-    width: "28%",
+    width: "30%",
     left: "10%",
     borderRadius: 25,
     height: 20,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 3,
   },
   signOut: {
     fontWeight: "bold",
