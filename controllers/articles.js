@@ -1,5 +1,6 @@
 // node imports
 const { validationResult } = require("express-validator");
+const Article = require("../models/Article");
 
 // internal imports
 
@@ -9,7 +10,13 @@ exports.getArticles = async (req, res, next) => {
     const page = req.query.page || 1;
     const articlesPerPage = 10;
 
-    // TODO: call model
+    const result = await Article.paginate({}, { page, limit: articlesPerPage });
+
+    res.json({
+      articles: result.docs,
+      totalCount: result.total,
+      totalPages: Math.ceil(result.total / articlesPerPage),
+    });
   } catch (error) {
     return next(error);
   }
