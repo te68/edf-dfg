@@ -6,14 +6,22 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Image,
 } from "react-native";
-import CheckBox from "@react-native-community/checkbox";
+import GoogleIcon from "../components/GoogleIcon";
+// import { CheckBox } from "react-native-elements";
 
 const SignupScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
+
+  const onSignUp = () => {
+    if (!name || !email || !password) alert("Missing information");
+    else navigation.navigate("Home");
+  };
+  const onGoogleSignUp = () => {};
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create Account</Text>
@@ -52,16 +60,19 @@ const SignupScreen = ({ navigation }) => {
           onChangeText={(text) => setPassword(text)}
         />
       </View>
+      {/* TODO: Fix Checkbox style, sign up authentication and sign up with google */}
       {/* <CheckBox
-        disabled={false}
-        value={toggleCheckBox}
-        onValueChange={(newValue) => setToggleCheckBox(newValue)}
-      /> TODO: Checkbox for IOS & Android */}
-      <TouchableOpacity
-        style={styles.signUpBtn}
-        onPress={() => navigation.navigate("Home")}
-      >
+        title="I agree with Terms and Conditions"
+        onPress={() => setToggleCheckBox(!toggleCheckBox)}
+        containerStyle={{ backgroundColor: "white", borderColor: "white" }}
+        checked={toggleCheckBox}
+      /> */}
+      <TouchableOpacity style={styles.signUpBtn} onPress={onSignUp}>
         <Text style={styles.signUpText}>Create Account</Text>
+      </TouchableOpacity>
+      <Text>Sign Up with</Text>
+      <TouchableOpacity onPress={onGoogleSignUp}>
+        <GoogleIcon />
       </TouchableOpacity>
       <Text style={styles.details}>
         Already have an account?{" "}

@@ -5,11 +5,20 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Image,
 } from "react-native";
+import GoogleIcon from "../components/GoogleIcon";
+
+// import axios from "axios";
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const onLogin = () => {
+    if (!username || !password) alert("Incorrect username or password");
+    else navigation.navigate("Home");
+  };
+  const onGoogleLogin = () => {};
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -46,19 +55,14 @@ const LoginScreen = ({ navigation }) => {
           Forgot Password?
         </Text>
       </View>
-      <TouchableOpacity
-        style={styles.signInBtn}
-        onPress={(value) => {
-          if (true) {
-            navigation.navigate("Home");
-          } else {
-            alert("Incorrect Username or Password");
-          }
-        }}
-      >
+      <TouchableOpacity style={styles.signInBtn} onPress={onLogin}>
         <Text style={styles.signInText}>Sign In</Text>
       </TouchableOpacity>
+      <Text>Login with</Text>
 
+      <TouchableOpacity onPress={onGoogleLogin}>
+        <GoogleIcon />
+      </TouchableOpacity>
       <Text style={styles.details}>
         Don't have an account?{" "}
         <Text

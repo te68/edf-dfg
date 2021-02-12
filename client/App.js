@@ -10,6 +10,7 @@ import SearchScreen from "./src/screens/SearchScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import SavedScreen from "./src/screens/SavedScreen"; 
+// import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const navigator = createStackNavigator(
   {
@@ -31,4 +32,13 @@ const navigator = createStackNavigator(
   }
 );
 
-export default createAppContainer(navigator);
+const AppContainer = createAppContainer(navigator);
+
+const App = () => {
+  return (
+    // <SafeAreaProvider>
+    <AppContainer />
+    // </SafeAreaProvider>
+  );
+};
+export default App;
