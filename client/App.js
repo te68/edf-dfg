@@ -9,6 +9,7 @@ import ActScreen from "./src/screens/ActScreen";
 import SearchScreen from "./src/screens/SearchScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
+import SavedScreen from "./src/screens/SavedScreen"; 
 
 const navigator = createStackNavigator(
   {
@@ -20,6 +21,7 @@ const navigator = createStackNavigator(
     Search: SearchScreen,
     Login: LoginScreen,
     Signup: SignupScreen,
+    Saved: SavedScreen, 
   },
   {
     initialRouteName: "Login",
