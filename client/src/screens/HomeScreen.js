@@ -8,20 +8,24 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.searchStyle} onPress={() => navigation.navigate('Search')}>
+            <TouchableOpacity style={styles.searchStyle} onPress={() => navigation.navigate('Saved')}>
+                <Text style={styles.textStyle}>Saved </Text>
+                <FontAwesome style={styles.arrowStyle} name="search" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.savedStyle} onPress={() => navigation.navigate('Saved')}>
                 <Text style={styles.textStyle}>Search All </Text>
                 <FontAwesome style={styles.arrowStyle} name="search" />
             </TouchableOpacity>
             <View style={styles.row}>
-                <Button title="Articles" notifications={2}></Button>
-                <Button title="Podcasts" notifications={3} color="#6EC6B3"></Button>
-                <Button title="Blogs" notifications={1} color="#C5DB65" ></Button>
-                <Button title="Career Advice" notifications={2} color="#F7F6F1"></Button>
-                <Button title="Videos" notifications={1} ></Button>
-                <Button title="Events" notifications={3} color="#6EC6B3"></Button>
-                <Button title="Authenticity Meter" notifications={3} color="#C5DB65"></Button>
-                <Button title="Guides" notifications={3} color="#F7F6F1"></Button>
-                <Button title="Resources" notifications={1}></Button>
+                <Button title="Articles" notifications={2}/>
+                <Button title="Podcasts" notifications={3} color="#6EC6B3"/>
+                <Button title="Blogs" notifications={1} color="#C5DB65" />
+                <Button title="Career Advice" notifications={2} color="#F7F6F1"/>
+                <Button title="Videos" notifications={1}/>
+                <Button title="Events" notifications={3} color="#6EC6B3"/>
+                <Button title="Authenticity Meter" notifications={3} color="#C5DB65"/>
+                <Button title="Guides" notifications={3} color="#F7F6F1"/>
+                <Button title="Resources" notifications={1}/>
             </View>
             <BottomButton navigation={navigation} />
 
@@ -111,6 +115,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         position: 'absolute',
         bottom: 75,
+        right: 10
+    },
+    savedStyle: {
+        flexDirection: "row",
+        alignItems: "center",
+        position: 'absolute',
+        bottom: 100,
         right: 10
     }
 });
