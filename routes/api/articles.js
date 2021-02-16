@@ -20,7 +20,12 @@ router.post(
   "/",
   auth,
   // validation
-  [body("title").notEmpty(), body("author").notEmpty()],
+  [
+    body("title").notEmpty(),
+    body("url").notEmpty(),
+    body("preview").notEmpty(),
+    body("author").notEmpty(),
+  ],
   articlesController.createArticle
 );
 
@@ -31,18 +36,37 @@ router.put(
   "/:articleId",
   auth,
   // validation
-  [body("title").notEmpty(), body("author").notEmpty()],
+  [
+    body("title").notEmpty(),
+    body("url").notEmpty(),
+    body("preview").notEmpty(),
+    body("author").notEmpty(),
+    body("categoris").notEmpty,
+    body("likes").notEmpty(),
+    body("dislikes").notEmpty(),
+    body("celebrates").notEmpty(),
+  ],
   articlesController.updateArticle
 );
 
 // @route    DELETE /api/articles/<articleId>
 // @desc     Delete articles
 // @access   Private
-router.delete("/:articleId", auth, articlesController.deleteArticle);
+router.delete(
+  "/:articleId",
+  [body("articleId").notEmpty()],
+  auth,
+  articlesController.deleteArticle
+);
 
 // @route    GET /api/articles/<articleId>
 // @desc     Get specific article
 // @access   Private
-router.get("/:articleId", auth, articlesController.getArticle);
+router.get(
+  "/:articleId",
+  [body("articleId").notEmpty()],
+  auth,
+  articlesController.getArticle
+);
 
 module.exports = router;
