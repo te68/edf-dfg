@@ -1,29 +1,29 @@
 // node imports
 const { validationResult } = require("express-validator");
-const Article = require("../models/Article");
 
 // internal imports
+const Content = require("../models/Content");
 
-// get articles
-exports.getArticles = async (req, res, next) => {
+// get an array of content to display (with pagination)
+exports.getContent = async (req, res, next) => {
   try {
     const page = req.query.page || 1;
-    const articlesPerPage = 10;
+    const contentPerPage = 10;
 
-    const result = await Article.paginate({}, { page, limit: articlesPerPage });
+    const result = await Content.paginate({}, { page, limit: contentPerPage });
 
     res.json({
-      articles: result.docs,
+      content: result.docs,
       totalCount: result.total,
-      totalPages: Math.ceil(result.total / articlesPerPage),
+      totalPages: Math.ceil(result.total / contentPerPage),
     });
   } catch (error) {
     return next(error);
   }
 };
 
-// create article
-exports.createArticle = async (req, res, next) => {
+// create content
+exports.createContent = async (req, res, next) => {
   // checking validation
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -38,33 +38,35 @@ exports.createArticle = async (req, res, next) => {
     const url = req.body.url;
     const preview = req.body.preview;
     const authorId = req.body.authorId;
+    const contentType = req.body.contentType;
     const categories = [...req.body.categories];
     const likes = 0;
     const celebrates = 0;
     const dislikes = 0;
 
-    // create article
-    const article = new Article({
+    // create new content
+    const content = new Content({
       title,
       url,
       preview,
       author: authorId,
+      contentType,
       categories,
       likes,
       celebrates,
       dislikes,
     });
 
-    const result = await article.save();
+    const result = await content.save();
 
-    res.status(201).json({ message: "Article created", article: result });
+    res.status(201).json({ message: "Content created", content: result });
   } catch (error) {
     return next(error);
   }
 };
 
 // update
-exports.updateArticle = async (req, res, next) => {
+exports.updateContent = async (req, res, next) => {
   // checking validation
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -75,42 +77,43 @@ exports.updateArticle = async (req, res, next) => {
 
   try {
     // parse body data
-    const articleId = req.body.articleId;
+    const contentId = req.params.contentId;
     const title = req.body.title;
     const url = req.body.url;
     const preview = req.body.preview;
-    const authorId = req.body.authorId;
+    const contentType = req.body.contentType;
     const categories = [...req.body.categories];
     const likes = 0;
     const celebrates = 0;
     const dislikes = 0;
 
-    // find article
-    const article = await Article.findById(articleId);
+    // find content in database
+    const content = await Content.findById(contentId);
 
-    if (!article) {
-      const error = new Error("No article found");
+    if (!content) {
+      const error = new Error("No content with this id found");
       error.statusCode = 404;
       throw error;
     }
 
     // check user is owner
-    if (article.author.toString() != req.user.id) {
+    if (content.author.toString() != req.user.id) {
       const error = new Error("Forbidden");
       error.statusCode = 403;
       throw error;
     }
 
     // update
-    article.title = title;
-    article.url = url;
-    article.preview = preview;
-    article.categories = categories;
-    article.likes = likes;
-    article.dislikes = dislikes;
-    article.celebrates = celebrates;
+    content.title = title;
+    content.url = url;
+    content.preview = preview;
+    content.contentType = contentType;
+    content.categories = categories;
+    content.likes = likes;
+    content.dislikes = dislikes;
+    content.celebrates = celebrates;
 
-    const result = await article.save();
+    const result = await content.save();
     res.status(200).json(result);
   } catch (error) {
     return next(error);
@@ -118,7 +121,7 @@ exports.updateArticle = async (req, res, next) => {
 };
 
 // delete
-exports.deleteArticle = async (req, res, next) => {
+exports.deleteContent = async (req, res, next) => {
   // checking validation
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -127,27 +130,27 @@ exports.deleteArticle = async (req, res, next) => {
     return next(err);
   }
 
-  const articleId = req.params.articleId;
+  const contentId = req.params.contentId;
 
   try {
-    // find article
-    const article = await Article.findById(articleId);
+    // find content
+    const content = await Content.findById(contentId);
 
-    if (!article) {
-      const error = new Error("No article found");
+    if (!content) {
+      const error = new Error("No content with this id found");
       error.statusCode = 404;
       throw error;
     }
 
     // check user is owner
-    if (article.author.toString() != req.user.id) {
+    if (content.author.toString() != req.user.id) {
       const error = new Error("Forbidden");
       error.statusCode = 403;
       throw error;
     }
 
     // delete if no errors
-    const result = await Article.findByIdAndDelete(articleId);
+    const result = await Content.findByIdAndDelete(contentId);
 
     res.json(result);
   } catch (error) {
@@ -155,8 +158,8 @@ exports.deleteArticle = async (req, res, next) => {
   }
 };
 
-// get article details
-exports.getArticle = (req, res, next) => {
+// get content details
+exports.getContent = async (req, res, next) => {
   // checking validation
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -166,19 +169,19 @@ exports.getArticle = (req, res, next) => {
   }
 
   try {
-    const articleId = req.params.articleId;
+    const contentId = req.params.contentId;
 
-    const result = await Article.findById(articleId).populate('author', 'name');
+    // return content details with author's name
+    const result = await Content.findById(contentId).populate("author", "name");
 
-    // article not found
+    // content not found
     if (!result) {
-      const error = new Error("No article found");
+      const error = new Error("No content with this id found");
       error.statusCode = 404;
       return next(error);
     }
 
-    res.json(result)
-  
+    res.json(result);
   } catch (error) {
     return next(error);
   }
