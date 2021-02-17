@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import GoogleIcon from "../components/GoogleIcon";
+import { SvgXml } from "react-native-svg";
+import { CustomSvgs } from "../../constants";
 // import { CheckBox } from "react-native-elements";
 
 const SignupScreen = ({ navigation }) => {
@@ -72,7 +73,7 @@ const SignupScreen = ({ navigation }) => {
       </TouchableOpacity>
       <Text>Sign Up with</Text>
       <TouchableOpacity onPress={onGoogleSignUp}>
-        <GoogleIcon />
+        <SvgXml width="50px" height="50px" xml={CustomSvgs.googleIcon} />
       </TouchableOpacity>
       <Text style={styles.details}>
         Already have an account?{" "}

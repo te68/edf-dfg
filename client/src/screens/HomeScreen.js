@@ -1,118 +1,168 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import BottomButton from '../components/BottomButton';
-
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Switch,
+} from "react-native";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import BottomButton from "../components/BottomButton";
+import FeedScreen from "./FeedScreen";
+const Categories = ({ navigation }) => {
+  return (
+    <>
+      <TouchableOpacity
+        style={styles.searchStyle}
+        onPress={() => navigation.navigate("Search")}
+      >
+        <Text style={styles.textStyle}>Search All </Text>
+        <FontAwesome style={styles.arrowStyle} name="search" />
+      </TouchableOpacity>
+      <View style={styles.row}>
+        <Button title="Articles" notifications={2}></Button>
+        <Button title="Podcasts" notifications={3} color="#6EC6B3"></Button>
+        <Button title="Blogs" notifications={1} color="#C5DB65"></Button>
+        <Button
+          title="Career Advice"
+          notifications={2}
+          color="#F7F6F1"
+        ></Button>
+        <Button title="Videos" notifications={1}></Button>
+        <Button title="Events" notifications={3} color="#6EC6B3"></Button>
+        <Button
+          title="Authenticity Meter"
+          notifications={3}
+          color="#C5DB65"
+        ></Button>
+        <Button title="Guides" notifications={3} color="#F7F6F1"></Button>
+        <Button title="Resources" notifications={1}></Button>
+      </View>
+    </>
+  );
+};
 const HomeScreen = ({ navigation }) => {
-    const [notifications, setNotifications] = useState(""); 
+  const [notifications, setNotifications] = useState("");
+  const [switchValue, setSwitchValue] = useState(false);
 
-    return (
-        <View style={styles.container}>
-            <TouchableOpacity style={styles.searchStyle} onPress={() => navigation.navigate('Search')}>
-                <Text style={styles.textStyle}>Search All </Text>
-                <FontAwesome style={styles.arrowStyle} name="search" />
-            </TouchableOpacity>
-            <View style={styles.row}>
-                <Button title="Articles" notifications={2}></Button>
-                <Button title="Podcasts" notifications={3} color="#6EC6B3"></Button>
-                <Button title="Blogs" notifications={1} color="#C5DB65" ></Button>
-                <Button title="Career Advice" notifications={2} color="#F7F6F1"></Button>
-                <Button title="Videos" notifications={1} ></Button>
-                <Button title="Events" notifications={3} color="#6EC6B3"></Button>
-                <Button title="Authenticity Meter" notifications={3} color="#C5DB65"></Button>
-                <Button title="Guides" notifications={3} color="#F7F6F1"></Button>
-                <Button title="Resources" notifications={1}></Button>
-            </View>
-            <BottomButton navigation={navigation} />
+  const toggleSwitch = (value) => {
+    //onValueChange of the switch this function will be called
+    setSwitchValue(value);
+    //state changes according to switch
+    //which will result in re-render the text
+  };
+  return (
+    <View style={styles.container}>
+      <Switch
+        style={{ justifyContent: "center" }}
+        onValueChange={toggleSwitch}
+        value={switchValue}
+      />
+      {switchValue ? (
+        <FeedScreen navigation={navigation} />
+      ) : (
+        <Categories navigation={navigation} />
+      )}
 
-        </View>
-    );
+      {/* <BottomButton navigation={navigation} /> */}
+    </View>
+  );
 };
 
-HomeScreen.navigationOptions = ({ navigation }) => {
-    return {
-        headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('About')}>
-                <Image style={styles.icon} source={require('../../assets/edf.jpg')} />
-            </TouchableOpacity>
-        ),
-        headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                <Ionicons style={styles.profile} name="md-person" />
-            </TouchableOpacity>
-        )
-    };
-};
+// HomeScreen.navigationOptions = ({ navigation }) => {
+//   return {
+//     headerLeft: () => (
+//       <TouchableOpacity onPress={() => navigation.navigate("About")}>
+//         <Image style={styles.icon} source={require("../../assets/edf.jpg")} />
+//       </TouchableOpacity>
+//     ),
+//     headerRight: () => (
+//       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+//         <Ionicons style={styles.profile} name="md-person" />
+//       </TouchableOpacity>
+//     ),
+//   };
+// };
 
 function Button(props) {
-    const maxThreeNotifs = Math.min(props.notifications, 3);
+  const maxThreeNotifs = Math.min(props.notifications, 3);
 
-    return <View>
-        <TouchableOpacity style={[styles.button, {
-            backgroundColor: props.color == null ? "#1B8AE6" : props.color, 
-            borderRadius: 25+ maxThreeNotifs*20,
-            width: 50+ maxThreeNotifs *40,
-            height: 50+ maxThreeNotifs *40,
-        }]}> 
-            <Text style={{
-                fontSize: Math.max(17,10*maxThreeNotifs),
-                textAlign: "center"
-            }}>
-                {props.title}
-            </Text>
-        </TouchableOpacity>
-    </View>;
-    
+  return (
+    <View>
+      <TouchableOpacity
+        style={[
+          styles.button,
+          {
+            backgroundColor: props.color == null ? "#1B8AE6" : props.color,
+            borderRadius: 25 + maxThreeNotifs * 20,
+            width: 50 + maxThreeNotifs * 40,
+            height: 50 + maxThreeNotifs * 40,
+          },
+        ]}
+      >
+        <Text
+          style={{
+            fontSize: Math.max(17, 10 * maxThreeNotifs),
+            textAlign: "center",
+          }}
+        >
+          {props.title}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    button: {
-        borderRadius: 50,
-        width:100,
-        height:100,
-        alignItems:'center',
-        justifyContent: 'center',
-        shadowColor: 'rgba(0,0,0, .4)', 
-        shadowOffset: { height: 4, width: 4 }, 
-        shadowOpacity: 1, 
-        shadowRadius: 1,
-        margin: 10
-    },
-    row: {
-        flexDirection: "row", 
-        flexWrap: 'wrap',
-        alignItems:'center',
-        justifyContent: 'center',
-    },
-    icon: {
-        flex: 1,
-        width: 50,
-        height: 50,
-        resizeMode: 'contain',
-        marginLeft: 10
-    },
-    profile: {
-        fontSize: 30,
-        marginRight: 10
-    },
-    textStyle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        textDecorationLine: 'underline'
-    },
-    arrowStyle: {
-        fontSize: 18,
-    },
-    searchStyle: {
-        flexDirection: "row",
-        alignItems: "center",
-        position: 'absolute',
-        bottom: 75,
-        right: 10
-    }
+  container: {
+    flex: 1,
+    alignItems: "center",
+  },
+  button: {
+    borderRadius: 50,
+    width: 100,
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "rgba(0,0,0, .4)",
+    shadowOffset: { height: 4, width: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    margin: 10,
+  },
+  row: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  icon: {
+    flex: 1,
+    width: 50,
+    height: 50,
+    resizeMode: "contain",
+    marginLeft: 10,
+  },
+  profile: {
+    fontSize: 30,
+    marginRight: 10,
+  },
+  textStyle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+  },
+  arrowStyle: {
+    fontSize: 18,
+  },
+  searchStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 75,
+    right: 10,
+  },
 });
 
 export default HomeScreen;
