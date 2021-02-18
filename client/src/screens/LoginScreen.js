@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import GoogleIcon from "../components/GoogleIcon";
+import { SvgXml } from "react-native-svg";
+import { CustomSvgs } from "../../constants";
 
 // import axios from "axios";
 const LoginScreen = ({ navigation }) => {
@@ -61,7 +62,7 @@ const LoginScreen = ({ navigation }) => {
       <Text>Login with</Text>
 
       <TouchableOpacity onPress={onGoogleLogin}>
-        <GoogleIcon />
+        <SvgXml width="50px" height="50px" xml={CustomSvgs.googleIcon} />
       </TouchableOpacity>
       <Text style={styles.details}>
         Don't have an account?{" "}

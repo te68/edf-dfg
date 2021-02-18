@@ -67,8 +67,6 @@ const AboutScreen = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-      {/* TODO: Fix spacing with bottom nav */}
-      <BottomButton navigation={navigation} />
     </SafeAreaView>
   );
 };
@@ -95,7 +93,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     paddingLeft: 20,
     paddingRight: 20,
-    marginBottom: 35,
   },
   header: {
     paddingBottom: 10,
