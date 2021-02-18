@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/content", require("./routes/api/content"));
+app.use("/api/profile", require("./routes/api/profile"));
 
 // route not found
 app.use("/", (req, res, next) => {
