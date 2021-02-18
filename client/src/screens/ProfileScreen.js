@@ -213,6 +213,7 @@ class Profile extends React.Component {
 }
 
 class Interests extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {

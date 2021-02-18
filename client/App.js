@@ -1,75 +1,4 @@
-// import React from "react";
-// import { createAppContainer } from "react-navigation";
-// import { createStackNavigator } from "react-navigation-stack";
-
-// import SearchScreen from "./src/screens/SearchScreen";
-// import LoginScreen from "./src/screens/LoginScreen";
-// import SignupScreen from "./src/screens/SignupScreen";
-// import FeedScreen from "./src/screens/FeedScreen";
-// // import { SafeAreaProvider } from "react-native-safe-area-context";
-// const navigator = createStackNavigator(
-//   {
-//     Home: HomeScreen,
-//     Profile: ProfileScreen,
-//     About: AboutScreen,
-//     Connect: ConnectScreen,
-//     Act: ActScreen,
-//     Search: SearchScreen,
-//     Login: LoginScreen,
-//     Signup: SignupScreen,
-//     Feed: FeedScreen,
-//   },
-//   {
-//     initialRouteName: "Login",
-//     defaultNavigationOptions: {
-//       headerTitle: "Youth4Change",
-//     },
-//   }
-// );
-
-// const AppContainer = createAppContainer(navigator);
-
-// // import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-// // const Tab = createBottomTabNavigator();
-
-// // function MyTabs() {
-// //   return (
-// //     <Tab.Navigator>
-// //       <Tab.Screen name="Home" component={HomeScreen} />
-// //       <Tab.Screen name="Settings" component={SettingsScreen} />
-// //     </Tab.Navigator>
-// //   );
-// // }
-
-// const App = () => {
-//   return (
-//     // <SafeAreaProvider>
-//     <AppContainer />
-//     // </SafeAreaProvider>
-//   );
-// };
-// export default App;
-// import React from "react";
-// import { Text, View } from "react-native";
-// import { NavigationContainer } from "@react-navigation/native";
-// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-// const Tab = createBottomTabNavigator();
-
-// const App = () => {
-//   return (
-//     <NavigationContainer>
-//       <Tab.Navigator>
-//         <Tab.Screen name="Home" component={HomeScreen} />
-//         <Tab.Screen name="Act" component={ActScreen} />
-//       </Tab.Navigator>
-//     </NavigationContainer>
-//   );
-// };
-// export default App;
-
-import * as React from "react";
+import React from "react";
 import {
   Button,
   Text,
@@ -81,24 +10,17 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import FeedScreen from "./src/screens/FeedScreen";
 import HomeScreen from "./src/screens/HomeScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import AboutScreen from "./src/screens/AboutScreen";
 import ConnectScreen from "./src/screens/ConnectScreen";
 import ActScreen from "./src/screens/ActScreen";
-// function HomeScreen({ navigation }) {
-//   return (
-//     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-//       <Text>Home screen</Text>
-//       <Button
-//         title="Go to Details"
-//         onPress={() => navigation.navigate("Details")}
-//       />
-//     </View>
-//   );
-//
+import SavedScreen from "./src/screens/SavedScreen";
+import { SvgXml } from "react-native-svg";
+import { CustomSvgs } from "./constants";
+import LearnScreen from "./src/screens/LearnScreen";
 
 const HomeStack = createStackNavigator();
 function HomeStackScreen({ navigation }) {
@@ -108,6 +30,14 @@ function HomeStackScreen({ navigation }) {
         name="Home"
         component={HomeScreen}
         options={{
+          title: "Youth4Change",
+          headerTitleStyle: {
+            color: "white",
+            fontWeight: "bold",
+          },
+          headerStyle: {
+            backgroundColor: "#0A4D95",
+          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.navigate("About")}>
               <Image style={styles.icon} source={require("./assets/edf.jpg")} />
@@ -115,7 +45,7 @@ function HomeStackScreen({ navigation }) {
           ),
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-              <Ionicons style={styles.profile} name="md-person" />
+              <Ionicons style={styles.profile} name="md-person" color="white" />
             </TouchableOpacity>
           ),
         }}
@@ -123,10 +53,18 @@ function HomeStackScreen({ navigation }) {
       <HomeStack.Screen name="Feed" component={FeedScreen} />
       <HomeStack.Screen name="About" component={AboutScreen} />
       <HomeStack.Screen name="Profile" component={ProfileScreen} />
+      <HomeStack.Screen name="Saved" component={SavedScreen} />
     </HomeStack.Navigator>
   );
 }
-
+const LearnStack = createStackNavigator();
+function LearnStackScreen() {
+  return (
+    <LearnStack.Navigator>
+      <LearnStack.Screen name="Learn" component={LearnScreen} />
+    </LearnStack.Navigator>
+  );
+}
 const ActStack = createStackNavigator();
 function ActStackScreen() {
   return (
@@ -149,8 +87,56 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={({ route }) => ({
+          tabBarIcon: () => {
+            if (route.name === "Home") {
+              return <AntDesign name="home" size={25} color="white" />;
+            } else if (route.name === "Learn") {
+              return (
+                <SvgXml width="25" height="25" xml={CustomSvgs.learnIcon} />
+              );
+            } else if (route.name === "Act") {
+              return <SvgXml width="25" height="25" xml={CustomSvgs.actIcon} />;
+            } else if (route.name === "Connect") {
+              return (
+                <SvgXml width="25" height="25" xml={CustomSvgs.connectIcon} />
+              );
+            }
+          },
+          tabBarLabel: ({ focused, color }) => {
+            let label;
+            switch (route.name) {
+              case "Learn":
+                return (label = focused ? (
+                  <Text style={{ color }}>Learn</Text>
+                ) : null);
+              case "Act":
+                return (label = focused ? (
+                  <Text style={{ color }}>Act</Text>
+                ) : null);
+              case "Connect":
+                return (label = focused ? (
+                  <Text style={{ color }}>Connect</Text>
+                ) : null);
+              case "Home":
+                return (label = focused ? (
+                  <Text style={{ color }}>Home</Text>
+                ) : null);
+            }
+            return label;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: "white",
+          style: {
+            backgroundColor: "#0A4D95",
+          },
+        }}
+      >
         <Tab.Screen name="Home" component={HomeStackScreen} />
+        <Tab.Screen name="Learn" component={LearnStackScreen} />
         <Tab.Screen name="Act" component={ActStackScreen} />
         <Tab.Screen name="Connect" component={ConnectStackScreen} />
       </Tab.Navigator>

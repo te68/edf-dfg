@@ -11,6 +11,7 @@ import {
 import {
   AntDesign,
   Ionicons,
+  MaterialIcons,
   Fontisto,
   MaterialCommunityIcons,
   Feather,
@@ -59,6 +60,7 @@ const generalFeed = [
   },
 ];
 const ArticleCard = ({ title, author, previewText, previewImage }) => {
+  // TODO: Redirect cards to article link
   return (
     <TouchableOpacity style={styles.articleCard}>
       <View>
@@ -69,19 +71,43 @@ const ArticleCard = ({ title, author, previewText, previewImage }) => {
           <Image source={previewImage} width="100" height="100" />
         </View>
         <View style={{ flexDirection: "row" }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              paddingLeft: 5,
+              alignItems: "center",
+            }}
+          >
             <Text>20</Text>
             <Feather name="thumbs-up" size={15} color="black" />
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              paddingLeft: 5,
+              alignItems: "center",
+            }}
+          >
             <Text>2</Text>
             <SvgXml width="17" height="15" xml={CustomSvgs.clappingIcon} />
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              paddingLeft: 5,
+              alignItems: "center",
+            }}
+          >
             <Text>4</Text>
             <Feather name="thumbs-down" size={15} color="black" />
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              paddingLeft: 5,
+              alignItems: "center",
+            }}
+          >
             <Text>0</Text>
             <Fontisto name="mad" size={15} color="black" />
           </View>
@@ -96,6 +122,7 @@ const ArticleCard = ({ title, author, previewText, previewImage }) => {
   );
 };
 const ArticleButtons = () => (
+  // TODO: Button functionality
   <View
     style={{
       flexDirection: "row",
@@ -142,7 +169,7 @@ const ArticlePost = (content) => {
       </View>
       <View style={{ padding: 10 }}>
         <TouchableOpacity style={{ marginBottom: 5 }}>
-          <SvgXml width="20" height="20" xml={CustomSvgs.saveIcon} />
+          <MaterialIcons name="bookmark-border" size={20} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={{ marginBottom: 5 }}>
           <SvgXml width="20" height="20" xml={CustomSvgs.shareIcon} />
@@ -199,20 +226,6 @@ const FeedScreen = ({ navigation }) => {
   );
 };
 
-FeedScreen.navigationOptions = ({ navigation }) => {
-  return {
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-        <AntDesign style={styles.profileLeft} name="back" />
-      </TouchableOpacity>
-    ),
-    headerRight: () => (
-      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-        <Ionicons style={styles.profileRight} name="md-person" />
-      </TouchableOpacity>
-    ),
-  };
-};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -222,11 +235,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     flexDirection: "row",
-    shadowOpacity: 0.75,
-    shadowRadius: 5,
-    shadowColor: "black",
-    shadowOffset: { height: 0, width: 0 },
-    // box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    shadowColor: "rgba(0,0,0, .4)",
+    shadowOffset: { height: 4, width: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
   },
   item: {
     margin: 20,

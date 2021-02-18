@@ -7,39 +7,36 @@ import {
   Image,
   Switch,
 } from "react-native";
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import BottomButton from "../components/BottomButton";
+import {
+  Ionicons,
+  FontAwesome,
+  Fontisto,
+  MaterialIcons,
+} from "@expo/vector-icons";
+
 import FeedScreen from "./FeedScreen";
 const Categories = ({ navigation }) => {
   return (
-    <>
+    <View>
+      <View style={styles.row}>
+        <Button title="Articles" notifications={2} />
+        <Button title="Podcasts" notifications={3} color="#6EC6B3" />
+        <Button title="Blogs" notifications={1} color="#C5DB65" />
+        <Button title="Career Advice" notifications={2} color="#F7F6F1" />
+        <Button title="Videos" notifications={1} />
+        <Button title="Events" notifications={3} color="#6EC6B3" />
+        <Button title="Authenticity Meter" notifications={3} color="#C5DB65" />
+        <Button title="Guides" notifications={3} color="#F7F6F1" />
+        <Button title="Resources" notifications={1} />
+      </View>
       <TouchableOpacity
-        style={styles.searchStyle}
+        style={styles.savedStyle}
         onPress={() => navigation.navigate("Search")}
       >
         <Text style={styles.textStyle}>Search All </Text>
         <FontAwesome style={styles.arrowStyle} name="search" />
       </TouchableOpacity>
-      <View style={styles.row}>
-        <Button title="Articles" notifications={2}></Button>
-        <Button title="Podcasts" notifications={3} color="#6EC6B3"></Button>
-        <Button title="Blogs" notifications={1} color="#C5DB65"></Button>
-        <Button
-          title="Career Advice"
-          notifications={2}
-          color="#F7F6F1"
-        ></Button>
-        <Button title="Videos" notifications={1}></Button>
-        <Button title="Events" notifications={3} color="#6EC6B3"></Button>
-        <Button
-          title="Authenticity Meter"
-          notifications={3}
-          color="#C5DB65"
-        ></Button>
-        <Button title="Guides" notifications={3} color="#F7F6F1"></Button>
-        <Button title="Resources" notifications={1}></Button>
-      </View>
-    </>
+    </View>
   );
 };
 const HomeScreen = ({ navigation }) => {
@@ -54,36 +51,34 @@ const HomeScreen = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <Switch
-        style={{ justifyContent: "center" }}
-        onValueChange={toggleSwitch}
-        value={switchValue}
-      />
+      <View
+        style={{
+          width: "100%",
+          justifyContent: "space-between",
+          flexDirection: "row",
+          position: "absolute",
+          zIndex: 1,
+        }}
+      >
+        <Switch
+          style={{ justifyContent: "center" }}
+          onValueChange={toggleSwitch}
+          value={switchValue}
+        />
+        <TouchableOpacity onPress={() => navigation.navigate("Saved")}>
+          <MaterialIcons name="bookmark-border" size={40} color="black" />
+          {/* <Text style={styles.textStyle}>Saved </Text>
+          <FontAwesome style={styles.arrowStyle} name="search" /> */}
+        </TouchableOpacity>
+      </View>
       {switchValue ? (
         <FeedScreen navigation={navigation} />
       ) : (
         <Categories navigation={navigation} />
       )}
-
-      {/* <BottomButton navigation={navigation} /> */}
     </View>
   );
 };
-
-// HomeScreen.navigationOptions = ({ navigation }) => {
-//   return {
-//     headerLeft: () => (
-//       <TouchableOpacity onPress={() => navigation.navigate("About")}>
-//         <Image style={styles.icon} source={require("../../assets/edf.jpg")} />
-//       </TouchableOpacity>
-//     ),
-//     headerRight: () => (
-//       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-//         <Ionicons style={styles.profile} name="md-person" />
-//       </TouchableOpacity>
-//     ),
-//   };
-// };
 
 function Button(props) {
   const maxThreeNotifs = Math.min(props.notifications, 3);
@@ -161,6 +156,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     bottom: 75,
+    right: 10,
+  },
+  savedStyle: {
+    flexDirection: "row",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 0,
     right: 10,
   },
 });
