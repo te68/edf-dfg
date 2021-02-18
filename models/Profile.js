@@ -1,27 +1,42 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const ProfileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: "user",
   },
   company: {
-    type: String
+    type: String,
   },
   location: {
-    type: String
+    type: String,
   },
   status: {
     type: String,
-    required: true
+    required: true,
   },
   bio: {
-    type: String
+    type: String,
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
+  employment: {
+    type: String,
+  },
+  student: {
+    type: Boolean,
+  },
+  graduate: {
+    type: Boolean,
+  },
+  interests: {
+    climateNews: Number,
+    corporateInsights: Number,
+    climateAdvocacy: Number,
+    sustainabilityResearch: Number,
+  },
 });
 
-module.exports = mongoose.model('profile', ProfileSchema);
+module.exports = mongoose.model("profile", ProfileSchema);
