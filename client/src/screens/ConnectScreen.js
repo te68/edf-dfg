@@ -1,198 +1,228 @@
-import React from 'react';
+import React from "react";
 import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-    SafeAreaView,
-    ScrollView
-} from 'react-native';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import BottomButton from '../components/BottomButton';
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import BottomButton from "../components/BottomButton";
 
 const ConnectScreen = ({ navigation }) => {
-    return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView >
-                <View style={styles.scroll}>
-                    <Text style={styles.title}>Climate Corps ®</Text>
-                    <View style={[styles.row, {
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                    }]}>
-                        <Image
-                            source={require("../../assets/climate-corps.png")}
-                            style={styles.photo}
-                        />
-                        <View style={styles.container}>
-                            <Text style={styles.details}>
-                                Join an innovative fellowship program that trains
-                                and pairs graduate students with companies, public
-                                institutions and cities determined to meet their
-                                climate and energy goals.
-                            </Text>
-                            <View style={styles.buttonRow}>
-                                <TouchableOpacity style={styles.button}>
-                                    <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}> Learn More </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.button}>
-                                    <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}> Apply </Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                    <Text style={styles.title}>Defend Our Future</Text>
-                    <View style={[styles.row, {
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                    }]}>
-                        <Image
-                            source={require("../../assets/DOF.png")}
-                            style={styles.photo}
-                        />
-                        <View style={styles.container}>
-                            <Text style={styles.details}>
-                                Defend Our Future is dedicated to empowering young
-                                people of all political persuasions who are interested
-                                in advancing climate change solutions that grow our
-                                economy and protect the world for future generations.
-
-                            </Text>
-                            <View style={styles.buttonRow}>
-                                <TouchableOpacity style={styles.button}>
-                                    <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}> Learn More </Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                    <Text style={styles.title}>Degrees Podcast</Text>
-                    <View style={[styles.row, {
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                    }]}>
-                        <Image
-                            source={require("../../assets/degrees-podcast.png")}
-                            style={styles.photo}
-                        />
-                        <View style={styles.container}>
-                            <Text style={styles.details}>
-                                Host Yesh Pavlik Slenk talks with everyone from
-                                storytellers to songwriters, city leaders to
-                                sustainability gurus about their paths to solving the
-                                world’s biggest problems. Our guests share how they got
-                                where they are, so others (like you) can follow in their
-                                footsteps and join their changemaker ranks.
-                            </Text>
-                            <View style={styles.buttonRow}>
-                                <TouchableOpacity style={styles.button}>
-                                    <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}> Learn More </Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                    <Text style={styles.title}>Upcoming Events</Text>
-                    <View style={styles.search}>
-                        <TouchableOpacity style={styles.search}>
-                            <FontAwesome style={{ marginHorizontal: 5, fontSize: 18 }} name="search" />
-                            <Text style={{
-                                textDecorationLine: 'underline',
-                                fontSize: 18
-                            }}>Search All </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </ScrollView>
-            <BottomButton navigation={navigation} />
-        </SafeAreaView>
-
-    );
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={styles.scroll}>
+          <Text style={styles.title}>Climate Corps ®</Text>
+          <View
+            style={[
+              styles.row,
+              {
+                borderBottomColor: "black",
+                borderBottomWidth: 1,
+              },
+            ]}
+          >
+            <Image
+              source={require("../../assets/climate-corps.png")}
+              style={styles.photo}
+            />
+            <View style={styles.container}>
+              <Text style={styles.details}>
+                Join an innovative fellowship program that trains and pairs
+                graduate students with companies, public institutions and cities
+                determined to meet their climate and energy goals.
+              </Text>
+              <View style={styles.buttonRow}>
+                <TouchableOpacity style={styles.button}>
+                  <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
+                    {" "}
+                    Learn More{" "}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button}>
+                  <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
+                    {" "}
+                    Apply{" "}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          <Text style={styles.title}>Defend Our Future</Text>
+          <View
+            style={[
+              styles.row,
+              {
+                borderBottomColor: "black",
+                borderBottomWidth: 1,
+              },
+            ]}
+          >
+            <Image
+              source={require("../../assets/DOF.png")}
+              style={styles.photo}
+            />
+            <View style={styles.container}>
+              <Text style={styles.details}>
+                Defend Our Future is dedicated to empowering young people of all
+                political persuasions who are interested in advancing climate
+                change solutions that grow our economy and protect the world for
+                future generations.
+              </Text>
+              <View style={styles.buttonRow}>
+                <TouchableOpacity style={styles.button}>
+                  <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
+                    {" "}
+                    Learn More{" "}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          <Text style={styles.title}>Degrees Podcast</Text>
+          <View
+            style={[
+              styles.row,
+              {
+                borderBottomColor: "black",
+                borderBottomWidth: 1,
+              },
+            ]}
+          >
+            <Image
+              source={require("../../assets/degrees-podcast.png")}
+              style={styles.photo}
+            />
+            <View style={styles.container}>
+              <Text style={styles.details}>
+                Host Yesh Pavlik Slenk talks with everyone from storytellers to
+                songwriters, city leaders to sustainability gurus about their
+                paths to solving the world’s biggest problems. Our guests share
+                how they got where they are, so others (like you) can follow in
+                their footsteps and join their changemaker ranks.
+              </Text>
+              <View style={styles.buttonRow}>
+                <TouchableOpacity style={styles.button}>
+                  <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
+                    {" "}
+                    Learn More{" "}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+          <Text style={styles.title}>Upcoming Events</Text>
+          <View style={styles.search}>
+            <TouchableOpacity style={styles.search}>
+              <FontAwesome
+                style={{ marginHorizontal: 5, fontSize: 18 }}
+                name="search"
+              />
+              <Text
+                style={{
+                  textDecorationLine: "underline",
+                  fontSize: 18,
+                }}
+              >
+                Search All{" "}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+      {/* <BottomButton navigation={navigation} /> */}
+    </SafeAreaView>
+  );
 };
 
 ConnectScreen.navigationOptions = ({ navigation }) => {
-    return {
-        headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('About')}>
-                <Image style={styles.icon} source={require('../../assets/edf.jpg')} />
-            </TouchableOpacity>
-        ),
-        headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-                <Ionicons style={styles.profile} name="md-person" />
-            </TouchableOpacity>
-        )
-    };
+  return {
+    headerLeft: () => (
+      <TouchableOpacity onPress={() => navigation.navigate("About")}>
+        <Image style={styles.icon} source={require("../../assets/edf.jpg")} />
+      </TouchableOpacity>
+    ),
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+        <Ionicons style={styles.profile} name="md-person" />
+      </TouchableOpacity>
+    ),
+  };
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    scroll: {
-        flex: 1,
-        marginVertical: 30
-    },
-    row: {
-        flexDirection: "row",
-        marginHorizontal: 15,
-        marginBottom: 15,
-    },
-    buttonRow: {
-        flexDirection: "row",
-        flex: 1,
-        marginHorizontal: 15,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingBottom: 20
-    },
-    title: {
-        fontSize: 30,
-        fontWeight: "700",
-        paddingHorizontal: 20,
-        paddingBottom: 20
-    },
-    details: {
-        fontSize: 13,
-        fontWeight: "400",
-        marginLeft: 15,
-        flexShrink: 1,
-    },
-    photo: {
-        borderRadius: 5,
-        width: 130,
-        height: 130,
-        marginBottom: 30
-    },
-    button: {
-        width: "50%",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 20,
-        backgroundColor: "white",
-        margin: 5,
-        shadowColor: 'rgba(0,0,0, .4)',
-        shadowOffset: { height: 4, width: 4 },
-        shadowOpacity: 0.5,
-        shadowRadius: 1,
-    },
-    search: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "flex-end",
-        padding: 20,
-        fontSize: 18
-    },
-    icon: {
-        flex: 1,
-        width: 50,
-        height: 50,
-        resizeMode: 'contain',
-        marginLeft: 10
-    },
-    profile: {
-        fontSize: 30,
-        marginRight: 10
-    }
+  container: {
+    flex: 1,
+  },
+  scroll: {
+    flex: 1,
+    marginVertical: 30,
+  },
+  row: {
+    flexDirection: "row",
+    marginHorizontal: 15,
+    marginBottom: 15,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    flex: 1,
+    marginHorizontal: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: 20,
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: "700",
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  details: {
+    fontSize: 13,
+    fontWeight: "400",
+    marginLeft: 15,
+    flexShrink: 1,
+  },
+  photo: {
+    borderRadius: 5,
+    width: 130,
+    height: 130,
+    marginBottom: 30,
+  },
+  button: {
+    width: "50%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    backgroundColor: "white",
+    margin: 5,
+    shadowColor: "rgba(0,0,0, .4)",
+    shadowOffset: { height: 4, width: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
+  },
+  search: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: 20,
+    fontSize: 18,
+  },
+  icon: {
+    flex: 1,
+    width: 50,
+    height: 50,
+    resizeMode: "contain",
+    marginLeft: 10,
+  },
+  profile: {
+    fontSize: 30,
+    marginRight: 10,
+  },
 });
 
 export default ConnectScreen;
