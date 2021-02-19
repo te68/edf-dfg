@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  Switch,
+  // Switch,
 } from "react-native";
 import {
   Ionicons,
@@ -13,6 +13,8 @@ import {
   Fontisto,
   MaterialIcons,
 } from "@expo/vector-icons";
+// import SwitchSelector from "react-native-switch-selector";
+import { Switch } from "react-native-switch";
 
 import FeedScreen from "./FeedScreen";
 const Categories = ({ navigation }) => {
@@ -41,7 +43,7 @@ const Categories = ({ navigation }) => {
 };
 const HomeScreen = ({ navigation }) => {
   const [notifications, setNotifications] = useState("");
-  const [switchValue, setSwitchValue] = useState(false);
+  const [switchValue, setSwitchValue] = useState(true);
 
   const toggleSwitch = (value) => {
     //onValueChange of the switch this function will be called
@@ -56,15 +58,34 @@ const HomeScreen = ({ navigation }) => {
           width: "100%",
           justifyContent: "space-between",
           flexDirection: "row",
-          position: "absolute",
-          zIndex: 1,
+          height: "5%",
         }}
       >
-        <Switch
-          style={{ justifyContent: "center" }}
-          onValueChange={toggleSwitch}
-          value={switchValue}
-        />
+        <View
+          style={{
+            paddingLeft: "10%",
+            paddingTop: 5,
+            width: "90%",
+            alignItems: "center",
+          }}
+        >
+          {/* <Switch onValueChange={toggleSwitch} value={switchValue} /> */}
+          <Switch
+            value={switchValue}
+            onValueChange={(val) => toggleSwitch(val)}
+            disabled={false}
+            activeText={"Categories"}
+            inActiveText={"   Feed   "}
+            backgroundActive={"#0A4D95"}
+            backgroundInactive={"#0A4D95"}
+            circleActiveColor={"white"}
+            circleInActiveColor={"white"}
+            changeValueImmediately={true}
+            circleSize={30}
+            switchWidthMultiplier={4}
+          />
+        </View>
+
         <TouchableOpacity onPress={() => navigation.navigate("Saved")}>
           <MaterialIcons name="bookmark-border" size={40} color="black" />
           {/* <Text style={styles.textStyle}>Saved </Text>
@@ -72,9 +93,9 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       {switchValue ? (
-        <FeedScreen navigation={navigation} />
-      ) : (
         <Categories navigation={navigation} />
+      ) : (
+        <FeedScreen navigation={navigation} />
       )}
     </View>
   );
@@ -91,8 +112,8 @@ function Button(props) {
           {
             backgroundColor: props.color == null ? "#1B8AE6" : props.color,
             borderRadius: 25 + maxThreeNotifs * 20,
-            width: 50 + maxThreeNotifs * 40,
-            height: 50 + maxThreeNotifs * 40,
+            width: 40 + maxThreeNotifs * 40,
+            height: 40 + maxThreeNotifs * 40,
           },
         ]}
       >

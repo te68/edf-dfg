@@ -21,6 +21,7 @@ import SavedScreen from "./src/screens/SavedScreen";
 import { SvgXml } from "react-native-svg";
 import { CustomSvgs } from "./constants";
 import LearnScreen from "./src/screens/LearnScreen";
+import SearchScreen from "./src/screens/SearchScreen";
 
 const HomeStack = createStackNavigator();
 function HomeStackScreen({ navigation }) {
@@ -40,7 +41,7 @@ function HomeStackScreen({ navigation }) {
           },
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.navigate("About")}>
-              <Image style={styles.icon} source={require("./assets/edf.jpg")} />
+              <Image style={styles.icon} source={require("./assets/edf.png")} />
             </TouchableOpacity>
           ),
           headerRight: () => (
@@ -50,10 +51,10 @@ function HomeStackScreen({ navigation }) {
           ),
         }}
       />
-      <HomeStack.Screen name="Feed" component={FeedScreen} />
       <HomeStack.Screen name="About" component={AboutScreen} />
       <HomeStack.Screen name="Profile" component={ProfileScreen} />
       <HomeStack.Screen name="Saved" component={SavedScreen} />
+      <HomeStack.Screen name="Search" component={SearchScreen} />
     </HomeStack.Navigator>
   );
 }

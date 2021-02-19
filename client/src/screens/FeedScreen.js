@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   Image,
   FlatList,
   SafeAreaView,
+  Linking,
+  Share,
 } from "react-native";
 import {
   AntDesign,
@@ -41,6 +43,12 @@ const generalFeed = [
     subjects: ["Resources", "Job Seeking"],
     previewText: "previewtextpreviewtextpreviewtext",
     previewImage: require("../../assets/articleImage.png"),
+    likes: 20,
+    celebrates: 2,
+    dislikes: 4,
+    angrys: 0,
+    url: "https://www.edf.org/",
+    saved: false,
   },
   {
     id: "2",
@@ -49,6 +57,12 @@ const generalFeed = [
     subjects: ["Resources", "Job Seeking"],
     previewText: "previewtextpreviewtextpreviewtext",
     previewImage: require("../../assets/articleImage.png"),
+    likes: 20,
+    celebrates: 2,
+    dislikes: 4,
+    angrys: 0,
+    url: "https://www.edf.org/",
+    saved: false,
   },
   {
     id: "3",
@@ -57,58 +71,105 @@ const generalFeed = [
     subjects: ["Resources", "Job Seeking"],
     previewText: "previewtextpreviewtextpreviewtext",
     previewImage: require("../../assets/articleImage.png"),
+    likes: 20,
+    celebrates: 2,
+    dislikes: 4,
+    angrys: 0,
+    url: "https://www.edf.org/",
+    saved: false,
   },
 ];
-const ArticleCard = ({ title, author, previewText, previewImage }) => {
-  // TODO: Redirect cards to article link
+
+const ArticleCard = ({
+  title,
+  author,
+  previewText,
+  previewImage,
+  subjects,
+  likes,
+  celebrates,
+  dislikes,
+  angrys,
+  url,
+}) => {
+  // TODO: Redirect cards
+  const handlePress = useCallback(async () => {
+    // Checking if the link is supported for links with custom URL scheme.
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+      // by some browser in the mobile
+      await Linking.openURL(url);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${url}`);
+    }
+  }, [url]);
   return (
-    <TouchableOpacity style={styles.articleCard}>
-      <View>
+    <TouchableOpacity style={styles.articleCard} onPress={handlePress}>
+      <View style={{ paddingRight: 10, paddingLeft: 10 }}>
         <View>
-          <Text style={{ fontSize: 20, fontWeight: "500" }}>{title}</Text>
-          <Text style={{ fontSize: 14 }}>By {author}</Text>
-          <Text style={{ fontSize: 12 }}>{previewText}</Text>
-          <Image source={previewImage} width="100" height="100" />
+          <Text style={{ fontSize: 22, fontWeight: "500" }}>{title}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={{ fontSize: 18 }}>By {author} </Text>
+            {subjects.map((tag) => (
+              <Text
+                key={tag}
+                style={{
+                  fontSize: 12,
+                  borderWidth: 1,
+                  borderRadius: 8,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  margin: 2,
+                }}
+              >
+                {tag}
+              </Text>
+            ))}
+          </View>
+          <Text style={{ fontSize: 16 }}>{previewText}</Text>
+          <Image source={previewImage} style={{ width: "100%" }} />
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", padding: 5 }}>
           <View
             style={{
               flexDirection: "row",
-              paddingLeft: 5,
+              paddingRight: 5,
               alignItems: "center",
             }}
           >
-            <Text>20</Text>
+            <Text>{likes} </Text>
             <Feather name="thumbs-up" size={15} color="black" />
           </View>
           <View
             style={{
               flexDirection: "row",
-              paddingLeft: 5,
+              paddingRight: 5,
               alignItems: "center",
             }}
           >
-            <Text>2</Text>
+            <Text>{celebrates} </Text>
             <SvgXml width="17" height="15" xml={CustomSvgs.clappingIcon} />
           </View>
           <View
             style={{
               flexDirection: "row",
-              paddingLeft: 5,
+              paddingRight: 5,
               alignItems: "center",
             }}
           >
-            <Text>4</Text>
+            <Text>{dislikes} </Text>
             <Feather name="thumbs-down" size={15} color="black" />
           </View>
           <View
             style={{
               flexDirection: "row",
-              paddingLeft: 5,
+              paddingRight: 5,
               alignItems: "center",
             }}
           >
-            <Text>0</Text>
+            <Text>{angrys} </Text>
             <Fontisto name="mad" size={15} color="black" />
           </View>
         </View>
@@ -121,8 +182,10 @@ const ArticleCard = ({ title, author, previewText, previewImage }) => {
     </TouchableOpacity>
   );
 };
-const ArticleButtons = () => (
+
+const ArticleButtons = ({ id, updatePost }) => (
   // TODO: Button functionality
+
   <View
     style={{
       flexDirection: "row",
@@ -130,6 +193,7 @@ const ArticleButtons = () => (
   >
     <TouchableOpacity
       style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
+      onPress={() => updatePost(id, "likes")}
     >
       <Feather name="thumbs-up" size={15} color="black" />
       <Text style={{ paddingLeft: 2 }}>Like</Text>
@@ -154,38 +218,66 @@ const ArticleButtons = () => (
     </TouchableOpacity>
   </View>
 );
-const ArticlePost = (content) => {
+const ArticlePost = ({ content, updatePost }) => {
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `${content.title}`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   return (
     <View
       style={{
-        margin: 5,
         flexDirection: "row",
         justifyContent: "center",
+        marginLeft: "10%",
+        marginBottom: 20,
       }}
     >
-      <View>
+      <View style={{ width: "90%" }}>
         <ArticleCard {...content} />
-        <ArticleButtons />
+        <ArticleButtons {...content} updatePost={updatePost} />
       </View>
-      <View style={{ padding: 10 }}>
+      <View
+        style={{
+          alignItems: "center",
+          width: "10%",
+          margin: 5,
+        }}
+      >
         <TouchableOpacity style={{ marginBottom: 5 }}>
-          <MaterialIcons name="bookmark-border" size={20} color="black" />
+          <MaterialIcons name="bookmark-border" size={25} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity style={{ marginBottom: 5 }}>
-          <SvgXml width="20" height="20" xml={CustomSvgs.shareIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={{ marginBottom: 5 }}>
-          <SvgXml width="20" height="20" xml={CustomSvgs.coloredPinIcon} />
+        <TouchableOpacity style={{ marginBottom: 5 }} onPress={onShare}>
+          <SvgXml width="22" height="22" xml={CustomSvgs.shareIcon} />
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-
 const FeedScreen = ({ navigation }) => {
-  const ArticleList = ({ feed }) => {
+  const [feed, updateFeed] = useState(generalFeed);
+  const ArticleList = ({ feed, updatePost }) => {
     return feed.map((content) => {
-      return <ArticlePost key={content.id} {...content} />;
+      return (
+        <ArticlePost
+          key={content.id}
+          content={content}
+          updatePost={updatePost}
+        />
+      );
     });
   };
   const renderContent = ({ item }) => {
@@ -200,11 +292,31 @@ const FeedScreen = ({ navigation }) => {
         }}
       >
         <Image source={item.previewImage} />
-        <Text style={{ color: "black", fontSize: 18, textAlign: "center" }}>
+        <Text
+          style={{
+            color: "black",
+            fontSize: 20,
+            textAlign: "center",
+            textShadowColor: "rgba(0, 0, 0, 0.75)",
+            textShadowOffset: { width: -1, height: 1 },
+            textShadowRadius: 10,
+          }}
+        >
           {item.title}
         </Text>
       </View>
     );
+  };
+  const updatePost = (id, feedback) => {
+    if (feedback === "likes") {
+      let updatedFeed = feed.map((post) => {
+        if (post.id === id) {
+          post.likes += 1;
+        }
+        return post;
+      });
+      updateFeed(updatedFeed);
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -219,7 +331,7 @@ const FeedScreen = ({ navigation }) => {
           renderItem={renderContent}
           keyExtractor={(item) => item.id}
         />
-        <ArticleList feed={generalFeed} />
+        <ArticleList feed={feed} updatePost={updatePost.bind(this)} />
       </ScrollView>
       {/* <BottomButton navigation={navigation} /> */}
     </SafeAreaView>
@@ -234,7 +346,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
     padding: 10,
+    marginBottom: 10,
     flexDirection: "row",
+    justifyContent: "space-between",
     shadowColor: "rgba(0,0,0, .4)",
     shadowOffset: { height: 4, width: 4 },
     shadowOpacity: 1,
