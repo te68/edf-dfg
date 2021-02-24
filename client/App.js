@@ -18,6 +18,7 @@ import AboutScreen from "./src/screens/AboutScreen";
 import ConnectScreen from "./src/screens/ConnectScreen";
 import ActScreen from "./src/screens/ActScreen";
 import SavedScreen from "./src/screens/SavedScreen";
+import SearchScreen from "./src/screens/SearchScreen";
 import { SvgXml } from "react-native-svg";
 import { CustomSvgs } from "./constants";
 import LearnScreen from "./src/screens/LearnScreen";
@@ -54,6 +55,7 @@ function HomeStackScreen({ navigation }) {
       <HomeStack.Screen name="About" component={AboutScreen} />
       <HomeStack.Screen name="Profile" component={ProfileScreen} />
       <HomeStack.Screen name="Saved" component={SavedScreen} />
+      <HomeStack.Screen name="Search" component={SearchScreen} />
     </HomeStack.Navigator>
   );
 }

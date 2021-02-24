@@ -16,18 +16,24 @@ import {
 
 import FeedScreen from "./FeedScreen";
 const Categories = ({ navigation }) => {
+  let buttons = [
+    { title: "Articles", notifications: 3 },
+    { title: "Podcasts", notifications: 3, color: "#6EC6B3" },
+    { title: "Blogs", notifications: 3, color: "#C5DB65" },
+    { title: "Career Advice", notifications: 3, color: "#F7F6F1" },
+    { title: "Videos", notifications: 2 },
+    { title: "Events", notifications: 2, color: "#6EC6B3" },
+    { title: "Authenticity Meter", notifications: 2, color: "#C5DB65" },
+    { title: "Guides", notifications: 1, color: "#F7F6F1" },
+    { title: "Resources", notifications: 1 }
+  ]
+
   return (
-    <View>
+    <View style={{ marginTop: 30 }}>
       <View style={styles.row}>
-        <Button title="Articles" notifications={2} />
-        <Button title="Podcasts" notifications={3} color="#6EC6B3" />
-        <Button title="Blogs" notifications={1} color="#C5DB65" />
-        <Button title="Career Advice" notifications={2} color="#F7F6F1" />
-        <Button title="Videos" notifications={1} />
-        <Button title="Events" notifications={3} color="#6EC6B3" />
-        <Button title="Authenticity Meter" notifications={3} color="#C5DB65" />
-        <Button title="Guides" notifications={3} color="#F7F6F1" />
-        <Button title="Resources" notifications={1} />
+        {buttons.map((b) => (
+          <Button title={b.title} notifications={b.notifications} color={b.color} />
+        ))}
       </View>
       <TouchableOpacity
         style={styles.savedStyle}
@@ -39,6 +45,8 @@ const Categories = ({ navigation }) => {
     </View>
   );
 };
+
+
 const HomeScreen = ({ navigation }) => {
   const [notifications, setNotifications] = useState("");
   const [switchValue, setSwitchValue] = useState(false);
@@ -54,14 +62,15 @@ const HomeScreen = ({ navigation }) => {
       <View
         style={{
           width: "100%",
-          justifyContent: "space-between",
           flexDirection: "row",
+          justifyContent: "flex-end",
           position: "absolute",
           zIndex: 1,
         }}
       >
         <Switch
-          style={{ justifyContent: "center" }}
+          style={{ justifyContent: 'center' }}
+          ios_backgroundColor="#0A4D95"
           onValueChange={toggleSwitch}
           value={switchValue}
         />
@@ -74,11 +83,12 @@ const HomeScreen = ({ navigation }) => {
       {switchValue ? (
         <FeedScreen navigation={navigation} />
       ) : (
-        <Categories navigation={navigation} />
-      )}
+          <Categories navigation={navigation} />
+        )}
     </View>
   );
 };
+
 
 function Button(props) {
   const maxThreeNotifs = Math.min(props.notifications, 3);
@@ -108,6 +118,7 @@ function Button(props) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -160,6 +171,7 @@ const styles = StyleSheet.create({
   },
   savedStyle: {
     flexDirection: "row",
+    justifyContent: 'center',
     alignItems: "center",
     position: "absolute",
     bottom: 0,

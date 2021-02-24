@@ -103,7 +103,6 @@ const ConnectScreen = ({ navigation }) => {
                     </View>
                 </View>
             </ScrollView>
-            <BottomButton navigation={navigation} />
         </SafeAreaView>
 
     );
