@@ -61,7 +61,6 @@ const SignupScreen = ({ navigation }) => {
           onChangeText={(text) => setPassword(text)}
         />
       </View>
-      {/* TODO: Fix Checkbox style, sign up authentication and sign up with google */}
       {/* <CheckBox
         title="I agree with Terms and Conditions"
         onPress={() => setToggleCheckBox(!toggleCheckBox)}

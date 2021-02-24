@@ -138,21 +138,20 @@ const ConnectScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-ConnectScreen.navigationOptions = ({ navigation }) => {
-  return {
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => navigation.navigate("About")}>
-        <Image style={styles.icon} source={require("../../assets/edf.jpg")} />
-      </TouchableOpacity>
-    ),
-    headerRight: () => (
-      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-        <Ionicons style={styles.profile} name="md-person" />
-      </TouchableOpacity>
-    ),
-  };
-};
+// ConnectScreen.navigationOptions = ({ navigation }) => {
+//   return {
+//     headerLeft: () => (
+//       <TouchableOpacity onPress={() => navigation.navigate("About")}>
+//         <Image style={styles.icon} source={require("../../assets/edf.jpg")} />
+//       </TouchableOpacity>
+//     ),
+//     headerRight: () => (
+//       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+//         <Ionicons style={styles.profile} name="md-person" />
+//       </TouchableOpacity>
+//     ),
+//   };
+// };
 
 const styles = StyleSheet.create({
   container: {

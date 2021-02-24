@@ -71,20 +71,28 @@ const AboutScreen = ({ navigation }) => {
   );
 };
 
-AboutScreen.navigationOptions = ({ navigation }) => {
-  return {
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-        <AntDesign style={styles.profileLeft} name="back" />
-      </TouchableOpacity>
-    ),
-    headerRight: () => (
-      <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-        <Ionicons style={styles.profileRight} name="md-person" />
-      </TouchableOpacity>
-    ),
-  };
-};
+// AboutScreen.navigationOptions = ({ navigation }) => {
+//   return {
+//     title: "About",
+//     headerTitleStyle: {
+//       color: "white",
+//       fontWeight: "bold",
+//     },
+//     headerStyle: {
+//       backgroundColor: "#0A4D95",
+//     },
+//     headerLeft: () => (
+//       <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+//         <AntDesign style={styles.profileLeft} name="back" />
+//       </TouchableOpacity>
+//     ),
+//     headerRight: () => (
+//       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+//         <Ionicons style={styles.profileRight} name="md-person" />
+//       </TouchableOpacity>
+//     ),
+//   };
+// };
 
 const styles = StyleSheet.create({
   container: {

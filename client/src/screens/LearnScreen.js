@@ -8,7 +8,7 @@ const LearnScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text> Learn Page </Text>
 
-      <BottomButton navigation={navigation} />
+      {/* <BottomButton navigation={navigation} /> */}
     </View>
   );
 };

@@ -100,7 +100,6 @@ const HomeScreen = ({ navigation }) => {
     </View>
   );
 };
-
 function Button(props) {
   const maxThreeNotifs = Math.min(props.notifications, 3);
 
