@@ -23,8 +23,6 @@ const SavedScreen = ({ navigation }) => {
             <ScrollView contentContainerStyle={styles.center}>
                 <Saved />
             </ScrollView>
-            <BottomButton navigation={navigation} />
-
         </View>
     );
 };
