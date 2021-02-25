@@ -55,7 +55,7 @@ router.put(
 // @access   Private
 router.delete("/:contentId", auth, contentControllers.deleteContent);
 
-// @route    GET /api/articles/<articleId>
+// @route    GET /api/content/<contentId>
 // @desc     Get specific article
 // @access   Private
 router.get("/:contentId", auth, contentControllers.getContent);
