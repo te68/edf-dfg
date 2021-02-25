@@ -1,9 +1,15 @@
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, Text, View, FlatList } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 // import { SearchBar } from "react-native-elements";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
-import { TouchableOpacity } from "react-native-gesture-handler";
 const exampleEvents = [
   {
     id: 1,
