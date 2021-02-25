@@ -127,8 +127,9 @@ const ConnectScreen = ({ navigation }) => {
                   textDecorationLine: "underline",
                   fontSize: 18,
                 }}
+                onPress={() => navigation.navigate("Events")}
               >
-                Search All{" "}
+                Events{" "}
               </Text>
             </TouchableOpacity>
           </View>

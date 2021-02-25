@@ -4,7 +4,9 @@ import { AntDesign } from "@expo/vector-icons";
 import AboutScreen from "../screens/AboutScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import ConnectScreen from "../screens/ConnectScreen";
+import EventsScreen from "../screens/Events/EventsScreen";
 import { createStackNavigator } from "@react-navigation/stack";
+import EventPage from "../screens/Events/EventPage";
 const ConnectStack = createStackNavigator();
 const ConnectNavgiator = ({ navigation }) => {
   return (
@@ -33,6 +35,20 @@ const ConnectNavgiator = ({ navigation }) => {
         component={ProfileScreen}
       />
       <ConnectStack.Screen
+        name="Events"
+        options={{
+          title: "Events",
+          headerBackImage: () => (
+            <AntDesign style={styles.profileLeft} name="back" color="white" />
+          ),
+          headerBackTitleVisible: false,
+          tabBarOptions: {
+            showLabel: false,
+          },
+        }}
+        component={EventsScreen}
+      />
+      <ConnectStack.Screen
         name="About"
         options={{
           title: "About",
@@ -42,6 +58,16 @@ const ConnectNavgiator = ({ navigation }) => {
           headerBackTitleVisible: false,
         }}
         component={AboutScreen}
+      />
+      <ConnectStack.Screen
+        name="EventPage"
+        options={{
+          headerBackImage: () => (
+            <AntDesign style={styles.profileLeft} name="back" color="white" />
+          ),
+          headerBackTitleVisible: false,
+        }}
+        component={EventPage}
       />
     </ConnectStack.Navigator>
   );
