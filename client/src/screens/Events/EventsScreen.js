@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
-import { SearchBar } from "react-native-elements";
+import { SafeAreaView, ScrollView, Text, View, FlatList } from "react-native";
+// import { SearchBar } from "react-native-elements";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -115,16 +115,21 @@ const EventsScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView>
-        <SearchBar
+        {/* <SearchBar
           placeholder="Search"
           onChangeText={(text) => updateSearch(text)}
           value={search}
-        />
+        /> */}
         <View>
           <Text style={{ fontSize: 30, marginTop: 15, marginLeft: 15 }}>
             Events and Opportunities
           </Text>
           {futureEvents.length > 0 ? (
+            // <FlatList
+            //   data={[...futureEvents, navigation]}
+            //   renderItem={EventCard}
+            //   keyExtractor={(item) => item.id}
+            // />
             futureEvents.map((event) => (
               <EventCard {...event} navigation={navigation} />
             ))

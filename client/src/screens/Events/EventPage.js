@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
-import { Button } from "react-native-elements";
 import moment from "moment";
 const EventPage = ({ route }) => {
   const {

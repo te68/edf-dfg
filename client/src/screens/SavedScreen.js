@@ -7,7 +7,6 @@ import {
   ScrollView,
 } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import BottomButton from "../components/BottomButton";
 
 const SavedScreen = ({ navigation }) => {
   let articles = [

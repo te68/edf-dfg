@@ -23,7 +23,6 @@
     "react": "^16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
-    "react-native-elements": "^3.1.0",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-login-screen": "^2.1.2",
     "react-native-material-textfield": "^0.16.1",

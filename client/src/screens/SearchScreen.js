@@ -7,9 +7,6 @@ const SearchScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Text> Search Page </Text>
-
-            <BottomButton navigation={navigation} />
-
         </View>
     );
 };
