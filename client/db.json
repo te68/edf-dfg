@@ -1,0 +1,32 @@
+{
+    
+    "pinnedArticles":[
+        {
+            "id": 1,
+            "title": "Questions to ask recruiters",
+            "author": "EDF",
+            "subjects": ["Resources", "Job Seeking"],
+            "previewText": "previewtextpreviewtextpreviewtext",
+            "previewImage": "../../assets/articleImage.png"
+        },
+        {
+            "id": 2,
+            "title": "Questions to ask recruiters",
+            "author": "EDF",
+            "subjects": ["Resources", "Job Seeking"],
+            "previewText": "previewtextpreviewtextpreviewtext",
+            "previewImage": "../../assets/articleImage.png"
+        },
+        {
+            "id": 3,
+        "title": "Questions to ask recruiters",
+            "author": "EDF",
+            "subjects": ["Resources", "Job Seeking"],
+            "previewText": "previewtextpreviewtextpreviewtext",
+            "previewImage": "../../assets/articleImage.png"
+        }
+    ]
+    
+    
+    
+}

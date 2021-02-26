@@ -68,7 +68,6 @@ const ProfileScreen = ({ navigation }) => {
           <Text style={styles.signOut}>Sign out</Text>
         </TouchableOpacity>
       </View>
-      <BottomButton navigation={navigation} />
     </SafeAreaView>
   );
 };
@@ -213,7 +212,6 @@ class Profile extends React.Component {
 }
 
 class Interests extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -489,7 +487,7 @@ const styles = StyleSheet.create({
   signOutButton: {
     position: "absolute",
     flex: 1,
-    bottom: 75,
+    bottom: 50,
     width: "40%",
     backgroundColor: "#007AFF",
     borderRadius: 25,
