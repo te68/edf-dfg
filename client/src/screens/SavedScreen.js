@@ -91,6 +91,7 @@ class Saved extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+
   handleChange(id) {
     const { articles } = this.state;
     const filtered = articles.filter((x) => x.id !== id);
@@ -152,44 +153,44 @@ class Saved extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  profileLeft: {
-    fontSize: 30,
-    marginLeft: 10,
-  },
-  profileRight: {
-    fontSize: 30,
-    marginRight: 10,
-  },
-  title: {
-    fontWeight: "bold",
-    fontSize: 30,
-    margin: 15,
-  },
-  center: {
-    alignItems: "center",
-  },
-  row: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  article: {
-    backgroundColor: "white",
-    borderRadius: 10,
-    width: 330,
-    height: 100,
-    shadowColor: "rgba(0,0,0, .4)",
-    shadowOffset: { height: 4, width: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 1,
-    justifyContent: "center",
-    alignContent: "center",
-    padding: 10,
-    margin: 15,
-  },
+    container: {
+        flex: 1,
+    },
+    profileLeft: {
+        fontSize: 30,
+        marginLeft: 10
+    },
+    profileRight: {
+        fontSize: 30,
+        marginRight: 10
+    },
+    title: {
+        fontWeight: "bold",
+        fontSize: 30,
+        margin: 15,
+    },
+    center: {
+        alignItems: "center"
+    },
+    row: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: 'center'
+    },
+    article: {
+        backgroundColor: "white",
+        borderRadius: 10,
+        width: 330,
+        height: 100,
+        shadowColor: 'rgba(0,0,0, .4)',
+        shadowOffset: { height: 4, width: 4 },
+        shadowOpacity: 1,
+        shadowRadius: 1,
+        justifyContent: 'center',
+        alignContent: 'center',
+        padding: 10,
+        margin: 15,
+    }
 });
 
 export default SavedScreen;
