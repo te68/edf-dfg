@@ -17,16 +17,18 @@ import {
 import FeedScreen from "./FeedScreen";
 const Categories = ({ navigation }) => {
   let buttons = [
-    { title: "Articles", notifications: 3 },
-    { title: "Podcasts", notifications: 3, color: "#6EC6B3" },
-    { title: "Blogs", notifications: 3, color: "#C5DB65" },
-    { title: "Career Advice", notifications: 3, color: "#F7F6F1" },
-    { title: "Videos", notifications: 2 },
-    { title: "Events", notifications: 2, color: "#6EC6B3" },
-    { title: "Authenticity Meter", notifications: 2, color: "#C5DB65" },
-    { title: "Guides", notifications: 1, color: "#F7F6F1" },
-    { title: "Resources", notifications: 1 }
+    { key: 0, title: "Events", notifications: 3, color: "#C5DB65" },
+    { key: 1, title: "Articles", notifications: 3 },
+    { key: 2, title: "Podcasts", notifications: 3, color: "#6EC6B3" },
+    { key: 3, title: "Blogs", notifications: 2, color: "#F7F6F1" },
+    { key: 4, title: "Career Advice", notifications: 2, color: "#C5DB65" },
+    { key: 5, title: "Videos", notifications: 2 },
+    { key: 6, title: "Authenticity Meter", notifications: 2, color: "#6EC6B3" },
+    { key: 7, title: "Guides", notifications: 1, color: "#F7F6F1" },
+    { key: 8, title: "Resources", notifications: 1, color: "#C5DB65" }
   ]
+
+  buttons.sort(function (a, b) { return a.notifications < b.notifications })
 
   return (
     <View style={{ marginTop: 30 }}>
