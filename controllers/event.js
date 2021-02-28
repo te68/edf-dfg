@@ -15,7 +15,7 @@ exports.getEvents = async (req, res, next) => {
     res.json({
       events: result.docs,
       totalCount: result.total,
-      totalPages: Math.ceil(result.total / eventPerPage),
+      totalPages: Math.ceil(result.total / eventsPerPage),
     });
   } catch (error) {
     return next(error);
@@ -99,7 +99,7 @@ exports.updateEvent = async (req, res, next) => {
     event.categories = categories;
 
     const result = await event.save();
-    res.status(200).json(result);
+    res.status(200).json({ message: "Event updated", event: result });
   } catch (error) {
     return next(error);
   }
@@ -132,7 +132,7 @@ exports.deleteEvent = async (req, res, next) => {
     // delete if no errors
     const result = await Event.findByIdAndDelete(eventId);
 
-    res.json(result);
+    res.json({ message: "Event deleted" });
   } catch (error) {
     return next(error);
   }

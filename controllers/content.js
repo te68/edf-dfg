@@ -167,7 +167,7 @@ exports.getContentDetails = async (req, res, next) => {
       return next(error);
     }
 
-    res.json({ message: "Content deleted" });
+    res.json(result);
   } catch (error) {
     return next(error);
   }
