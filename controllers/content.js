@@ -37,7 +37,7 @@ exports.createContent = async (req, res, next) => {
     const title = req.body.title;
     const url = req.body.url;
     const preview = req.body.preview;
-    const authorId = req.body.authorId;
+    const author = req.body.author;
     const contentType = req.body.contentType;
     const categories = [...req.body.categories];
     const likes = 0;
@@ -49,7 +49,7 @@ exports.createContent = async (req, res, next) => {
       title,
       url,
       preview,
-      author: authorId,
+      author,
       contentType,
       categories,
       likes,
@@ -96,13 +96,6 @@ exports.updateContent = async (req, res, next) => {
       throw error;
     }
 
-    // check user is owner
-    if (content.author.toString() != req.user.id) {
-      const error = new Error("Forbidden");
-      error.statusCode = 403;
-      throw error;
-    }
-
     // update
     content.title = title;
     content.url = url;
@@ -114,7 +107,7 @@ exports.updateContent = async (req, res, next) => {
     content.celebrates = celebrates;
 
     const result = await content.save();
-    res.status(200).json(result);
+    res.status(200).json({ message: "Content Updated", content: result });
   } catch (error) {
     return next(error);
   }
@@ -142,24 +135,17 @@ exports.deleteContent = async (req, res, next) => {
       throw error;
     }
 
-    // check user is owner
-    if (content.author.toString() != req.user.id) {
-      const error = new Error("Forbidden");
-      error.statusCode = 403;
-      throw error;
-    }
-
     // delete if no errors
-    const result = await Content.findByIdAndDelete(contentId);
+    await Content.findByIdAndDelete(contentId);
 
-    res.json(result);
+    res.json({ message: "Content deleted" });
   } catch (error) {
     return next(error);
   }
 };
 
 // get content details
-exports.getContent = async (req, res, next) => {
+exports.getContentDetails = async (req, res, next) => {
   // checking validation
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -171,8 +157,8 @@ exports.getContent = async (req, res, next) => {
   try {
     const contentId = req.params.contentId;
 
-    // return content details with author's name
-    const result = await Content.findById(contentId).populate("author", "name");
+    // return content details
+    const result = await Content.findById(contentId);
 
     // content not found
     if (!result) {
@@ -181,7 +167,7 @@ exports.getContent = async (req, res, next) => {
       return next(error);
     }
 
-    res.json(result);
+    res.json({ message: "Content deleted" });
   } catch (error) {
     return next(error);
   }
