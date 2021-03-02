@@ -15,8 +15,7 @@ const ContentSchema = new mongoose.Schema(
       type: String,
     },
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      type: String,
       required: true,
     },
     contentType: {
