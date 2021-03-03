@@ -22,15 +22,6 @@ const ProfileSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  employment: {
-    type: String,
-  },
-  student: {
-    type: Boolean,
-  },
-  graduate: {
-    type: Boolean,
-  },
   interests: {
     climateNews: Number,
     corporateInsights: Number,

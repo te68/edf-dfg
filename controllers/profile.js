@@ -24,16 +24,7 @@ exports.createUpdateProfile =
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array });
     }
-    const {
-      company,
-      location,
-      bio,
-      employment,
-      student,
-      graduate,
-      interests,
-      status,
-    } = req.body;
+    const { company, location, bio, interests, status } = req.body;
 
     //Build profile object
     const profileFields = {};
@@ -41,9 +32,6 @@ exports.createUpdateProfile =
     if (company) profileFields.company = company;
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
-    if (employment) profileFields.employment = employment;
-    if (student) profileFields.student = student;
-    if (graduate) profileFields.graduate = graduate;
     if (status) profileFields.status = status;
 
     const interestsFields = interests;

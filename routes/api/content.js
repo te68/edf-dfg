@@ -42,7 +42,7 @@ router.put(
     body("url").notEmpty(),
     body("preview").notEmpty(),
     body("contentType").notEmpty(),
-    body("categories").notEmpty,
+    body("categories").notEmpty(),
     body("likes").notEmpty(),
     body("dislikes").notEmpty(),
     body("celebrates").notEmpty(),
@@ -58,6 +58,6 @@ router.delete("/:contentId", auth, contentControllers.deleteContent);
 // @route    GET /api/content/<contentId>
 // @desc     Get specific article
 // @access   Private
-router.get("/:contentId", auth, contentControllers.getContent);
+router.get("/:contentId", auth, contentControllers.getContentDetails);
 
 module.exports = router;
