@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
   Text,
   View,
-  FlatList,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 // import { SearchBar } from "react-native-elements";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
+import axios from "axios";
 const exampleEvents = [
   {
     id: 1,
@@ -108,16 +109,41 @@ const EventCard = (props) => {
     </TouchableOpacity>
   );
 };
-
+// TODO: loading screen w/ axios
 const EventsScreen = ({ navigation }) => {
   const [search, updateSearch] = useState("");
-  const [events, updateEvents] = useState(exampleEvents);
+  const [events, updateEvents] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/events")
+      .then((res) => updateEvents(res.data))
+      .catch((err) => console.log(err));
+  }, []);
   const futureEvents = events
     .filter((event) => event.date >= moment().format("LL"))
     .sort((event1, event2) => moment(event1.date).diff(event2.date)); // Earliest date first
   const pastEvents = events
     .filter((event) => event.date < moment().format("LL"))
     .sort((event1, event2) => moment(event2.date).diff(event1.date)); // Latest date first
+  const SearchBar = () => {
+    return (
+      <View style={{ alignItems: "center" }}>
+        <TextInput
+          style={{
+            borderRadius: 15,
+            height: 40,
+            width: "50%",
+            borderColor: "gray",
+            borderWidth: 1,
+            color: "black",
+          }}
+          placholder="Search Event"
+          value={search}
+          onChangeText={(text) => updateSearch(text)}
+        />
+      </View>
+    );
+  };
   return (
     <SafeAreaView>
       <ScrollView>
@@ -126,18 +152,33 @@ const EventsScreen = ({ navigation }) => {
           onChangeText={(text) => updateSearch(text)}
           value={search}
         /> */}
+        <View style={{ alignItems: "center", marginTop: 10 }}>
+          <View style={{ flexDirection: "row" }}>
+            <AntDesign name="search1" size={20} color="black" />
+            <TextInput
+              style={{
+                backgroundColor: "white",
+                borderRadius: 15,
+                height: 24,
+                width: "50%",
+                borderColor: "gray",
+                borderWidth: 2,
+                color: "black",
+              }}
+              placholder="Search Event"
+              value={search}
+              onChangeText={(text) => updateSearch(text)}
+            />
+          </View>
+        </View>
+        {/* <SearchBar /> */}
         <View>
           <Text style={{ fontSize: 30, marginTop: 15, marginLeft: 15 }}>
             Events and Opportunities
           </Text>
           {futureEvents.length > 0 ? (
-            // <FlatList
-            //   data={[...futureEvents, navigation]}
-            //   renderItem={EventCard}
-            //   keyExtractor={(item) => item.id}
-            // />
             futureEvents.map((event) => (
-              <EventCard {...event} navigation={navigation} />
+              <EventCard key={event.id} {...event} navigation={navigation} />
             ))
           ) : (
             <Text>No upcoming events found</Text>
@@ -149,7 +190,7 @@ const EventsScreen = ({ navigation }) => {
           </Text>
           {pastEvents.length > 0 ? (
             pastEvents.map((event) => (
-              <EventCard {...event} navigation={navigation} />
+              <EventCard key={event.id} {...event} navigation={navigation} />
             ))
           ) : (
             <Text>No past events found</Text>
