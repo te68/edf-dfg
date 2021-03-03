@@ -17,21 +17,32 @@ import {
 import FeedScreen from "./FeedScreen";
 const Categories = ({ navigation }) => {
   let buttons = [
-    { key: 0, title: "Events", notifications: 3, color: "#C5DB65" },
-    { key: 1, title: "Articles", notifications: 3 },
-    { key: 2, title: "Podcasts", notifications: 3, color: "#6EC6B3" },
-    { key: 3, title: "Blogs", notifications: 2, color: "#F7F6F1" },
-    { key: 4, title: "Career Advice", notifications: 2, color: "#C5DB65" },
-    { key: 5, title: "Videos", notifications: 2 },
-    { key: 6, title: "Authenticity Meter", notifications: 2, color: "#6EC6B3" },
-    { key: 7, title: "Guides", notifications: 1, color: "#F7F6F1" },
-    { key: 8, title: "Resources", notifications: 1, color: "#C5DB65" }
+    { key: 0, title: "Podcasts", notifications: 3, color: "#C5DB65" },
+    { key: 1, title: "Blogs", notifications: 3 },
+    { key: 2, title: "Careers", notifications: 3, color: "#6EC6B3" },
+    { key: 3, title: "Events", notifications: 2, color: "#88C5E6" },
   ]
 
-  buttons.sort(function (a, b) { return a.notifications < b.notifications })
+  //buttons.sort(function (a, b) { return a.notifications < b.notifications })
 
   return (
-    <View style={{ marginTop: 30 }}>
+    <View style={{ marginTop: 30, paddingBottom: 20 }}>
+      <Text style={styles.heading}> Feature Content </Text>
+      <View style={{ alignItems: 'center', padding: 10 }} >
+        <TouchableOpacity>
+          <Image
+            source={require("../../assets/host-meet-up.png")} style={{ width: "100%" }}
+            style={{
+              alignItems: 'center',
+              width: 380,
+              height: 135 * 380 / 298
+            }}
+          />
+        </TouchableOpacity>
+
+      </View>
+
+      <Text style={styles.heading}> Categories </Text>
       <View style={styles.row}>
         {buttons.map((b) => (
           <Button title={b.title} notifications={b.notifications} color={b.color} />
@@ -83,9 +94,9 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       {switchValue ? (
-        <FeedScreen navigation={navigation} />
+        <Categories navigation={navigation} />
       ) : (
-          <Categories navigation={navigation} />
+          <FeedScreen navigation={navigation} />
         )}
     </View>
   );
@@ -102,15 +113,12 @@ function Button(props) {
           styles.button,
           {
             backgroundColor: props.color == null ? "#1B8AE6" : props.color,
-            borderRadius: 25 + maxThreeNotifs * 20,
-            width: 50 + maxThreeNotifs * 40,
-            height: 50 + maxThreeNotifs * 40,
           },
         ]}
       >
         <Text
           style={{
-            fontSize: Math.max(17, 10 * maxThreeNotifs),
+            fontSize: 10,
             textAlign: "center",
           }}
         >
@@ -127,16 +135,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: "#00AA91",
+    paddingVertical: 5,
+  },
   button: {
-    borderRadius: 50,
-    width: 100,
-    height: 100,
+    borderRadius: 15,
+    width: 80,
+    height: 80,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "rgba(0,0,0, .4)",
-    shadowOffset: { height: 4, width: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 1,
     margin: 10,
   },
   row: {
