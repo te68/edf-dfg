@@ -8,7 +8,7 @@
     "start": "node server.js",
     "startDev": "nodemon server.js",
     "server": "nodemon server",
-    "client": "npm startDev --prefix client",
+    "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Yazan Almatar",

@@ -140,8 +140,8 @@ const EventsScreen = ({ navigation }) => {
               <EventCard {...event} navigation={navigation} />
             ))
           ) : (
-              <Text>No upcoming events found</Text>
-            )}
+            <Text>No upcoming events found</Text>
+          )}
         </View>
         <View>
           <Text style={{ fontSize: 30, marginTop: 15, marginLeft: 15 }}>
@@ -152,8 +152,8 @@ const EventsScreen = ({ navigation }) => {
               <EventCard {...event} navigation={navigation} />
             ))
           ) : (
-              <Text>No past events found</Text>
-            )}
+            <Text>No past events found</Text>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
