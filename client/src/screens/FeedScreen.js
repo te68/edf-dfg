@@ -41,7 +41,7 @@ const generalFeed = [
     title: "Questions to ask recruiters",
     author: "EDF",
     subjects: ["Resources", "Job Seeking"],
-    previewText: "previewtextpreviewtextpreviewtext",
+    previewText: "Lorem ipsum",
     previewImage: require("../../assets/articleImage.png"),
     likes: 20,
     celebrates: 2,
@@ -55,7 +55,7 @@ const generalFeed = [
     title: "Questions to ask recruiters",
     author: "EDF",
     subjects: ["Resources", "Job Seeking"],
-    previewText: "previewtextpreviewtextpreviewtext",
+    previewText: "Lorem ipsum",
     previewImage: require("../../assets/articleImage.png"),
     likes: 20,
     celebrates: 2,
@@ -69,7 +69,7 @@ const generalFeed = [
     title: "Questions to ask recruiters",
     author: "EDF",
     subjects: ["Resources", "Job Seeking"],
-    previewText: "previewtextpreviewtextpreviewtext",
+    previewText: "Lorem ipsum",
     previewImage: require("../../assets/articleImage.png"),
     likes: 20,
     celebrates: 2,
@@ -336,6 +336,7 @@ const FeedScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 10,
     flex: 1,
   },
   articleCard: {

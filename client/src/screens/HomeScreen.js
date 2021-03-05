@@ -32,10 +32,10 @@ const Categories = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView style={{ marginHorizontal: 15, paddingTop: 0 }}>
-        <TouchableOpacity style={{ alignItems: 'flex-end' }} onPress={() => navigation.navigate("Saved")}>
+        <TouchableOpacity style={{ position: 'absolute', right: 0 }} onPress={() => navigation.navigate("Saved")}>
           <MaterialIcons name="bookmark-border" size={40} color="black" />
         </TouchableOpacity>
-        <Text style={[styles.heading, { marginTop: 0 }]}> Featured Content </Text>
+        <Text style={styles.heading}> Featured Content </Text>
         <View style={{ alignItems: 'center', padding: 10 }} >
           <TouchableOpacity>
             <Image
