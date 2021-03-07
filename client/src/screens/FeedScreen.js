@@ -41,7 +41,7 @@ const generalFeed = [
     title: "Questions to ask recruiters",
     author: "EDF",
     subjects: ["Resources", "Job Seeking"],
-    previewText: "previewtextpreviewtextpreviewtext",
+    previewText: "Lorem ipsum",
     previewImage: require("../../assets/articleImage.png"),
     likes: 20,
     celebrates: 2,
@@ -55,7 +55,7 @@ const generalFeed = [
     title: "Questions to ask recruiters",
     author: "EDF",
     subjects: ["Resources", "Job Seeking"],
-    previewText: "previewtextpreviewtextpreviewtext",
+    previewText: "Lorem ipsum",
     previewImage: require("../../assets/articleImage.png"),
     likes: 20,
     celebrates: 2,
@@ -69,7 +69,7 @@ const generalFeed = [
     title: "Questions to ask recruiters",
     author: "EDF",
     subjects: ["Resources", "Job Seeking"],
-    previewText: "previewtextpreviewtextpreviewtext",
+    previewText: "Lorem ipsum",
     previewImage: require("../../assets/articleImage.png"),
     likes: 20,
     celebrates: 2,
@@ -105,80 +105,82 @@ const ArticleCard = ({
     }
   }, [url]);
   return (
-    <TouchableOpacity style={styles.articleCard} onPress={handlePress}>
-      <View style={{ paddingRight: 10, paddingLeft: 10 }}>
-        <View>
-          <Text style={{ fontSize: 22, fontWeight: "500" }}>{title}</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={{ fontSize: 18 }}>By {author} </Text>
-            {subjects.map((tag) => (
-              <Text
-                key={tag}
-                style={{
-                  fontSize: 12,
-                  borderWidth: 1,
-                  borderRadius: 8,
-                  paddingLeft: 10,
-                  paddingRight: 10,
-                  margin: 2,
-                }}
-              >
-                {tag}
-              </Text>
-            ))}
+    <View style={{ width: 380, alignItems: 'flex-start' }}>
+      <TouchableOpacity style={styles.articleCard} onPress={handlePress}>
+        <View style={{ paddingRight: 10, paddingLeft: 10 }}>
+          <View>
+            <Text style={{ fontSize: 22, fontWeight: "500" }}>{title}</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={{ fontSize: 18 }}>By {author} </Text>
+              {subjects.map((tag) => (
+                <Text
+                  key={tag}
+                  style={{
+                    fontSize: 12,
+                    borderWidth: 1,
+                    borderRadius: 8,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    margin: 2,
+                  }}
+                >
+                  {tag}
+                </Text>
+              ))}
+            </View>
+            <Text style={{ fontSize: 16 }}>{previewText}</Text>
+            <Image source={previewImage} style={{ width: "100%" }} />
           </View>
-          <Text style={{ fontSize: 16 }}>{previewText}</Text>
-          <Image source={previewImage} style={{ width: "100%" }} />
+          <View style={{ flexDirection: "row", padding: 5 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingRight: 5,
+                alignItems: "center",
+              }}
+            >
+              <Text>{likes} </Text>
+              <Feather name="thumbs-up" size={15} color="black" />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingRight: 5,
+                alignItems: "center",
+              }}
+            >
+              <Text>{celebrates} </Text>
+              <SvgXml width="17" height="15" xml={CustomSvgs.clappingIcon} />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingRight: 5,
+                alignItems: "center",
+              }}
+            >
+              <Text>{dislikes} </Text>
+              <Feather name="thumbs-down" size={15} color="black" />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                paddingRight: 5,
+                alignItems: "center",
+              }}
+            >
+              <Text>{angrys} </Text>
+              <Fontisto name="mad" size={15} color="black" />
+            </View>
+          </View>
         </View>
-        <View style={{ flexDirection: "row", padding: 5 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              paddingRight: 5,
-              alignItems: "center",
-            }}
-          >
-            <Text>{likes} </Text>
-            <Feather name="thumbs-up" size={15} color="black" />
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              paddingRight: 5,
-              alignItems: "center",
-            }}
-          >
-            <Text>{celebrates} </Text>
-            <SvgXml width="17" height="15" xml={CustomSvgs.clappingIcon} />
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              paddingRight: 5,
-              alignItems: "center",
-            }}
-          >
-            <Text>{dislikes} </Text>
-            <Feather name="thumbs-down" size={15} color="black" />
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              paddingRight: 5,
-              alignItems: "center",
-            }}
-          >
-            <Text>{angrys} </Text>
-            <Fontisto name="mad" size={15} color="black" />
-          </View>
+        <View style={{ justifyContent: "flex-end" }}>
+          <TouchableOpacity>
+            <AntDesign name="arrowright" size={24} color="black" />
+          </TouchableOpacity>
         </View>
-      </View>
-      <View style={{ justifyContent: "flex-end" }}>
-        <TouchableOpacity>
-          <AntDesign name="arrowright" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -240,8 +242,8 @@ const ArticlePost = ({ content, updatePost }) => {
     <View
       style={{
         flexDirection: "row",
-        justifyContent: "center",
-        marginLeft: "10%",
+        justifyContent: "flex-start",
+        marginLeft: "4%",
         marginBottom: 20,
       }}
     >
@@ -318,40 +320,32 @@ const FeedScreen = ({ navigation }) => {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <Text style={{ fontSize: 20, fontWeight: "500", textAlign: "center" }}>
-          Pinned Content
-        </Text>
-        <FlatList
-          style={{ marginRight: 40, marginLeft: 40 }}
-          horizontal={true}
-          data={pinnedContent}
-          renderItem={renderContent}
-          keyExtractor={(item) => item.id}
-        />
-        <ArticleList feed={feed} updatePost={updatePost.bind(this)} />
-      </ScrollView>
+    <View style={styles.container}>
+      { /*<FlatList
+        style={{ marginRight: 40, marginLeft: 40 }}
+        horizontal={true}
+        data={pinnedContent}
+        renderItem={renderContent}
+        keyExtractor={(item) => item.id}
+      />*/}
+      <ArticleList feed={feed} updatePost={updatePost.bind(this)} />
       {/* <BottomButton navigation={navigation} /> */}
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 10,
     flex: 1,
   },
   articleCard: {
-    backgroundColor: "white",
-    borderRadius: 10,
+    backgroundColor: "#DAF4FF",
+    borderRadius: 30,
     padding: 10,
     marginBottom: 10,
     flexDirection: "row",
     justifyContent: "space-between",
-    shadowColor: "rgba(0,0,0, .4)",
-    shadowOffset: { height: 4, width: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 1,
   },
   item: {
     margin: 20,

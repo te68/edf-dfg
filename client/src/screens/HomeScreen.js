@@ -4,6 +4,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
   Image,
   // Switch,
 } from "react-native";
@@ -19,38 +21,86 @@ import { Switch } from "react-native-switch";
 import FeedScreen from "./FeedScreen";
 const Categories = ({ navigation }) => {
   let buttons = [
-    { key: 0, title: "Events", notifications: 3, color: "#C5DB65" },
-    { key: 1, title: "Articles", notifications: 3 },
-    { key: 2, title: "Podcasts", notifications: 3, color: "#6EC6B3" },
-    { key: 3, title: "Blogs", notifications: 2, color: "#F7F6F1" },
-    { key: 4, title: "Career Advice", notifications: 2, color: "#C5DB65" },
-    { key: 5, title: "Videos", notifications: 2 },
-    { key: 6, title: "Authenticity Meter", notifications: 2, color: "#6EC6B3" },
-    { key: 7, title: "Guides", notifications: 1, color: "#F7F6F1" },
-    { key: 8, title: "Resources", notifications: 1, color: "#C5DB65" }
+    { key: 0, title: "Podcasts", notifications: 3, color: "#C5DB65", icon: 'mic' },
+    { key: 1, title: "Blogs", notifications: 3 },
+    { key: 2, title: "Careers", notifications: 3, color: "#6EC6B3" },
+    { key: 3, title: "Events", notifications: 2, color: "#88C5E6" },
   ]
 
-  buttons.sort(function (a, b) { return a.notifications < b.notifications })
+  //buttons.sort(function (a, b) { return a.notifications < b.notifications })
 
   return (
-    <View style={{ marginTop: 30 }}>
-      <View style={styles.row}>
-        {buttons.map((b) => (
-          <Button
-            title={b.title}
-            notifications={b.notifications}
-            color={b.color}
-          />
-        ))}
-      </View>
-      <TouchableOpacity
-        style={styles.savedStyle}
-        onPress={() => navigation.navigate("Search")}
-      >
-        <Text style={styles.textStyle}>Search All </Text>
-        <FontAwesome style={styles.arrowStyle} name="search" />
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView>
+      <ScrollView style={{ marginHorizontal: 15, paddingTop: 0 }}>
+        <TouchableOpacity style={{ position: 'absolute', right: 0 }} onPress={() => navigation.navigate("Saved")}>
+          <MaterialIcons name="bookmark-border" size={40} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.heading}> Featured Content </Text>
+        <View style={{ alignItems: 'center', padding: 10 }} >
+          <TouchableOpacity>
+            <Image
+              source={require("../../assets/host-meet-up.png")} style={{ width: "100%" }}
+              style={{
+                alignItems: 'center',
+                width: 298 * 1.2,
+                height: 135 * 1.2
+              }}
+            />
+          </TouchableOpacity>
+
+        </View>
+
+        <Text style={styles.heading}> Categories </Text>
+        <View style={styles.row}>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              {
+                backgroundColor: "#C5DB65",
+              },
+            ]}
+          >
+            <MaterialIcons name='mic' size={40}></MaterialIcons>
+            <Text style={styles.buttonText}>
+              Podcast
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "#00AAEB", }]}
+          >
+            <MaterialIcons name='book' size={40}></MaterialIcons>
+            <Text style={styles.buttonText}>
+              Blogs
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "#6EC6B3", }]}
+          >
+            <MaterialIcons name='assignment' size={40}></MaterialIcons>
+            <Text style={styles.buttonText}>
+              Careers
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: "#88C5E6", }]}
+          >
+            <MaterialIcons name='event' size={40}></MaterialIcons>
+            <Text style={styles.buttonText}>
+              Events
+            </Text>
+          </TouchableOpacity>
+          {/*{buttons.map((b) => (
+            <Button
+              title={b.title}
+              notifications={b.notifications}
+              color={b.color}
+            />
+          ))}*/}
+        </View>
+        <Text style={styles.heading}> Your Feed </Text>
+        <FeedScreen navigation={navigation} />
+      </ScrollView>
+    </SafeAreaView >
   );
 };
 
@@ -58,53 +108,25 @@ const HomeScreen = ({ navigation }) => {
   const [notifications, setNotifications] = useState("");
   const [switchValue, setSwitchValue] = useState(true);
 
-  const toggleSwitch = (value) => {
-    //onValueChange of the switch this function will be called
-    setSwitchValue(value);
-    //state changes according to switch
-    //which will result in re-render the text
-  };
+  //const toggleSwitch = (value) => {
+  //onValueChange of the switch this function will be called
+  //setSwitchValue(value);
+  //state changes according to switch
+  //which will result in re-render the text
+  //};
   return (
     <View style={styles.container}>
       <View
         style={{
-          width: "100%",
-          flexDirection: "row",
-          height: "5%",
+          paddingLeft: "10%",
+          width: "90%",
+          alignItems: "center",
         }}
       >
-        <View
-          style={{
-            paddingLeft: "10%",
-            paddingTop: 5,
-            width: "90%",
-            alignItems: "center",
-          }}
-        >
-          <Switch
-            value={switchValue}
-            onValueChange={(val) => toggleSwitch(val)}
-            disabled={false}
-            activeText={"Categories"}
-            inActiveText={"   Feed   "}
-            backgroundActive={"#0A4D95"}
-            backgroundInactive={"#0A4D95"}
-            circleActiveColor={"white"}
-            circleInActiveColor={"white"}
-            changeValueImmediately={true}
-            circleSize={30}
-            switchWidthMultiplier={4}
-          />
-        </View>
-        <TouchableOpacity onPress={() => navigation.navigate("Saved")}>
-          <MaterialIcons name="bookmark-border" size={40} color="black" />
-        </TouchableOpacity>
       </View>
-      {switchValue ? (
-        <Categories navigation={navigation} />
-      ) : (
-        <FeedScreen navigation={navigation} />
-      )}
+
+      <Categories navigation={navigation} />
+
     </View>
   );
 };
@@ -119,18 +141,11 @@ function Button(props) {
           styles.button,
           {
             backgroundColor: props.color == null ? "#1B8AE6" : props.color,
-            borderRadius: 25 + maxThreeNotifs * 20,
-            width: 40 + maxThreeNotifs * 40,
-            height: 40 + maxThreeNotifs * 40,
           },
         ]}
       >
-        <Text
-          style={{
-            fontSize: Math.max(17, 10 * maxThreeNotifs),
-            textAlign: "center",
-          }}
-        >
+        <MaterialIcons name={props.icon}></MaterialIcons>
+        <Text style={styles.buttonText}>
           {props.title}
         </Text>
       </TouchableOpacity>
@@ -143,17 +158,25 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: "#00AA91",
+    marginLeft: "3%",
+    paddingTop: 8,
+    paddingBottom: 2,
+  },
   button: {
-    borderRadius: 50,
-    width: 100,
-    height: 100,
+    borderRadius: 15,
+    width: 75,
+    height: 75,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "rgba(0,0,0, .4)",
-    shadowOffset: { height: 4, width: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 1,
     margin: 10,
+  },
+  buttonText: {
+    fontSize: 12,
+    textAlign: "center",
   },
   row: {
     flexDirection: "row",
