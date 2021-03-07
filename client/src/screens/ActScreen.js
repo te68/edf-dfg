@@ -1,48 +1,47 @@
-import React from 'react';
+import React from "react";
 import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-    ScrollView
-} from 'react-native';
-import {
-    Ionicons,
-    Entypo
-} from '@expo/vector-icons';
-
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from "react-native";
+import { Ionicons, Entypo } from "@expo/vector-icons";
 
 const ActScreen = ({ navigation }) => {
-    const actions = [
-        { key: 0, title: "Influence Your Employer" },
-        { key: 1, title: "Influence a Future Employer" },
-        { key: 2, title: "Write a Letter to the Editor" },
-        { key: 3, title: "Tell Your Story" },
-        { key: 4, title: "Support Petitions" },
-        { key: 5, title: "Train With Us" }
-    ]
+  const actions = [
+    { key: 0, title: "Influence Your Employer" },
+    { key: 1, title: "Influence a Future Employer" },
+    { key: 2, title: "Write a Letter to the Editor" },
+    { key: 3, title: "Tell Your Story" },
+    { key: 4, title: "Support Petitions" },
+    { key: 5, title: "Train With Us" },
+  ];
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}> What Can I Do? </Text>
-            <Text style={styles.heading}> How to: </Text>
-            <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-                <View>
-                    {actions.map((action) => (
-                        <TouchableOpacity style={styles.act}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text style={styles.body}> {action.title} </Text>
-                                <Entypo name="chevron-right" size={30} color="black" />
-                            </View>
-                        </TouchableOpacity>
-                    ))}
-
-                </View>
-            </ScrollView>
-
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}> What Can I Do? </Text>
+      <Text style={styles.heading}> How to: </Text>
+      <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+        <View>
+          {actions.map((action) => (
+            <TouchableOpacity style={styles.act}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles.body}> {action.title} </Text>
+                <Entypo name="chevron-right" size={30} color="black" />
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
-    );
+      </ScrollView>
+    </View>
+  );
 };
 
 ActScreen.navigationOptions = ({ navigation }) => {
