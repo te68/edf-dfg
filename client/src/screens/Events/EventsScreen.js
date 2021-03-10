@@ -95,13 +95,15 @@ const EventsScreen = ({ navigation }) => {
   };
 
   const onChangeSearch = async (text) => {
-    updateSearchQuery(text);
     if (searchQuery !== "") {
-      let newEvents = events.filter((event) => event.title.includes(text));
+      let newEvents = events.filter((event) =>
+        event.title.toLowerCase().includes(text.toLowerCase())
+      );
       updateDisplayedEvents(newEvents);
     } else {
       updateDisplayedEvents(events);
     }
+    updateSearchQuery(text.toLowerCase());
   };
   useEffect(() => {
     onLoad();
