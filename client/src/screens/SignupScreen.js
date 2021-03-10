@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { CustomSvgs } from "../../constants";
-// import { CheckBox } from "react-native-elements";
 
 const SignupScreen = ({ navigation }) => {
   const [name, setName] = useState("");

@@ -5,22 +5,22 @@ module.exports = function () {
   return {
     events: lodash.times(30, (n) => {
       return {
-        id: n + 1,
-        title: faker.company.catchPhrase(),
+        _id: faker.random.uuid(),
+        title: faker.lorem.sentence(),
         date:
-          n % 2 === 0
-            ? moment(faker.date.future()).format("LL")
-            : moment(faker.date.past()).format("LL"),
-        address: faker.address.streetAddress(),
-        location: faker.company.companyName(),
+          n % 2 === 0 ? moment(faker.date.future()) : moment(faker.date.past()),
         description: faker.lorem.paragraph(),
-        time: faker.time.recent(),
+        time: "10 - 2 pm PST",
+        address: `${faker.address.streetAddress()}, ${faker.address.city()}, ${faker.address.state()}, ${faker.address.zipCode()}`,
+        categories: Array(5)
+          .fill(null)
+          .map((c) => (c = faker.lorem.word())),
       };
     }),
     articles: lodash.times(30, (n) => {
       return {
         id: n + 1,
-        title: faker.company.catchPhrase(),
+        title: faker.lorem.sentence(),
         author: faker.name.findName(),
         previewText: faker.lorem.paragraph(),
         likes: faker.random.number(),
