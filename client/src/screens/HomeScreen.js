@@ -31,7 +31,7 @@ const Categories = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{ marginHorizontal: 15, paddingTop: 0 }}>
+      <ScrollView style={{ marginHorizontal: 15 }}>
         <View style={[styles.row, { justifyContent: 'space-between' }]}>
           <Text style={styles.heading}> Featured Content </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Saved")}>
