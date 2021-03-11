@@ -4,7 +4,7 @@
 
 Install node here: https://nodejs.org/en/download/
 
-### On command prompt:
+#### On command prompt:
 
   Run ```npm --version``` to confirm npm (node package manager) is installed
   
