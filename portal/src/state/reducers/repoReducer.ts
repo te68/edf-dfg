@@ -17,6 +17,8 @@ const reducer = (
   switch (action.type) {
     case ActionType.FETCH_USER:
       return { loading: false, error: null, data: action.payload };
+    case ActionType.LOGOUT_USER:
+      return { loading: false, error: null, data: {} };
     default:
       return state;
   }
