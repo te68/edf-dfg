@@ -2,6 +2,7 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { ActionType } from "../action-types/index";
 import { Action } from "../actions/index";
+
 export const fetchUser = (email: string, password: string) => {
   return async (dispatch: Dispatch<Action>) => {
     try {
