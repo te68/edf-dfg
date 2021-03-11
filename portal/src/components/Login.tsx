@@ -5,7 +5,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { fetchUser } = useActions();
-  const { data, error, loading } = useTypedSelector((state) => state.repos);
+  const { data, error, loading } = useTypedSelector((state) => state.auth);
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
