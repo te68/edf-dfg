@@ -23,3 +23,12 @@ export const fetchUser = (email: string, password: string) => {
     }
   };
 };
+
+export const logoutUser = () => {
+  return async (dispatch: Dispatch<Action>) => {
+    localStorage.removeItem("token");
+    dispatch({
+      type: ActionType.LOGOUT_USER,
+    });
+  };
+};
