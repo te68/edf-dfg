@@ -18,6 +18,13 @@ const Login: React.FC = () => {
     console.log(email, password);
     fetchUser(email, password);
   };
+  const renderError = () => {
+    return (
+      <article className="message is-small is-danger">
+        <div className="message-body">{error}</div>
+      </article>
+    );
+  };
   return (
     <div className="login-wrapper">
       <p className="title is-1">Admin Login</p>
@@ -37,6 +44,7 @@ const Login: React.FC = () => {
           onChange={handlePasswordChange}
           value={password}
         />
+        {error ? renderError() : null}
         <button className="button is-success" type="submit">
           Login
         </button>

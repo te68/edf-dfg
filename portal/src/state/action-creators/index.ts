@@ -19,7 +19,11 @@ export const fetchUser = (email: string, password: string) => {
         payload: data,
       });
     } catch (err) {
-      console.log(err.response.data.errors[0], "error");
+      console.log(err.response.data.errors[0].msg, "error");
+      dispatch({
+        type: ActionType.ALERT_ERROR,
+        payload: err.response.data.errors[0].msg,
+      });
     }
   };
 };
