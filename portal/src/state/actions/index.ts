@@ -3,4 +3,7 @@ interface FetchUser {
   type: ActionType.FETCH_USER;
   payload: {};
 }
-export type Action = FetchUser;
+interface LogOut {
+  type: ActionType.LOGOUT_USER;
+}
+export type Action = FetchUser | LogOut;

@@ -2,6 +2,7 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { ActionType } from "../action-types/index";
 import { Action } from "../actions/index";
+
 export const fetchUser = (email: string, password: string) => {
   return async (dispatch: Dispatch<Action>) => {
     try {
@@ -20,5 +21,14 @@ export const fetchUser = (email: string, password: string) => {
     } catch (err) {
       console.log(err.response.data.errors[0], "error");
     }
+  };
+};
+
+export const logoutUser = () => {
+  return async (dispatch: Dispatch<Action>) => {
+    localStorage.removeItem("token");
+    dispatch({
+      type: ActionType.LOGOUT_USER,
+    });
   };
 };
