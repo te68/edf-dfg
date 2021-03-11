@@ -703,3 +703,8 @@ Headers:
 ```
 
 ---
+
+### Price Estimation
+
+$57/month for MongoDB (dedicated clusters) - https://www.mongodb.com/pricing
+$25/month for Heroku (small business plan) - https://www.heroku.com/pricing
