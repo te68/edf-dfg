@@ -1,5 +1,16 @@
 # Youth Activism App (EDF)
 
+## Installing Software
+
+Install node here: https://nodejs.org/en/download/
+On command prompt
+
+```
+run npm --version to confirm npm (node package manager) is installed
+```
+
+
+
 ## Getting Started
 
 Clone Repo
