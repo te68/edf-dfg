@@ -19,6 +19,8 @@ const reducer = (
       return { loading: false, error: null, data: action.payload };
     case ActionType.LOGOUT_USER:
       return { loading: false, error: null, data: {} };
+    case ActionType.ALERT_ERROR:
+      return { loading: false, error: action.payload, data: {} };
     default:
       return state;
   }

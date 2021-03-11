@@ -6,4 +6,8 @@ interface FetchUser {
 interface LogOut {
   type: ActionType.LOGOUT_USER;
 }
-export type Action = FetchUser | LogOut;
+interface AlertError {
+  type: ActionType.ALERT_ERROR;
+  payload: string;
+}
+export type Action = FetchUser | LogOut | AlertError;
