@@ -7,6 +7,7 @@ Install node here: https://nodejs.org/en/download/
 On command prompt:
 
   run ```npm --version``` to confirm npm (node package manager) is installed
+  
   If so, run ```npm install --global expo-cli``` to install expo
 
 
