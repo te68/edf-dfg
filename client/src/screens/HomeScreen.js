@@ -31,11 +31,14 @@ const Categories = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{ marginHorizontal: 15, paddingTop: 0 }}>
-        <TouchableOpacity style={{ position: 'absolute', right: 0 }} onPress={() => navigation.navigate("Saved")}>
-          <MaterialIcons name="bookmark-border" size={40} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.heading}> Featured Content </Text>
+      <ScrollView style={{ marginHorizontal: 15 }}>
+        <View style={[styles.row, { justifyContent: 'space-between' }]}>
+          <Text style={styles.heading}> Featured Content </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Saved")}>
+            <MaterialIcons name="bookmark" size={40} color="#F9C147" />
+          </TouchableOpacity>
+        </View>
+
         <View style={{ alignItems: 'center', padding: 10 }} >
           <TouchableOpacity>
             <Image
@@ -163,7 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: "#00AA91",
     marginLeft: "3%",
-    paddingTop: 8,
+    paddingTop: 15,
     paddingBottom: 2,
   },
   button: {
