@@ -9,15 +9,7 @@ import {
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
 const EventPage = ({ route }) => {
-  const {
-    id,
-    title,
-    date,
-    location,
-    description,
-    address,
-    time,
-  } = route.params;
+  const { _id, title, date, description, address, time } = route.params;
   return (
     <ScrollView>
       <View style={styles.title}>
@@ -31,7 +23,7 @@ const EventPage = ({ route }) => {
         </View>
         <View flexDirection="row" alignItems="center">
           <EvilIcons name="location" size={30} color="black" />
-          <Text style={{ fontSize: 18 }}> {location}</Text>
+          <Text style={{ fontSize: 18 }}> {address}</Text>
         </View>
         <Text style={styles.label}>{"\n"}Information</Text>
         <Text>{description}</Text>

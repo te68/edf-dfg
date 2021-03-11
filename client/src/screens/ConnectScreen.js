@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,11 +7,57 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import BottomButton from "../components/BottomButton";
-
+import { getData } from "../asyncStorage";
+import axios from "axios";
+import { EventCard } from "./Events/EventsScreen";
+import moment from "moment";
 const ConnectScreen = ({ navigation }) => {
+  const [events, updateEvents] = useState([]);
+  const [myEventIds, updateMyEventIds] = useState([]);
+  const [isLoadingEvents, setIsLoadingEvents] = useState(false);
+  const getEvents = async () => {
+    const res = await axios.get("http://localhost:3000/api/event", {
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTQwODM1OCwiZXhwIjoxNjE1NzY4MzU4fQ.VDPbG9sOErObEFe09CNH1IgA-tZzJ9gZYHcWnXZ0oJM",
+      },
+    });
+    if (res.status === 200) {
+      updateEvents(res.data.events);
+    } else {
+      //TODO: error handling
+      alert("Error getting events");
+      navigation.goBack();
+    }
+  };
+  const getMyEventIds = async () => {
+    const ids = await getData("@my_events");
+    updateMyEventIds(ids || []);
+  };
+  const onLoad = async () => {
+    setIsLoadingEvents(true);
+    await getEvents();
+    await getMyEventIds();
+    setIsLoadingEvents(false);
+  };
+  useEffect(() => {
+    onLoad();
+  }, []);
+
+  const displayedEvents = events
+    .filter((event) => event.id in myEventIds)
+    .concat(
+      events
+        .filter((event) =>
+          moment(event.date).isSameOrAfter(moment() && !event.id in myEventIds)
+        )
+        .sort((event1, event2) => moment(event2.date).diff(moment(event1.date)))
+    ); // Latest date first;
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -116,6 +162,24 @@ const ConnectScreen = ({ navigation }) => {
             </View>
           </View>
           <Text style={styles.title}>Upcoming Events</Text>
+          {isLoadingEvents ? (
+            <ActivityIndicator />
+          ) : (
+            <View>
+              {events.length ? (
+                events.map((event) => (
+                  <EventCard
+                    key={event._id}
+                    {...event}
+                    navigation={navigation}
+                    color={event.id in myEventIds ? "#99D5F1" : "#A4EEC1"}
+                  />
+                ))
+              ) : (
+                <Text>No Upcoming Events</Text>
+              )}
+            </View>
+          )}
           <View style={styles.search}>
             <TouchableOpacity style={styles.search}>
               <FontAwesome
@@ -135,24 +199,9 @@ const ConnectScreen = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-      {/* <BottomButton navigation={navigation} /> */}
     </SafeAreaView>
   );
 };
-// ConnectScreen.navigationOptions = ({ navigation }) => {
-//   return {
-//     headerLeft: () => (
-//       <TouchableOpacity onPress={() => navigation.navigate("About")}>
-//         <Image style={styles.icon} source={require("../../assets/edf.jpg")} />
-//       </TouchableOpacity>
-//     ),
-//     headerRight: () => (
-//       <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-//         <Ionicons style={styles.profile} name="md-person" />
-//       </TouchableOpacity>
-//     ),
-//   };
-// };
 
 const styles = StyleSheet.create({
   container: {
@@ -180,6 +229,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     paddingHorizontal: 20,
     paddingBottom: 20,
+    color: "#00AA91",
   },
   details: {
     fontSize: 13,

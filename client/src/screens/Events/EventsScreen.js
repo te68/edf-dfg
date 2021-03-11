@@ -13,14 +13,13 @@ import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
 import axios from "axios";
 import { getData } from "../../asyncStorage";
-const EventCard = (props) => {
+export const EventCard = (props) => {
   const { navigation, color, ...eventInfo } = props;
-  const { title, date, location, description } = eventInfo;
+  const { title, date, address, description } = eventInfo;
   const cardStyle = { ...styles.eventCard };
   cardStyle.backgroundColor = color;
   return (
     <TouchableOpacity
-      key={eventInfo.id}
       onPress={() => navigation.navigate("EventPage", eventInfo)}
       style={cardStyle}
     >
@@ -32,7 +31,7 @@ const EventCard = (props) => {
         </View>
         <View flexDirection="row" alignItems="center">
           <EvilIcons name="location" size={24} color="black" />
-          <Text> {location}</Text>
+          <Text> {address}</Text>
         </View>
         <Text numberOfLines={3} ellipsizeMode="tail">
           {description}
@@ -117,7 +116,7 @@ const EventsScreen = ({ navigation }) => {
   );
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <View style={styles.title}>
           <Text style={styles.titleText}>Events & Opportunities</Text>
@@ -132,7 +131,7 @@ const EventsScreen = ({ navigation }) => {
                 <Text style={styles.sectionTitleText}>My Events</Text>
                 {myEvents.map((event) => (
                   <EventCard
-                    key={event.id}
+                    key={event._id}
                     {...event}
                     navigation={navigation}
                     color={"#99D5F1"}
@@ -149,7 +148,7 @@ const EventsScreen = ({ navigation }) => {
                   ) // Latest date first
                   .map((event) => (
                     <EventCard
-                      key={event.id}
+                      key={event._id}
                       {...event}
                       navigation={navigation}
                       color={"#A4EEC1"}
@@ -167,7 +166,7 @@ const EventsScreen = ({ navigation }) => {
                   ) // Latest date first
                   .map((event) => (
                     <EventCard
-                      key={event.id}
+                      key={event._id}
                       {...event}
                       navigation={navigation}
                       color={"#EF8787"}
