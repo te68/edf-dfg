@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const EventsTable: React.FC = () => {
+  const [events, setEvents] = useState<any[]>([]);
   useEffect(() => {
     axios
       .get("https://youth-activism-app-server.herokuapp.com/api/event", {
@@ -10,14 +11,18 @@ const EventsTable: React.FC = () => {
           "x-auth-token": localStorage.getItem("token"),
         },
       })
-      .then((data) => {
-        console.log(data);
+      .then(async (response) => {
+        await setEvents(response.data.events);
       });
+    console.log(events);
   }, []);
   return (
     <section className="section" id="table">
-      <h1 className="title">Events</h1>
+      <h1 className="title">Events </h1>
       <hr />
+      {events.map((event) => {
+        return <h5>{event.title}</h5>;
+      })}
       <table className="table">
         <thead>
           <tr>
