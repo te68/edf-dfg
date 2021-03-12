@@ -10,4 +10,8 @@ interface AlertError {
   type: ActionType.ALERT_ERROR;
   payload: string;
 }
-export type Action = FetchUser | LogOut | AlertError;
+
+interface FetchUserSuccess {
+  type: ActionType.FETCH_USER_SUCCESS;
+}
+export type Action = FetchUser | LogOut | AlertError | FetchUserSuccess;

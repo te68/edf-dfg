@@ -36,3 +36,9 @@ export const logoutUser = () => {
     });
   };
 };
+
+export const fetchUserSuccess = () => {
+  return async (dispatch: Dispatch<Action>) => {
+    dispatch({ type: ActionType.FETCH_USER_SUCCESS });
+  };
+};

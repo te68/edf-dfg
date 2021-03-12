@@ -16,11 +16,13 @@ const reducer = (
 ): RepoState => {
   switch (action.type) {
     case ActionType.FETCH_USER:
-      return { loading: false, error: null, data: action.payload };
+      return { loading: true, error: null, data: action.payload };
     case ActionType.LOGOUT_USER:
       return { loading: false, error: null, data: {} };
     case ActionType.ALERT_ERROR:
       return { loading: false, error: action.payload, data: {} };
+    case ActionType.FETCH_USER_SUCCESS:
+      return { loading: false, error: null, data: {} };
     default:
       return state;
   }
