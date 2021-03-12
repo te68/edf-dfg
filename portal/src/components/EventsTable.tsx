@@ -4,7 +4,7 @@ import axios from "axios";
 const EventsTable: React.FC = () => {
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/event", {
+      .get("https://youth-activism-app-server.herokuapp.com/api/event", {
         headers: {
           "Content-Type": "application/json",
           "x-auth-token": localStorage.getItem("token"),
