@@ -1,5 +1,6 @@
 import Login from "./Login";
 import { useActions } from "../hooks/useActions";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import Landing from "./Landing";
 const App = () => {
@@ -8,7 +9,9 @@ const App = () => {
   {
     return (
       <div className="container">
-        <Landing />
+        <Router>
+          <Route exact path="/admin/dashboard" component={Landing} />
+        </Router>
       </div>
     );
   }
