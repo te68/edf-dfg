@@ -16,6 +16,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 // import SwitchSelector from "react-native-switch-selector";
+import axios from "axios";
 import { Switch } from "react-native-switch";
 
 import FeedScreen from "./FeedScreen";
@@ -26,8 +27,6 @@ const Categories = ({ navigation }) => {
     { key: 2, title: "Careers", notifications: 3, color: "#6EC6B3" },
     { key: 3, title: "Events", notifications: 2, color: "#88C5E6" },
   ]
-
-  //buttons.sort(function (a, b) { return a.notifications < b.notifications })
 
   return (
     <SafeAreaView>
@@ -105,6 +104,24 @@ const Categories = ({ navigation }) => {
       </ScrollView>
     </SafeAreaView >
   );
+};
+
+const getEvents = async () => {
+  const res = await axios.get("http://localhost:3000/api/content", {
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTQwODM1OCwiZXhwIjoxNjE1NzY4MzU4fQ.VDPbG9sOErObEFe09CNH1IgA-tZzJ9gZYHcWnXZ0oJM",
+    },
+  });
+  if (res.status === 200) {
+    updateEvents(res.data.events);
+    updateDisplayedEvents(res.data.events);
+  } else {
+    //TODO: error handling
+    alert("Error getting events");
+    navigation.goBack();
+  }
 };
 
 const HomeScreen = ({ navigation }) => {
