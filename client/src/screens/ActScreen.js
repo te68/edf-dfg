@@ -20,7 +20,7 @@ const ActScreen = ({ navigation }) => {
   ];
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}> What Can I Do? </Text>
       <View style={{ alignItems: 'center' }}>
         {actions.map((action) => (
@@ -29,6 +29,7 @@ const ActScreen = ({ navigation }) => {
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
+                alignItems: 'center'
               }}
             >
               <Text style={styles.body}> {action.title} </Text>
@@ -37,7 +38,7 @@ const ActScreen = ({ navigation }) => {
           </TouchableOpacity>
         ))}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -59,13 +60,13 @@ ActScreen.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 20
+    marginHorizontal: 20
   },
   title: {
     textAlign: 'center',
     fontSize: 35,
     fontWeight: 'bold',
-    paddingBottom: 20,
+    paddingVertical: 20,
     color: "#00AA91"
   },
   heading: {
