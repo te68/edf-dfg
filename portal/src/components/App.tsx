@@ -7,7 +7,7 @@ const App = () => {
   console.log(data);
   {
     return (
-      <div>
+      <div className="container">
         <Landing />
       </div>
     );
