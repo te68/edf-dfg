@@ -18,15 +18,14 @@ const ContentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    contentType: {
+    interest: {
       type: String,
       required: true,
     },
-    categories: [
-      {
-        type: String,
-      },
-    ],
+    category: {
+      type: String,
+      required: true,
+    },
     likes: {
       type: Number,
       required: true,
