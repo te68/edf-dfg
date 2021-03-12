@@ -25,6 +25,7 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Origin",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
   next();
@@ -51,15 +52,15 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-if (process.env.NODE_ENV === "production") {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, "portal/build")));
+// if (process.env.NODE_ENV === "production") {
+//   // Serve any static files
+//   app.use(express.static(path.join(__dirname, "portal/build")));
 
-  // Handle React routing, return all requests to the front-end
-  app.get("/admin/*", function (req, res) {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
-  });
-}
+//   // Handle React routing, return all requests to the front-end
+//   app.get("/admin/*", function (req, res) {
+//     res.sendFile(path.join(__dirname, "client/build", "index.html"));
+//   });
+// }
 
 //Connect DB
 connectDB();
