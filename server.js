@@ -44,10 +44,10 @@ app.use("/api/event", require("./routes/api/event"));
 app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/petition", require("./routes/api/petition"));
 
-// route not found
-// app.use("/", (req, res, next) => {
-//   res.status(404).json({ message: "route not found" }) ;
-// });
+//route not found
+app.use("/", (req, res, next) => {
+  res.status(404).json({ message: "route not found" });
+});
 
 // handling errors
 app.use((err, req, res, next) => {
@@ -56,16 +56,6 @@ app.use((err, req, res, next) => {
 
   res.status(status).json({ message });
 });
-
-// if (process.env.NODE_ENV === "production") {
-//   // Serve any static files
-//   app.use(express.static(path.join(__dirname, "portal/build")));
-
-//   // Handle React routing, return all requests to the front-end
-//   app.get("/admin/*", function (req, res) {
-//     res.sendFile(path.join(__dirname, "client/build", "index.html"));
-//   });
-// }
 
 //Connect DB
 connectDB();

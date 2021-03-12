@@ -10,7 +10,7 @@ const App = () => {
     return (
       <div className="container">
         <Router>
-          <Route exact path="/admin/dashboard" component={Landing} />
+          <Route exact path="/" component={Landing} />
         </Router>
       </div>
     );
