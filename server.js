@@ -39,9 +39,9 @@ app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/petition", require("./routes/api/petition"));
 
 // route not found
-app.use("/", (req, res, next) => {
-  res.status(404).json({ message: "route not found" });
-});
+// app.use("/", (req, res, next) => {
+//   res.status(404).json({ message: "route not found" });
+// });
 
 // handling errors
 app.use((err, req, res, next) => {
@@ -56,7 +56,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "portal/build")));
 
   // Handle React routing, return all requests to the front-end
-  app.get("/admin", function (req, res) {
+  app.get("/admin/*", function (req, res) {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
