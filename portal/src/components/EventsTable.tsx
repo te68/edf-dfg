@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import EventTableRow from "./EventTableRow";
 import EventsTableRow from "./EventTableRow";
 
 const EventsTable: React.FC = () => {
@@ -28,22 +27,25 @@ const EventsTable: React.FC = () => {
     return renderedEvents;
   };
   return (
-    <section className="section" id="table">
-      <h1 className="title">Events </h1>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>
-              <a>Title</a>
-            </th>
-            <th>Time</th>
-            <th>address</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>{renderContent()}</tbody>
-      </table>
-    </section>
+    <div>
+      <section className="section" id="table">
+        <h1 className="title">Events </h1>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>
+                <a>Title</a>
+              </th>
+              <th>Time</th>
+              <th>address</th>
+              <th>Date</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>{renderContent()}</tbody>
+        </table>
+      </section>
+    </div>
   );
 };
 
