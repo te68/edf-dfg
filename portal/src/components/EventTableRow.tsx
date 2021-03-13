@@ -1,5 +1,5 @@
 import React from "react";
-import EditEvent from "./EditEvent";
+
 import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 interface RowProps {
   event: {
