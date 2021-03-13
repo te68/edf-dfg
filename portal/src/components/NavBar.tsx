@@ -6,6 +6,7 @@ const NavBar = () => {
 
   const onClick = () => {
     logoutUser();
+    localStorage.removeItem("token");
   };
   return (
     <nav className="navbar navbar-brand">
