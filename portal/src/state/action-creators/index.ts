@@ -6,10 +6,13 @@ import { Action } from "../actions/index";
 export const fetchUser = (email: string, password: string) => {
   return async (dispatch: Dispatch<Action>) => {
     try {
-      const { data } = await axios.post("http://localhost:3000/api/auth", {
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        "https://youth-activism-app-server.herokuapp.com/api/auth",
+        {
+          email,
+          password,
+        }
+      );
       localStorage.setItem("token", data.token);
       console.log(data.token);
       dispatch({

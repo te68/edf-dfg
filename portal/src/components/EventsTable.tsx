@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import EventTableRow from "./EventTableRow";
+import EventsTableRow from "./EventTableRow";
 
 const EventsTable: React.FC = () => {
   const [events, setEvents] = useState<any[]>([]);
@@ -16,13 +18,18 @@ const EventsTable: React.FC = () => {
       });
     console.log(events);
   }, []);
+
+  const renderContent = () => {
+    if (!events.length) return <h1>Loading</h1>;
+
+    const renderedEvents = events.map((event) => {
+      return <EventsTableRow event={event} key={event._id} />;
+    });
+    return renderedEvents;
+  };
   return (
     <section className="section" id="table">
       <h1 className="title">Events </h1>
-      <hr />
-      {events.map((event) => {
-        return <h5>{event.title}</h5>;
-      })}
       <table className="table">
         <thead>
           <tr>
@@ -34,6 +41,7 @@ const EventsTable: React.FC = () => {
             <th>Date</th>
           </tr>
         </thead>
+        <tbody>{renderContent()}</tbody>
       </table>
     </section>
   );
