@@ -38,6 +38,10 @@ const ContentSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    featured: {
+      type: Boolean,
+      required: true,
+    },
   },
   { timestamps: true }
 );

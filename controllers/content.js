@@ -63,6 +63,7 @@ exports.createContent = async (req, res, next) => {
     const likes = 0;
     const celebrates = 0;
     const dislikes = 0;
+    const featured = req.body.featured;
 
     // create new content
     const content = new Content({
@@ -75,6 +76,7 @@ exports.createContent = async (req, res, next) => {
       likes,
       celebrates,
       dislikes,
+      featured,
     });
 
     const result = await content.save();
@@ -103,9 +105,10 @@ exports.updateContent = async (req, res, next) => {
     const preview = req.body.preview;
     const interest = req.body.interest;
     const category = req.body.category;
-    const likes = 0;
-    const celebrates = 0;
-    const dislikes = 0;
+    const likes = req.body.likes;
+    const celebrates = req.body.celebrates;
+    const dislikes = req.body.dislikes;
+    const featured = req.body.featured;
 
     // find content in database
     const content = await Content.findById(contentId);
@@ -125,6 +128,7 @@ exports.updateContent = async (req, res, next) => {
     content.likes = likes;
     content.dislikes = dislikes;
     content.celebrates = celebrates;
+    content.featured = featured;
 
     const result = await content.save();
     res.status(200).json({ message: "Content Updated", content: result });
