@@ -53,6 +53,15 @@ const EventsTable: React.FC = () => {
               <th>Edit</th>
             </tr>
           </thead>
+          <tfoot>
+            <tr>
+              <tr>
+                <button className="button is-success" onClick={newEventClick}>
+                  + New Event
+                </button>
+              </tr>
+            </tr>
+          </tfoot>
           <tbody>{renderContent()}</tbody>
         </table>
       </section>
