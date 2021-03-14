@@ -36,7 +36,11 @@ class EditEvent extends React.Component<any, any> {
       categories,
       _id,
       title,
-      date,
+      date: new Date(date)
+        .toISOString()
+        .replace("-", "/")
+        .split("T")[0]
+        .replace("-", "/"),
       time,
       address,
       description,
@@ -71,6 +75,10 @@ class EditEvent extends React.Component<any, any> {
         },
       }
     );
+  };
+
+  onSaveClick = () => {
+    console.log("saved");
   };
   render() {
     return (
@@ -161,7 +169,7 @@ class EditEvent extends React.Component<any, any> {
               </p>
             </div>
             <div className="field">
-              <label className="label">Date</label>
+              <label className="label">Date: {this.state.date}</label>
               <p className="control">
                 <input
                   className="input"
@@ -187,7 +195,9 @@ class EditEvent extends React.Component<any, any> {
                 >
                   Delete{" "}
                 </button>
-                <button className="button is-dark">Save </button>
+                <button className="button is-dark" onClick={this.onSaveClick}>
+                  Save{" "}
+                </button>
               </div>
             </div>
           </div>
