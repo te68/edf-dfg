@@ -6,10 +6,9 @@ Install node here: https://nodejs.org/en/download/
 
 #### On command prompt:
 
-  Run ```npm --version``` to confirm npm (node package manager) is installed
-  
-  If so, run ```npm install --global expo-cli``` to install expo
+Run `npm --version` to confirm npm (node package manager) is installed
 
+If so, run `npm install --global expo-cli` to install expo
 
 ## Getting Started
 
@@ -152,12 +151,13 @@ Headers:
 
 ```
 {
-  "title": "Sample Content",
-  "url": "https://www.edf.org/",
-  "preview": "This is a content of the type article",
+  "title": "A Climate Accountability Matrix For Our Leaders",
+  "url": "https://defendourfuture.org/a-climate-accountability-matrix-for-our-leaders/",
+  "preview": "Our elected and business leaders are two crucial actors in addressing the climate crisis. Here are the ways in which our leaders must support the climate fight - our Climate Accountability Matrix. ",
   "author": "EDF",
-  "contentType": "Article",
-  "categories": ["Advice", "Learning"]
+  "interest": "Corporate Climate Action Updates",
+  "category": "blog",
+  "featured": true
 }
 ```
 
@@ -167,21 +167,19 @@ Headers:
 {
     "message": "Content created",
     "content": {
-        "categories": [
-            "Advice",
-            "Learning"
-        ],
-        "_id": "603c189e657e5b102029a637",
-        "title": "Sample Content",
-        "url": "https://www.edf.org/",
-        "preview": "This is a content of the type article",
+        "_id": "604e9e39fcf9e951cc7341df",
+        "title": "A Climate Accountability Matrix For Our Leaders",
+        "url": "https://defendourfuture.org/a-climate-accountability-matrix-for-our-leaders/",
+        "preview": "Our elected and business leaders are two crucial actors in addressing the climate crisis. Here are the ways in which our leaders must support the climate fight - our Climate Accountability Matrix. ",
         "author": "EDF",
-        "contentType": "Article",
+        "interest": "Corporate Climate Action Updates",
+        "category": "blog",
         "likes": 0,
         "celebrates": 0,
         "dislikes": 0,
-        "createdAt": "2021-02-28T22:26:38.145Z",
-        "updatedAt": "2021-02-28T22:26:38.145Z",
+        "featured": true,
+        "createdAt": "2021-03-14T23:37:29.815Z",
+        "updatedAt": "2021-03-14T23:37:29.815Z",
         "__v": 0
     }
 }
@@ -192,7 +190,7 @@ Headers:
 ### **Get Content**
 
 ```
-  GET http://localhost:3000/api/content?page=<page number>
+  GET http://localhost:3000/api/content?page=<page number>&searchQuery=<search query>&category=<category>
 ```
 
 The parameter for page is option (Default to 1)
@@ -210,21 +208,19 @@ The parameter for page is option (Default to 1)
 {
     "content": [
         {
-            "categories": [
-                "Advice",
-                "Learning"
-            ],
-            "_id": "603c189e657e5b102029a637",
-            "title": "Sample Content",
-            "url": "https://www.edf.org/",
-            "preview": "This is a content of the type article",
+            "_id": "604e9e39fcf9e951cc7341df",
+            "title": "A Climate Accountability Matrix For Our Leaders",
+            "url": "https://defendourfuture.org/a-climate-accountability-matrix-for-our-leaders/",
+            "preview": "Our elected and business leaders are two crucial actors in addressing the climate crisis. Here are the ways in which our leaders must support the climate fight - our Climate Accountability Matrix. ",
             "author": "EDF",
-            "contentType": "Article",
+            "interest": "Corporate Climate Action Updates",
+            "category": "blog",
             "likes": 0,
             "celebrates": 0,
             "dislikes": 0,
-            "createdAt": "2021-02-28T22:26:38.145Z",
-            "updatedAt": "2021-02-28T22:26:38.145Z",
+            "featured": true,
+            "createdAt": "2021-03-14T23:37:29.815Z",
+            "updatedAt": "2021-03-14T23:37:29.815Z",
             "__v": 0
         }
     ],
@@ -251,15 +247,17 @@ Headers:
 
 ```
 {
-  "title": "Sample Content (updated)",
-  "url": "https://www.edf.org/",
-  "preview": "This is a content of the type article",
+  "title": "A Climate Accountability Matrix For Our Leaders",
+  "url": "https://defendourfuture.org/a-climate-accountability-matrix-for-our-leaders/",
+  "preview": "Our elected and business leaders are two crucial actors in addressing the climate crisis. Here are the ways in which our leaders must support the climate fight - our Climate Accountability Matrix. ",
   "author": "EDF",
-  "contentType": "Article",
-  "categories": ["Advice", "Learning"],
+  "interest": "Corporate Climate Action Updates",
+  "category": "blog",
+  "featured": true,
   "likes": 1,
-  "celebrates": 5,
-  "dislikes": 0
+  "dislikes": 1,
+  "celebrates": 2
+
 }
 ```
 
@@ -269,21 +267,19 @@ Headers:
 {
     "message": "Content Updated",
     "content": {
-        "categories": [
-            "Advice",
-            "Learning"
-        ],
-        "_id": "603c189e657e5b102029a637",
-        "title": "Sample Content (updated)",
-        "url": "https://www.edf.org/",
-        "preview": "This is a content of the type article",
+        "_id": "604e9e39fcf9e951cc7341df",
+        "title": "A Climate Accountability Matrix For Our Leaders",
+        "url": "https://defendourfuture.org/a-climate-accountability-matrix-for-our-leaders/",
+        "preview": "Our elected and business leaders are two crucial actors in addressing the climate crisis. Here are the ways in which our leaders must support the climate fight - our Climate Accountability Matrix. ",
         "author": "EDF",
-        "contentType": "Article",
-        "likes": 0,
-        "celebrates": 0,
-        "dislikes": 0,
-        "createdAt": "2021-02-28T22:26:38.145Z",
-        "updatedAt": "2021-02-28T22:37:50.985Z",
+        "interest": "Corporate Climate Action Updates",
+        "category": "blog",
+        "likes": 1,
+        "celebrates": 2,
+        "dislikes": 1,
+        "featured": true,
+        "createdAt": "2021-03-14T23:37:29.815Z",
+        "updatedAt": "2021-03-14T23:46:52.057Z",
         "__v": 0
     }
 }
@@ -329,21 +325,19 @@ Headers:
 
 ```
 {
-    "categories": [
-        "Advice",
-        "Learning"
-    ],
-    "_id": "603c28969522d38b3471aae1",
-    "title": "Sample Content",
-    "url": "https://www.edf.org/",
-    "preview": "This is a content of the type article",
+    "_id": "604e9e39fcf9e951cc7341df",
+    "title": "A Climate Accountability Matrix For Our Leaders",
+    "url": "https://defendourfuture.org/a-climate-accountability-matrix-for-our-leaders/",
+    "preview": "Our elected and business leaders are two crucial actors in addressing the climate crisis. Here are the ways in which our leaders must support the climate fight - our Climate Accountability Matrix. ",
     "author": "EDF",
-    "contentType": "Article",
-    "likes": 0,
-    "celebrates": 0,
-    "dislikes": 0,
-    "createdAt": "2021-02-28T23:34:46.126Z",
-    "updatedAt": "2021-02-28T23:34:46.126Z",
+    "interest": "Corporate Climate Action Updates",
+    "category": "blog",
+    "likes": 1,
+    "celebrates": 2,
+    "dislikes": 1,
+    "featured": true,
+    "createdAt": "2021-03-14T23:37:29.815Z",
+    "updatedAt": "2021-03-14T23:46:52.057Z",
     "__v": 0
 }
 ```
@@ -373,7 +367,8 @@ Headers:
   "time": "5-6pm EST",
   "address": "Random Address",
   "description": "sample event abcde",
-  "categories": ["Food Justice"]
+  "categories": ["Food Justice"],
+  "url": "https://www.edf.org/"
 }
 ```
 
@@ -386,14 +381,15 @@ Headers:
         "categories": [
             "Food Justice"
         ],
-        "_id": "603c262594940f7ff865b2c4",
+        "_id": "604ea164ab45a23784419f7d",
         "title": "sample event",
         "date": "2022-05-05T00:00:00.000Z",
         "time": "5-6pm EST",
         "address": "Random Address",
         "description": "sample event abcde",
-        "createdAt": "2021-02-28T23:24:21.970Z",
-        "updatedAt": "2021-02-28T23:24:21.970Z",
+        "url": "https://www.edf.org/",
+        "createdAt": "2021-03-14T23:51:00.849Z",
+        "updatedAt": "2021-03-14T23:51:00.849Z",
         "__v": 0
     }
 }
@@ -431,6 +427,7 @@ The parameter for page is option (Default to 1)
             "time": "5-6pm EST",
             "address": "Random Address",
             "description": "sample event abcde",
+            "url": "https://www.edf.org/",
             "createdAt": "2021-02-28T23:24:21.970Z",
             "updatedAt": "2021-02-28T23:24:21.970Z",
             "__v": 0
@@ -464,7 +461,8 @@ Headers:
   "time": "5-6pm EST",
   "address": "New Address",
   "description": "sample event abcde",
-  "categories": ["Food Justice"]
+  "categories": ["Food Justice"],
+  "url": "https://www.edf.org/"
 }
 ```
 
@@ -483,6 +481,7 @@ Headers:
         "time": "5-6pm EST",
         "address": "New Address",
         "description": "sample event abcde",
+        "url": "https://www.edf.org/",
         "createdAt": "2021-02-28T23:24:21.970Z",
         "updatedAt": "2021-02-28T23:28:11.310Z",
         "__v": 0
@@ -539,6 +538,7 @@ Headers:
     "time": "5-6pm EST",
     "address": "New Address",
     "description": "sample event abcde",
+    "url": "https://www.edf.org/",
     "createdAt": "2021-02-28T23:24:21.970Z",
     "updatedAt": "2021-02-28T23:28:11.310Z",
     "__v": 0

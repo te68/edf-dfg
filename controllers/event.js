@@ -40,6 +40,7 @@ exports.createEvent = async (req, res, next) => {
     const address = req.body.address;
     const description = req.body.description;
     const categories = [...req.body.categories];
+    const url = req.body.url;
 
     // create new event
     const event = new Event({
@@ -49,6 +50,7 @@ exports.createEvent = async (req, res, next) => {
       address,
       description,
       categories,
+      url,
     });
 
     const result = await event.save();
@@ -78,6 +80,7 @@ exports.updateEvent = async (req, res, next) => {
     const address = req.body.address;
     const description = req.body.description;
     const categories = [...req.body.categories];
+    const url = req.body.url;
 
     // find event in database
     const event = await Event.findById(eventId);
@@ -97,6 +100,7 @@ exports.updateEvent = async (req, res, next) => {
     event.address = address;
     event.description = description;
     event.categories = categories;
+    event.url = url;
 
     const result = await event.save();
     res.status(200).json({ message: "Event updated", event: result });

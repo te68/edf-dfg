@@ -25,7 +25,9 @@ router.post(
     body("url").notEmpty(),
     body("preview").notEmpty(),
     body("author").notEmpty(),
-    body("contentType").notEmpty(),
+    body("interest").notEmpty(),
+    body("category").notEmpty(),
+    body("featured").notEmpty(),
   ],
   contentControllers.createContent
 );
@@ -41,8 +43,10 @@ router.put(
     body("title").notEmpty(),
     body("url").notEmpty(),
     body("preview").notEmpty(),
-    body("contentType").notEmpty(),
-    body("categories").notEmpty(),
+    body("author").notEmpty(),
+    body("interest").notEmpty(),
+    body("category").notEmpty(),
+    body("featured").notEmpty(),
     body("likes").notEmpty(),
     body("dislikes").notEmpty(),
     body("celebrates").notEmpty(),

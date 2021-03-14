@@ -9,8 +9,28 @@ exports.getContent = async (req, res, next) => {
   try {
     const page = req.query.page || 1;
     const contentPerPage = 10;
+    let filter = {};
 
-    const result = await Content.paginate({}, { page, limit: contentPerPage });
+    // handle search queries
+    if (req.query.searchQuery) {
+      filter = {
+        ...filter,
+        title: { $regex: req.query.searchQuery, $options: "i" },
+      };
+    }
+    // handle categories
+    if (req.query.category) {
+      filter = {
+        ...filter,
+        category: req.query.category,
+      };
+    }
+
+    const result = await Content.paginate(filter, {
+      page,
+      limit: contentPerPage,
+      sort: { createdAt: -1 },
+    });
 
     res.json({
       content: result.docs,
@@ -38,11 +58,12 @@ exports.createContent = async (req, res, next) => {
     const url = req.body.url;
     const preview = req.body.preview;
     const author = req.body.author;
-    const contentType = req.body.contentType;
-    const categories = [...req.body.categories];
+    const interest = req.body.interest;
+    const category = req.body.category;
     const likes = 0;
     const celebrates = 0;
     const dislikes = 0;
+    const featured = req.body.featured;
 
     // create new content
     const content = new Content({
@@ -50,11 +71,12 @@ exports.createContent = async (req, res, next) => {
       url,
       preview,
       author,
-      contentType,
-      categories,
+      interest,
+      category,
       likes,
       celebrates,
       dislikes,
+      featured,
     });
 
     const result = await content.save();
@@ -81,11 +103,12 @@ exports.updateContent = async (req, res, next) => {
     const title = req.body.title;
     const url = req.body.url;
     const preview = req.body.preview;
-    const contentType = req.body.contentType;
-    const categories = [...req.body.categories];
-    const likes = 0;
-    const celebrates = 0;
-    const dislikes = 0;
+    const interest = req.body.interest;
+    const category = req.body.category;
+    const likes = req.body.likes;
+    const celebrates = req.body.celebrates;
+    const dislikes = req.body.dislikes;
+    const featured = req.body.featured;
 
     // find content in database
     const content = await Content.findById(contentId);
@@ -100,11 +123,12 @@ exports.updateContent = async (req, res, next) => {
     content.title = title;
     content.url = url;
     content.preview = preview;
-    content.contentType = contentType;
-    content.categories = categories;
+    content.interest = interest;
+    content.category = category;
     content.likes = likes;
     content.dislikes = dislikes;
     content.celebrates = celebrates;
+    content.featured = featured;
 
     const result = await content.save();
     res.status(200).json({ message: "Content Updated", content: result });
