@@ -15,7 +15,12 @@ app.use(express.json({ extended: false }));
 
 app.use(helmet()); //set standard http headers for security
 app.use(compression()); // compress data
-
+var cors = require("cors");
+// var corsOptions = {
+//   origin: "http://localhost:3001",
+//   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+// };
+app.use(cors());
 // add header to all responses - allow CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -25,6 +30,7 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Origin",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
   next();
@@ -38,7 +44,7 @@ app.use("/api/event", require("./routes/api/event"));
 app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/petition", require("./routes/api/petition"));
 
-// route not found
+//route not found
 app.use("/", (req, res, next) => {
   res.status(404).json({ message: "route not found" });
 });
