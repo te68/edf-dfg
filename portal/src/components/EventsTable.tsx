@@ -26,6 +26,17 @@ const EventsTable: React.FC = () => {
     });
     return renderedEvents;
   };
+  const newEventClick = async () => {
+    await axios.post("/api/event", {
+      title: "Empty",
+      date: "2022-05-05",
+      time: "Empty",
+      address: "Empty",
+      description: "Empty",
+      categories: [""],
+    });
+    fetchEvents();
+  };
   return (
     <div>
       <section className="section" id="table">
