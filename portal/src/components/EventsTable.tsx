@@ -5,19 +5,14 @@ import EventsTableRow from "./EventTableRow";
 const EventsTable: React.FC = () => {
   const [events, setEvents] = useState<any[]>([]);
   useEffect(() => {
-    axios
-      .get("https://youth-activism-app-server.herokuapp.com/api/event", {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": localStorage.getItem("token"),
-        },
-      })
-      .then(async (response) => {
-        await setEvents(response.data.events);
-      });
-    console.log(events);
+    fetchEvents();
   }, []);
-
+  const fetchEvents = () => {
+    axios.get("/api/event", {}).then(async (response) => {
+      await setEvents(response.data.events);
+    });
+    console.log(events);
+  };
   const renderContent = () => {
     if (!events.length) return <h1>Loading</h1>;
 
@@ -25,6 +20,17 @@ const EventsTable: React.FC = () => {
       return <EventsTableRow event={event} key={event._id} />;
     });
     return renderedEvents;
+  };
+  const newEventClick = async () => {
+    await axios.post("/api/event", {
+      title: "Empty",
+      date: "2022-05-05",
+      time: "Empty",
+      address: "Empty",
+      description: "Empty",
+      categories: [""],
+    });
+    fetchEvents();
   };
   return (
     <div>
@@ -42,6 +48,15 @@ const EventsTable: React.FC = () => {
               <th>Edit</th>
             </tr>
           </thead>
+          <tfoot>
+            <tr>
+              <tr>
+                <button className="button is-success" onClick={newEventClick}>
+                  + New Event
+                </button>
+              </tr>
+            </tr>
+          </tfoot>
           <tbody>{renderContent()}</tbody>
         </table>
       </section>

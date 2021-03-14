@@ -36,7 +36,11 @@ class EditEvent extends React.Component<any, any> {
       categories,
       _id,
       title,
-      date,
+      date: new Date(date)
+        .toISOString()
+        .replace("-", "/")
+        .split("T")[0]
+        .replace("-", "/"),
       time,
       address,
       description,
@@ -49,7 +53,6 @@ class EditEvent extends React.Component<any, any> {
   };
   onChange = (event: any) => {
     console.log(event.target.getAttribute("data-label"));
-    console.log(event.target);
     this.setState({
       [event.target.getAttribute("data-label")]: event.target.value,
     });
@@ -61,16 +64,22 @@ class EditEvent extends React.Component<any, any> {
     window.open(url, "_blank");
   };
 
-  onDeleteClick = () => {
-    axios.delete(
-      `https://youth-activism-app-server.herokuapp.com/api/event/${this.state._id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": localStorage.getItem("token"),
-        },
-      }
-    );
+  onDeleteClick = async () => {
+    await axios.delete(`/api/event/${this.state._id}`);
+    this.props.history.push("/");
+  };
+
+  onSaveClick = async () => {
+    const { title, date, time, address, description, categories } = this.state;
+    await axios.put(`/api/event/${this.state._id}`, {
+      title,
+      date,
+      time,
+      address,
+      description,
+      categories,
+    });
+    this.props.history.push("/");
   };
   render() {
     return (
@@ -161,7 +170,7 @@ class EditEvent extends React.Component<any, any> {
               </p>
             </div>
             <div className="field">
-              <label className="label">Date</label>
+              <label className="label">Date: {this.state.date}</label>
               <p className="control">
                 <input
                   className="input"
@@ -187,7 +196,9 @@ class EditEvent extends React.Component<any, any> {
                 >
                   Delete{" "}
                 </button>
-                <button className="button is-dark">Save </button>
+                <button className="button is-dark" onClick={this.onSaveClick}>
+                  Save{" "}
+                </button>
               </div>
             </div>
           </div>
