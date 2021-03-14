@@ -25,6 +25,9 @@ const EventSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    url: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

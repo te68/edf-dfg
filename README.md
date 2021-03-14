@@ -6,10 +6,9 @@ Install node here: https://nodejs.org/en/download/
 
 #### On command prompt:
 
-  Run ```npm --version``` to confirm npm (node package manager) is installed
-  
-  If so, run ```npm install --global expo-cli``` to install expo
+Run `npm --version` to confirm npm (node package manager) is installed
 
+If so, run `npm install --global expo-cli` to install expo
 
 ## Getting Started
 
@@ -156,8 +155,8 @@ Headers:
   "url": "https://www.edf.org/",
   "preview": "This is a content of the type article",
   "author": "EDF",
-  "contentType": "Article",
-  "categories": ["Advice", "Learning"]
+  "interest": "Corporate Climate Action Updates",
+  "category": "blog"
 }
 ```
 
@@ -167,10 +166,7 @@ Headers:
 {
     "message": "Content created",
     "content": {
-        "categories": [
-            "Advice",
-            "Learning"
-        ],
+        "category": "blog",
         "_id": "603c189e657e5b102029a637",
         "title": "Sample Content",
         "url": "https://www.edf.org/",
