@@ -53,7 +53,6 @@ class EditEvent extends React.Component<any, any> {
   };
   onChange = (event: any) => {
     console.log(event.target.getAttribute("data-label"));
-    console.log(event.target);
     this.setState({
       [event.target.getAttribute("data-label")]: event.target.value,
     });
@@ -65,20 +64,22 @@ class EditEvent extends React.Component<any, any> {
     window.open(url, "_blank");
   };
 
-  onDeleteClick = () => {
-    axios.delete(
-      `https://youth-activism-app-server.herokuapp.com/api/event/${this.state._id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": localStorage.getItem("token"),
-        },
-      }
-    );
+  onDeleteClick = async () => {
+    await axios.delete(`/api/event/${this.state._id}`);
+    this.props.history.push("/");
   };
 
-  onSaveClick = () => {
-    console.log("saved");
+  onSaveClick = async () => {
+    const { title, date, time, address, description, categories } = this.state;
+    await axios.put(`/api/event/${this.state._id}`, {
+      title,
+      date,
+      time,
+      address,
+      description,
+      categories,
+    });
+    this.props.history.push("/");
   };
   render() {
     return (
