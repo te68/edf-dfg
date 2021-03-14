@@ -9,7 +9,7 @@ exports.getContent = async (req, res, next) => {
   try {
     const page = req.query.page || 1;
     const contentPerPage = 10;
-    const filter = {};
+    let filter = {};
 
     // handle search queries
     if (req.query.searchQuery) {
