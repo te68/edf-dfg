@@ -51,8 +51,8 @@ class EditEvent extends React.Component<any, any> {
         likes,
         dislikes,
         celebrates,
-        createdAt,
-        updatedAt,
+        createdAt: new Date(createdAt).toISOString().split("T")[0],
+        updatedAt: new Date(updatedAt).toISOString().split("T")[0],
       });
     });
     console.log(this.state.featured);
