@@ -14,7 +14,12 @@ const ContentTable: React.FC = () => {
     console.log(content);
   };
   const renderContent = () => {
-    if (!content.length) return <h1>Loading</h1>;
+    if (!content.length)
+      return (
+        <progress className="progress is-small is-primary" max="100">
+          15%
+        </progress>
+      );
 
     const renderedEvents = content.map((content) => {
       return <ContentTableRow content={content} key={content._id} />;

@@ -1,4 +1,3 @@
-import React from "react";
 import { useActions } from "../hooks/useActions";
 
 const NavBar = () => {
