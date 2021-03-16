@@ -1,8 +1,7 @@
-import Login from "./Login";
-import { useActions } from "../hooks/useActions";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import EditEvent from "./Events/EditEvent";
+import EditContent from "./Contents/EditContent";
 import Landing from "./Landing";
 const App = () => {
   const { data, error, loading } = useTypedSelector((state) => state.auth);
@@ -13,6 +12,7 @@ const App = () => {
         <Router>
           <Route exact path="/" component={Landing} />
           <Route exact path="/event" component={EditEvent} />
+          <Route exact path="/content" component={EditContent} />
         </Router>
       </div>
     );
