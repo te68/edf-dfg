@@ -51,8 +51,8 @@ class EditEvent extends React.Component<any, any> {
         likes,
         dislikes,
         celebrates,
-        createdAt,
-        updatedAt,
+        createdAt: new Date(createdAt).toISOString().split("T")[0],
+        updatedAt: new Date(updatedAt).toISOString().split("T")[0],
       });
     });
     console.log(this.state.featured);
@@ -220,7 +220,9 @@ class EditEvent extends React.Component<any, any> {
             </div>
             <div className="field">
               <label className="label">
-                <a href={this.state.url}>{this.state.url}</a>
+                <a href={this.state.url} target="_blank">
+                  {this.state.url}
+                </a>
               </label>
               <p className="control">
                 <input
