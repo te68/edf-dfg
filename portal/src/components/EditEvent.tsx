@@ -30,6 +30,7 @@ class EditEvent extends React.Component<any, any> {
       description,
       createdAt,
       updatedAt,
+      url,
     } = this.props.location.state.event;
 
     this.setState({
@@ -46,6 +47,7 @@ class EditEvent extends React.Component<any, any> {
       description,
       createdAt: new Date(createdAt).toISOString().split("T")[0],
       updatedAt: new Date(updatedAt).toISOString().split("T")[0],
+      url,
     });
   }
   onDiscardClick = () => {
@@ -70,7 +72,15 @@ class EditEvent extends React.Component<any, any> {
   };
 
   onSaveClick = async () => {
-    const { title, date, time, address, description, categories } = this.state;
+    const {
+      title,
+      date,
+      time,
+      address,
+      description,
+      categories,
+      url,
+    } = this.state;
     await axios.put(`/api/event/${this.state._id}`, {
       title,
       date,
@@ -78,6 +88,7 @@ class EditEvent extends React.Component<any, any> {
       address,
       description,
       categories,
+      url,
     });
     this.props.history.push("/");
   };
@@ -162,7 +173,7 @@ class EditEvent extends React.Component<any, any> {
                 <input
                   className="input"
                   type="text"
-                  placeholder="Event Title"
+                  placeholder="Categories"
                   value={this.state.categories}
                   onChange={this.onChange}
                   data-label="categories"
@@ -179,6 +190,19 @@ class EditEvent extends React.Component<any, any> {
                   onChange={this.onChange}
                   data-label="date"
                 ></input>
+              </p>
+            </div>
+            <div className="field">
+              <label className="label">
+                <a href={this.state.url}>{this.state.url}</a>
+              </label>
+              <p className="control">
+                <input
+                  className="input"
+                  value={this.state.url}
+                  onChange={this.onChange}
+                  data-label="url"
+                />
               </p>
             </div>
             <div className="field"></div>

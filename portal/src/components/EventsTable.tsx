@@ -29,6 +29,7 @@ const EventsTable: React.FC = () => {
       address: "Empty",
       description: "Empty",
       categories: [""],
+      url: "https://www.example.com",
     });
     fetchEvents();
   };
