@@ -173,7 +173,7 @@ class EditEvent extends React.Component<any, any> {
                 <input
                   className="input"
                   type="text"
-                  placeholder="Event Title"
+                  placeholder="Categories"
                   value={this.state.categories}
                   onChange={this.onChange}
                   data-label="categories"
