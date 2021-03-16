@@ -1,54 +1,61 @@
-import { render } from "@testing-library/react";
-import { extend } from "lodash";
 import React from "react";
-import NavBar from "./NavBar";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
+import PieChart from "./PieChart";
 class EditEvent extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      categories: [],
+      category: "",
       _id: "",
       title: "",
-      date: "",
-      time: "",
-      address: "",
-      description: "",
+      url: "",
+      author: "",
+      interest: "",
+      preview: "",
+      featured: false,
+      likes: 0,
+      dislikes: 0,
+      celebrates: 0,
       createdAt: "",
       updatedAt: "",
     };
   }
   componentDidMount() {
-    const {
-      categories,
-      _id,
-      title,
-      date,
-      time,
-      address,
-      description,
-      createdAt,
-      updatedAt,
-      url,
-    } = this.props.location.state.event;
-
-    this.setState({
-      categories,
-      _id,
-      title,
-      date: new Date(date)
-        .toISOString()
-        .replace("-", "/")
-        .split("T")[0]
-        .replace("-", "/"),
-      time,
-      address,
-      description,
-      createdAt: new Date(createdAt).toISOString().split("T")[0],
-      updatedAt: new Date(updatedAt).toISOString().split("T")[0],
-      url,
+    const { _id } = this.props.location.state.content;
+    console.log(_id);
+    axios.get(`/api/content/${_id}`).then(async (response) => {
+      const {
+        category,
+        _id,
+        title,
+        url,
+        author,
+        interest,
+        preview,
+        featured,
+        likes,
+        dislikes,
+        celebrates,
+        createdAt,
+        updatedAt,
+      } = response.data;
+      await this.setState({
+        category,
+        _id,
+        title,
+        url,
+        author,
+        interest,
+        preview,
+        featured,
+        likes,
+        dislikes,
+        celebrates,
+        createdAt,
+        updatedAt,
+      });
     });
+    console.log(this.state.featured);
   }
   onDiscardClick = () => {
     this.props.history.push("/");
@@ -59,39 +66,47 @@ class EditEvent extends React.Component<any, any> {
       [event.target.getAttribute("data-label")]: event.target.value,
     });
   };
-  showOnMap = () => {
-    const { address } = this.state;
-    const newAddress = address.replace(" ", "+");
-    const url = `https://www.google.com/maps/place/${newAddress}`;
-    window.open(url, "_blank");
-  };
 
   onDeleteClick = async () => {
-    await axios.delete(`/api/event/${this.state._id}`);
+    await axios.delete(`/api/content/${this.state._id}`);
     this.props.history.push("/");
   };
 
   onSaveClick = async () => {
     const {
       title,
-      date,
-      time,
-      address,
-      description,
-      categories,
+      category,
       url,
+      preview,
+      featured,
+      interest,
+      author,
+      likes,
+      dislikes,
+      celebrates,
     } = this.state;
-    await axios.put(`/api/event/${this.state._id}`, {
+    await axios.put(`/api/content/${this.state._id}`, {
       title,
-      date,
-      time,
-      address,
-      description,
-      categories,
+      category,
       url,
+      preview,
+      featured,
+      interest,
+      author,
+      likes,
+      dislikes,
+      celebrates,
     });
     this.props.history.push("/");
   };
+  renderFeatured() {
+    if (this.state.featured) {
+      return "Yes";
+    } else {
+      return "No";
+    }
+  }
+
   render() {
     return (
       <div className="margin10PercentTop">
@@ -100,12 +115,12 @@ class EditEvent extends React.Component<any, any> {
         <div className="columns">
           <div className="column">
             <div className="field">
-              <label className="label">Event Title</label>
+              <label className="label">Content Title</label>
               <p className="control">
                 <input
                   className="input"
                   type="text"
-                  placeholder="Event Title"
+                  placeholder="Content Title"
                   value={this.state.title}
                   onChange={this.onChange}
                   data-label="title"
@@ -135,60 +150,71 @@ class EditEvent extends React.Component<any, any> {
               </p>
             </div>
             <div className="field">
-              <label className="label">Description</label>
+              <label className="label">Preview</label>
               <p className="control">
                 <textarea
                   className="textarea"
                   placeholder="Write description here"
                   onChange={this.onChange}
-                  data-label="description"
-                  value={this.state.description}
+                  data-label="preview"
+                  value={this.state.preview}
                 ></textarea>
               </p>
+            </div>
+            <div className="field ">
+              <p className="h3" style={{ margin: "30px 0" }}>
+                User Interaction Stats
+              </p>
+              {this.state.likes ? (
+                <PieChart
+                  likes={this.state.likes}
+                  dislikes={this.state.dislikes}
+                  celebrates={this.state.celebrates}
+                />
+              ) : (
+                <progress className="progress is-small is-primary" max="100">
+                  15%
+                </progress>
+              )}
             </div>
           </div>
           <div className="column">
             <div className="field">
-              <label className="label">Address</label>
+              <label className="label">Author: {this.state.author}</label>
               <div className="field has-addons">
                 <p className="control google-maps-search">
                   <input
                     className="input "
                     type="text"
-                    value={this.state.address}
+                    value={this.state.author}
                     onChange={this.onChange}
-                    data-label="address"
+                    data-label="author"
                   />
                 </p>
-                <p className="control">
-                  <button className="button is-info" onClick={this.showOnMap}>
-                    Show on Map
-                  </button>
-                </p>
+                <p className="control"></p>
               </div>
             </div>
             <div className="field">
-              <label className="label">Categories (Comma Separated List)</label>
+              <label className="label">Category: {this.state.category}</label>
               <p className="control">
                 <input
                   className="input"
                   type="text"
-                  placeholder="Categories"
-                  value={this.state.categories}
+                  placeholder="category"
+                  value={this.state.category}
                   onChange={this.onChange}
-                  data-label="categories"
+                  data-label="category"
                 />
               </p>
             </div>
             <div className="field">
-              <label className="label">Date: {this.state.date}</label>
+              <label className="label">Interest: {this.state.interest}</label>
               <p className="control">
                 <input
                   className="input"
-                  type="date"
-                  value={this.state.date}
+                  value={this.state.interest}
                   onChange={this.onChange}
-                  data-label="date"
+                  data-label="interest"
                 ></input>
               </p>
             </div>
@@ -204,6 +230,22 @@ class EditEvent extends React.Component<any, any> {
                   data-label="url"
                 />
               </p>
+            </div>
+            <div className="field">
+              <div className="control">
+                <label className="label">
+                  Featured? {this.renderFeatured()}
+                </label>
+                <button
+                  type="button"
+                  className="button is-primary"
+                  onClick={() => {
+                    this.setState({ featured: !this.state.featured });
+                  }}
+                >
+                  Toggle featured
+                </button>
+              </div>
             </div>
             <div className="field"></div>
             <div className="field">

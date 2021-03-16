@@ -14,7 +14,12 @@ const EventsTable: React.FC = () => {
     console.log(events);
   };
   const renderContent = () => {
-    if (!events.length) return <h1>Loading</h1>;
+    if (!events.length)
+      return (
+        <progress className="progress is-small is-primary" max="100">
+          15%
+        </progress>
+      );
 
     const renderedEvents = events.map((event) => {
       return <EventsTableRow event={event} key={event._id} />;
