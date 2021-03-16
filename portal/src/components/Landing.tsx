@@ -1,7 +1,7 @@
 import Login from "./Login";
 import { useActions } from "../hooks/useActions";
 import NavBar from "./NavBar";
-import EventsTable from "./EventsTable";
+import EventsTable from "./Events/EventsTable";
 const Landing = () => {
   const { logoutUser } = useActions();
   const onClick = () => {

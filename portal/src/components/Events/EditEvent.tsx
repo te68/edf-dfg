@@ -1,8 +1,4 @@
-import { render } from "@testing-library/react";
-import { extend } from "lodash";
 import React from "react";
-import NavBar from "./NavBar";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 class EditEvent extends React.Component<any, any> {
   constructor(props: any) {
