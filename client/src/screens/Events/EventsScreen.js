@@ -15,12 +15,12 @@ import axios from "axios";
 import { getData } from "../../asyncStorage";
 export const EventCard = (props) => {
   const { navigation, color, ...eventInfo } = props;
-  const { title, date, address, description } = eventInfo;
+  const { _id, title, date, address, description } = eventInfo;
   const cardStyle = { ...styles.eventCard };
   cardStyle.backgroundColor = color;
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("EventPage", eventInfo)}
+      onPress={() => navigation.navigate("EventPage", _id)}
       style={cardStyle}
     >
       <View style={{ width: "90%" }}>

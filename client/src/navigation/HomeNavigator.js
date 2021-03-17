@@ -7,6 +7,7 @@ import AboutScreen from "../screens/AboutScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
+import AppNavigator, { MainNavigator, TabNavigator } from "./MainNavigator";
 const HomeStack = createStackNavigator();
 const HomeNavigator = ({ navigation }) => {
   return (
@@ -20,6 +21,7 @@ const HomeNavigator = ({ navigation }) => {
           headerRight: navToProfile(navigation),
         }}
       />
+
       <HomeStack.Screen
         name="About"
         options={{
@@ -68,4 +70,5 @@ const HomeNavigator = ({ navigation }) => {
     </HomeStack.Navigator>
   );
 };
+
 export default HomeNavigator;

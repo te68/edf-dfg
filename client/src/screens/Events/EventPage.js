@@ -1,16 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
+import axios from "axios";
 const EventPage = ({ route }) => {
-  const { _id, title, date, description, address, time } = route.params;
-  return (
+  const _id = route.params;
+  const [isLoading, setIsLoading] = useState(false);
+  const [eventInfo, updateEventInfo] = useState({});
+  const getEvent = async () => {
+    console.log(`http://localhost:3000/api/event/${_id}`);
+    const res = await axios.get(`http://localhost:3000/api/event/${_id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTQwODM1OCwiZXhwIjoxNjE1NzY4MzU4fQ.VDPbG9sOErObEFe09CNH1IgA-tZzJ9gZYHcWnXZ0oJM",
+      },
+    });
+    if (res.status === 200) {
+      updateEventInfo(res.data);
+    } else {
+      //TODO: error handling
+      alert("Error getting event");
+      navigation.goBack();
+    }
+  };
+  const onLoad = async () => {
+    setIsLoading(true);
+    await getEvent();
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    onLoad();
+  }, []);
+  const { title, description, address, time, date } = eventInfo;
+  return isLoading ? (
+    <View
+      style={{ height: "100%", justifyContent: "center", alignItems: "center" }}
+    >
+      <ActivityIndicator size="large" color="#00AA90" />
+    </View>
+  ) : (
     <ScrollView>
       <View style={styles.title}>
         <Text style={styles.titleText}>Event</Text>

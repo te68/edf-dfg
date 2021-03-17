@@ -1,0 +1,13 @@
+.login-wrapper {
+  display: flex;
+  margin: auto;
+  width: 90%;
+  flex-direction: column;
+  margin-top: 300px;
+  justify-content: space-evenly;
+}
+
+.login-wrapper button {
+  margin-top: 30px;
+  width: 100%;
+}

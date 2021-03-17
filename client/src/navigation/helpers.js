@@ -24,6 +24,13 @@ export const navToProfile = (navigation) => {
     </TouchableOpacity>
   );
 };
+export const navToHome = (navigation) => {
+  return () => (
+    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+      <Ionicons style={styles.profile} name="md-person" color="white" />
+    </TouchableOpacity>
+  );
+};
 export const styles = StyleSheet.create({
   icon: {
     flex: 1,

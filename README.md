@@ -1,5 +1,16 @@
 # Youth Activism App (EDF)
 
+## Installing Software
+
+Install node here: https://nodejs.org/en/download/
+
+#### On command prompt:
+
+  Run ```npm --version``` to confirm npm (node package manager) is installed
+  
+  If so, run ```npm install --global expo-cli``` to install expo
+
+
 ## Getting Started
 
 Clone Repo
@@ -128,7 +139,7 @@ Headers:
 ### **Create Content**
 
 ```
-  POST http://localhost:3000/api/content
+  POST http://localhost:3000/api/content?page=<page number>
 ```
 
 Headers:
@@ -181,8 +192,10 @@ Headers:
 ### **Get Content**
 
 ```
-  GET http://localhost:3000/api/content
+  GET http://localhost:3000/api/content?page=<page number>
 ```
+
+The parameter for page is option (Default to 1)
 
 #### Headers:
 
@@ -217,7 +230,7 @@ Headers:
     ],
     "totalCount": 1,
     "totalPages": 1
-}}
+}
 ```
 
 ---
@@ -391,8 +404,10 @@ Headers:
 ### **Get Events**
 
 ```
-  GET http://localhost:3000/api/event
+  GET http://localhost:3000/api/event?page=<page number>
 ```
+
+The parameter for page is option (Default to 1)
 
 #### Headers:
 
@@ -499,10 +514,10 @@ Headers:
 
 ---
 
-### **Get Content Details**
+### **Get Event Details**
 
 ```
-  GET http://localhost:3000/api/content/<contentId>
+  GET http://localhost:3000/api/event/<eventId>
 ```
 
 Headers:
@@ -531,3 +546,165 @@ Headers:
 ```
 
 ---
+
+- ## Petition:
+
+### **Create Petition**
+
+```
+  POST http://localhost:3000/api/petition
+```
+
+Headers:
+| Key | Value |
+| ------------ | ---------------- |
+| Content-Type | application/json |
+| x-auth-token | token |
+
+#### Body:
+
+```
+{
+    "title": "Petition 1",
+    "url": "www.edf.org"
+}
+```
+
+#### Response:
+
+```
+{
+    "message": "Petition created",
+    "petition": {
+        "_id": "604963af61ba90abb426fb48",
+        "title": "Petition 1",
+        "url": "www.edf.org",
+        "__v": 0
+    }
+}
+```
+
+---
+
+### **Get Petitions**
+
+```
+  GET http://localhost:3000/api/petition?page=<page number>
+```
+
+The parameter for page is option (Default to 1)
+
+#### Headers:
+
+| Key          | Value            |
+| ------------ | ---------------- |
+| Content-Type | application/json |
+| x-auth-token | token            |
+
+#### Response:
+
+```
+{
+    "petitions": [
+        {
+            "_id": "604963af61ba90abb426fb48",
+            "title": "Petition 1",
+            "url": "www.edf.org",
+            "__v": 0
+        }
+    ],
+    "totalCount": 1,
+    "totalPages": 1
+}
+```
+
+---
+
+### **Update Petition**
+
+```
+  PUT http://localhost:3000/api/petition/<petitionId>
+```
+
+Headers:
+| Key | Value |
+| ------------ | ---------------- |
+| Content-Type | application/json |
+| x-auth-token | token |
+
+#### Body:
+
+```
+{
+    "title": "Petition 1 (Updated)",
+    "url": "www.edf.org"
+}
+```
+
+#### Response:
+
+```
+{
+    "message": "Petition updated",
+    "petition": {
+        "_id": "604963af61ba90abb426fb48",
+        "title": "Petition 1 (Updated)",
+        "url": "www.edf.org",
+        "__v": 0
+    }
+}
+```
+
+---
+
+### **Delete Petition**
+
+```
+  DELETE http://localhost:3000/api/petition/<petitionId>
+```
+
+Headers:
+| Key | Value |
+| ------------ | ---------------- |
+| Content-Type | application/json |
+| x-auth-token | token |
+
+#### Response:
+
+```
+{
+    "message": "Petition deleted"
+}
+```
+
+---
+
+### **Get Petition Details**
+
+```
+  GET http://localhost:3000/api/petition/<petitionId>
+```
+
+Headers:
+| Key | Value |
+| ------------ | ---------------- |
+| Content-Type | application/json |
+| x-auth-token | token |
+
+#### Response:
+
+```
+{
+    "_id": "604963af61ba90abb426fb48",
+    "title": "Petition 1",
+    "url": "www.edf.org",
+    "__v": 0
+}
+```
+
+---
+
+### Price Estimation
+
+$57/month for MongoDB (dedicated clusters) - https://www.mongodb.com/pricing
+$25/month for Heroku (small business plan) - https://www.heroku.com/pricing

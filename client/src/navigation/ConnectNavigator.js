@@ -20,7 +20,7 @@ const ConnectNavgiator = ({ navigation }) => {
         }}
         component={ConnectScreen}
       />
-      <ConnectStack.Screen
+      {/* <ConnectStack.Screen
         name="Profile"
         options={{
           title: "Profile",
@@ -33,7 +33,7 @@ const ConnectNavgiator = ({ navigation }) => {
           },
         }}
         component={ProfileScreen}
-      />
+      /> */}
       <ConnectStack.Screen
         name="Events"
         options={{

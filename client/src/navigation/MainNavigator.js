@@ -8,8 +8,17 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { SvgXml } from "react-native-svg";
 import { CustomSvgs } from "../../constants";
+import { createStackNavigator } from "@react-navigation/stack";
+import {
+  navToAbout,
+  navToProfile,
+  navToHome,
+  headerStyle,
+  styles,
+} from "./helpers";
+import ProfileScreen from "../screens/ProfileScreen";
 const Tab = createBottomTabNavigator();
-const MainNavigator = () => {
+export const TabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -58,10 +67,35 @@ const MainNavigator = () => {
       }}
     >
       <Tab.Screen name="Home" component={HomeNavigator} />
+
       <Tab.Screen name="Learn" component={LearnNavigator} />
       <Tab.Screen name="Act" component={ActNavigator} />
       <Tab.Screen name="Connect" component={ConnectNavigator} />
     </Tab.Navigator>
   );
 };
-export default MainNavigator;
+
+const AppStack = createStackNavigator();
+const AppNavigator = ({ navigation }) => {
+  return (
+    <AppStack.Navigator screenOptions={headerStyle}>
+      <AppStack.Screen
+        name="Main"
+        options={{ headerShown: false }}
+        component={TabNavigator}
+      />
+      <AppStack.Screen
+        name="Profile"
+        options={{
+          title: "Profile",
+          headerBackImage: () => (
+            <AntDesign style={styles.profileLeft} name="back" color="white" />
+          ),
+          headerBackTitleVisible: false,
+        }}
+        component={ProfileScreen}
+      />
+    </AppStack.Navigator>
+  );
+};
+export default AppNavigator;
