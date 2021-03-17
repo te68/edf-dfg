@@ -6,98 +6,32 @@ import {
   View,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
+  StyleSheet,
 } from "react-native";
-// import { SearchBar } from "react-native-elements";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
 import axios from "axios";
-const exampleEvents = [
-  {
-    id: 1,
-    title: "Defend Our Chocolate",
-    date: moment().format("LL"),
-    location: "The Ohio State University, Columbus, OH, United States",
-    description: `Join us for an event that will focus on the impact that climate change is already having on the chocolate industry and how these issues will develop in the future as the effects of climate change continue to worsen. The primary topics to be discussed will be 1) prolonged droughts further reducing/shifting cocoa yields 2) the numerous products that rely on the cocoa plant 3) how consumers will respond to higher prices 4) if higher prices will raise awareness about climate issues and encourage broader changes in consumption.
-    Panelists and speakers include:\n
-    Lauren Chenarides, Assistant Professor, Morrison School of Agribusiness, Arizona State University
-    Jim Elitzak, Co-owner, Zak’s Chocolate
-    Lauren Kuby, Tempe City Councilwoman`,
-    address:
-      "Changing Hands Bookstore, 6428 S. McClintock Dr. #C101, Tempe, Arizona 85283",
-    time: "6:30 – 8:00 pm ET",
-  },
-  {
-    id: 2,
-    title: "Defend Our Chocolate",
-    date: moment().add(1, "days").format("LL"),
-    location: "The Ohio State University, Columbus, OH, United States",
-    description: `Join us for an event that will focus on the impact that climate change is already having on the chocolate industry and how these issues will develop in the future as the effects of climate change continue to worsen. The primary topics to be discussed will be 1) prolonged droughts further reducing/shifting cocoa yields 2) the numerous products that rely on the cocoa plant 3) how consumers will respond to higher prices 4) if higher prices will raise awareness about climate issues and encourage broader changes in consumption.
-    Panelists and speakers include:
-    Lauren Chenarides, Assistant Professor, Morrison School of Agribusiness, Arizona State University
-    Jim Elitzak, Co-owner, Zak’s Chocolate
-    Lauren Kuby, Tempe City Councilwoman`,
-    address:
-      "Changing Hands Bookstore, 6428 S. McClintock Dr. #C101, Tempe, Arizona 85283",
-    time: "6:30 – 8:00 pm ET",
-  },
-  {
-    id: 3,
-    title: "Defend Our Chocolate",
-    date: moment().add(-3, "days").format("LL"),
-    location: "The Ohio State University, Columbus, OH, United States",
-    description: `Join us for an event that will focus on the impact that climate change is already having on the chocolate industry and how these issues will develop in the future as the effects of climate change continue to worsen. The primary topics to be discussed will be 1) prolonged droughts further reducing/shifting cocoa yields 2) the numerous products that rely on the cocoa plant 3) how consumers will respond to higher prices 4) if higher prices will raise awareness about climate issues and encourage broader changes in consumption.
-    Panelists and speakers include:
-    Lauren Chenarides, Assistant Professor, Morrison School of Agribusiness, Arizona State University
-    Jim Elitzak, Co-owner, Zak’s Chocolate
-    Lauren Kuby, Tempe City Councilwoman`,
-    address:
-      "Changing Hands Bookstore, 6428 S. McClintock Dr. #C101, Tempe, Arizona 85283",
-    time: "6:30 – 8:00 pm ET",
-  },
-  {
-    id: 4,
-    title: "Defend Our Chocolate",
-    date: moment().add(-1, "days").format("LL"),
-    location: "The Ohio State University, Columbus, OH, United States",
-    description: `Join us for an event that will focus on the impact that climate change is already having on the chocolate industry and how these issues will develop in the future as the effects of climate change continue to worsen. The primary topics to be discussed will be 1) prolonged droughts further reducing/shifting cocoa yields 2) the numerous products that rely on the cocoa plant 3) how consumers will respond to higher prices 4) if higher prices will raise awareness about climate issues and encourage broader changes in consumption.
-    Panelists and speakers include:
-    Lauren Chenarides, Assistant Professor, Morrison School of Agribusiness, Arizona State University
-    Jim Elitzak, Co-owner, Zak’s Chocolate
-    Lauren Kuby, Tempe City Councilwoman`,
-    address:
-      "Changing Hands Bookstore, 6428 S. McClintock Dr. #C101, Tempe, Arizona 85283",
-    time: "6:30 – 8:00 pm ET",
-  },
-  ,
-];
-const EventCard = (props) => {
-  const { navigation, ...eventInfo } = props;
-  const { title, date, location, description } = eventInfo;
+import { getData } from "../../asyncStorage";
+export const EventCard = (props) => {
+  const { navigation, color, ...eventInfo } = props;
+  const { _id, title, date, address, description } = eventInfo;
+  const cardStyle = { ...styles.eventCard };
+  cardStyle.backgroundColor = color;
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("EventPage", eventInfo)}
-      style={{
-        flexDirection: "row",
-        backgroundColor: "white",
-        borderRadius: "10px",
-        padding: 10,
-        margin: 20,
-        justifyContent: "space-between",
-        shadowColor: "rgba(0,0,0, .4)",
-        shadowOffset: { height: 4, width: 4 },
-        shadowOpacity: 1,
-        shadowRadius: 1,
-      }}
+      onPress={() => navigation.navigate("EventPage", _id)}
+      style={cardStyle}
     >
       <View style={{ width: "90%" }}>
         <Text style={{ fontSize: 18, fontWeight: "400" }}>{title}</Text>
         <View flexDirection="row" alignItems="center">
           <AntDesign name="calendar" size={24} color="black" />
-          <Text> {date}</Text>
+          <Text> {moment(date).format("LL")}</Text>
         </View>
         <View flexDirection="row" alignItems="center">
           <EvilIcons name="location" size={24} color="black" />
-          <Text> {location}</Text>
+          <Text> {address}</Text>
         </View>
         <Text numberOfLines={3} ellipsizeMode="tail">
           {description}
@@ -109,95 +43,188 @@ const EventCard = (props) => {
     </TouchableOpacity>
   );
 };
-// TODO: loading screen w/ axios
-const EventsScreen = ({ navigation }) => {
-  const [search, updateSearch] = useState("");
-  const [events, updateEvents] = useState([]);
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/events")
-      .then((res) => updateEvents(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-  const futureEvents = events
-    .filter((event) => event.date >= moment().format("LL"))
-    .sort((event1, event2) => moment(event1.date).diff(event2.date)); // Earliest date first
-  const pastEvents = events
-    .filter((event) => event.date < moment().format("LL"))
-    .sort((event1, event2) => moment(event2.date).diff(event1.date)); // Latest date first
-  const SearchBar = () => {
-    return (
-      <View style={{ alignItems: "center" }}>
+const SearchBar = ({ value, handleOnChange }) => {
+  return (
+    <View style={styles.searchBarContainer}>
+      <View style={{ flexDirection: "row", width: "100%" }}>
+        <AntDesign name="search1" size={20} color="black" />
         <TextInput
-          style={{
-            borderRadius: 15,
-            height: 40,
-            width: "50%",
-            borderColor: "gray",
-            borderWidth: 1,
-            color: "black",
-          }}
+          style={styles.searchBar}
           placholder="Search Event"
-          value={search}
-          onChangeText={(text) => updateSearch(text)}
+          value={value}
+          onChangeText={(text) => handleOnChange(text)}
         />
       </View>
-    );
+    </View>
+  );
+};
+const EventsScreen = ({ navigation }) => {
+  const [searchQuery, updateSearchQuery] = useState("");
+  const [events, updateEvents] = useState([]);
+  const [displayedEvents, updateDisplayedEvents] = useState([]);
+  const [myEventIds, updateMyEventIds] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const getEvents = async () => {
+    const res = await axios.get("http://localhost:3000/api/event", {
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTQwODM1OCwiZXhwIjoxNjE1NzY4MzU4fQ.VDPbG9sOErObEFe09CNH1IgA-tZzJ9gZYHcWnXZ0oJM",
+      },
+    });
+    if (res.status === 200) {
+      updateEvents(res.data.events);
+      updateDisplayedEvents(res.data.events);
+    } else {
+      //TODO: error handling
+      alert("Error getting events");
+      navigation.goBack();
+    }
   };
+  const getMyEventIds = async () => {
+    const ids = await getData("@my_events");
+    updateMyEventIds(ids || []);
+  };
+  const onLoad = async () => {
+    setIsLoading(true);
+    await getEvents();
+    await getMyEventIds();
+    setIsLoading(false);
+  };
+
+  const onChangeSearch = async (text) => {
+    if (searchQuery !== "") {
+      let newEvents = events.filter((event) =>
+        event.title.toLowerCase().includes(text.toLowerCase())
+      );
+      updateDisplayedEvents(newEvents);
+    } else {
+      updateDisplayedEvents(events);
+    }
+    updateSearchQuery(text.toLowerCase());
+  };
+  useEffect(() => {
+    onLoad();
+  }, []);
+  const myEvents = displayedEvents.filter((event) => event.id in myEventIds);
+  const futureEvents = displayedEvents.filter((event) =>
+    moment(event.date).isSameOrAfter(moment())
+  );
+  const pastEvents = displayedEvents.filter((event) =>
+    moment(event.date).isBefore(moment())
+  );
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-        {/* <SearchBar
-          placeholder="Search"
-          onChangeText={(text) => updateSearch(text)}
-          value={search}
-        /> */}
-        <View style={{ alignItems: "center", marginTop: 10 }}>
-          <View style={{ flexDirection: "row" }}>
-            <AntDesign name="search1" size={20} color="black" />
-            <TextInput
-              style={{
-                backgroundColor: "white",
-                borderRadius: 15,
-                height: 24,
-                width: "50%",
-                borderColor: "gray",
-                borderWidth: 2,
-                color: "black",
-              }}
-              placholder="Search Event"
-              value={search}
-              onChangeText={(text) => updateSearch(text)}
-            />
+        <View style={styles.title}>
+          <Text style={styles.titleText}>Events & Opportunities</Text>
+        </View>
+        <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#00AA90" />
+        ) : (
+          <View>
+            {myEvents.length ? (
+              <View>
+                <Text style={styles.sectionTitleText}>My Events</Text>
+                {myEvents.map((event) => (
+                  <EventCard
+                    key={event._id}
+                    {...event}
+                    navigation={navigation}
+                    color={"#99D5F1"}
+                  />
+                ))}
+              </View>
+            ) : null}
+            {futureEvents.length ? (
+              <View>
+                <Text style={styles.sectionTitleText}>Upcoming Events</Text>
+                {futureEvents
+                  .sort((event1, event2) =>
+                    moment(event2.date).diff(moment(event1.date))
+                  ) // Latest date first
+                  .map((event) => (
+                    <EventCard
+                      key={event._id}
+                      {...event}
+                      navigation={navigation}
+                      color={"#A4EEC1"}
+                    />
+                  ))}
+              </View>
+            ) : null}
+            {pastEvents.length ? (
+              <View>
+                <Text style={styles.sectionTitleText}>Past Events</Text>
+                {pastEvents
+
+                  .sort((event1, event2) =>
+                    moment(event2.date).diff(moment(event1.date))
+                  ) // Latest date first
+                  .map((event) => (
+                    <EventCard
+                      key={event._id}
+                      {...event}
+                      navigation={navigation}
+                      color={"#EF8787"}
+                    />
+                  ))}
+              </View>
+            ) : null}
           </View>
-        </View>
-        {/* <SearchBar /> */}
-        <View>
-          <Text style={{ fontSize: 30, marginTop: 15, marginLeft: 15 }}>
-            Events and Opportunities
-          </Text>
-          {futureEvents.length > 0 ? (
-            futureEvents.map((event) => (
-              <EventCard key={event.id} {...event} navigation={navigation} />
-            ))
-          ) : (
-            <Text>No upcoming events found</Text>
-          )}
-        </View>
-        <View>
-          <Text style={{ fontSize: 30, marginTop: 15, marginLeft: 15 }}>
-            Past Events
-          </Text>
-          {pastEvents.length > 0 ? (
-            pastEvents.map((event) => (
-              <EventCard key={event.id} {...event} navigation={navigation} />
-            ))
-          ) : (
-            <Text>No past events found</Text>
-          )}
-        </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
 };
+const styles = StyleSheet.create({
+  title: {
+    backgroundColor: "#00AA90",
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  titleText: {
+    fontSize: 25,
+    fontWeight: "700",
+    color: "white",
+    padding: 10,
+  },
+  sectionTitleText: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#00AA90",
+    marginTop: 15,
+    marginLeft: 30,
+    marginRight: 50,
+  },
+  searchBarContainer: {
+    alignItems: "center",
+    margin: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  searchBar: {
+    flex: 1,
+    borderRadius: 15,
+    height: 24,
+    paddingLeft: 10,
+    backgroundColor: "rgba(196, 196, 196, 0.3)",
+  },
+  eventCard: {
+    flexDirection: "row",
+    borderRadius: 30,
+    padding: 20,
+    marginTop: 20,
+    marginLeft: 30,
+    marginRight: 50,
+    justifyContent: "space-between",
+  },
+});
 export default EventsScreen;

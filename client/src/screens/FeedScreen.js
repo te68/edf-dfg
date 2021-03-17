@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,7 @@ import BottomButton from "../components/BottomButton";
 import { SvgXml } from "react-native-svg";
 import { ScrollView } from "react-native-gesture-handler";
 import { CustomSvgs } from "../../constants";
+import { getData } from "../asyncStorage";
 // import SaveIcon from "../../assets/save-icon.svg";
 
 const generalFeed = [
@@ -66,7 +67,7 @@ const ArticleCard = ({
     }
   }, [url]);
   return (
-    <View style={{ width: 380, alignItems: 'flex-start' }}>
+    <View style={{ width: 380, alignItems: "flex-start" }}>
       <TouchableOpacity style={styles.articleCard} onPress={handlePress}>
         <View style={{ paddingRight: 10, paddingLeft: 10 }}>
           <View>
@@ -180,7 +181,7 @@ const ArticleButtons = ({ id, updatePost }) => (
     </TouchableOpacity>
   </View>
 );
-const ArticlePost = ({ content, updatePost }) => {
+const ArticlePost = ({ content, updatePost, savedIds, savePost }) => {
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -219,8 +220,12 @@ const ArticlePost = ({ content, updatePost }) => {
           margin: 5,
         }}
       >
-        <TouchableOpacity style={{ marginBottom: 5 }}>
-          <MaterialIcons name="bookmark-border" size={25} color="black" />
+        <TouchableOpacity style={{ marginBottom: 5 }} onPress={savePost}>
+          {content.id in savedIds ? (
+            <Text>Hi</Text>
+          ) : (
+            <MaterialIcons name="bookmark-border" size={25} color="black" />
+          )}
         </TouchableOpacity>
         <TouchableOpacity style={{ marginBottom: 5 }} onPress={onShare}>
           <SvgXml width="22" height="22" xml={CustomSvgs.shareIcon} />
@@ -230,14 +235,29 @@ const ArticlePost = ({ content, updatePost }) => {
   );
 };
 const FeedScreen = ({ navigation }) => {
+  // TODO: SAVE IDS
   const [feed, updateFeed] = useState(generalFeed);
-  const ArticleList = ({ feed, updatePost }) => {
+  const [savedArticles, setSavedArticles] = useState([]);
+  const SAVED_STORAGE_KEY = "@saved_articles";
+  // console.log(savedArticles);
+  const savedIds = [];
+  useEffect(() => {
+    async function fetchData() {
+      const res = (await getData(SAVED_STORAGE_KEY)) || [];
+      setSavedArticles(res);
+    }
+    fetchData();
+  }, []);
+
+  const ArticleList = ({ feed, updatePost, savePost }) => {
     return feed.map((content) => {
       return (
         <ArticlePost
           key={content.id}
           content={content}
           updatePost={updatePost}
+          savePost={savePost}
+          savedIds={savedIds}
         />
       );
     });
@@ -280,9 +300,13 @@ const FeedScreen = ({ navigation }) => {
       updateFeed(updatedFeed);
     }
   };
+  const savePost = (articleInfo) => {
+    const { author, title, subjects, id } = articleInfo;
+    console.log(savedArticles);
+  };
   return (
     <View style={styles.container}>
-      { /*<FlatList
+      {/*<FlatList
         style={{ marginRight: 40, marginLeft: 40 }}
         horizontal={true}
         data={pinnedContent}

@@ -18,7 +18,7 @@ const ActNavigator = ({ navigation }) => {
         name="Act"
         component={ActScreen}
       />
-      <ActStack.Screen
+      {/* <ActStack.Screen
         name="Profile"
         options={{
           title: "Profile",
@@ -31,7 +31,7 @@ const ActNavigator = ({ navigation }) => {
           },
         }}
         component={ProfileScreen}
-      />
+      /> */}
       <ActStack.Screen
         name="About"
         options={{
