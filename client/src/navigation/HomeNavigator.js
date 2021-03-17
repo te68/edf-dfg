@@ -7,7 +7,6 @@ import AboutScreen from "../screens/AboutScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
-import AppNavigator, { MainNavigator, TabNavigator } from "./MainNavigator";
 const HomeStack = createStackNavigator();
 const HomeNavigator = ({ navigation }) => {
   return (
@@ -16,7 +15,7 @@ const HomeNavigator = ({ navigation }) => {
         name="Home"
         component={HomeScreen}
         options={{
-          title: "Youth4Change",
+          title: "GenClimate",
           headerLeft: navToAbout(navigation),
           headerRight: navToProfile(navigation),
         }}

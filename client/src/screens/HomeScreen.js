@@ -21,36 +21,42 @@ import { Switch } from "react-native-switch";
 import FeedScreen from "./FeedScreen";
 const Categories = ({ navigation }) => {
   let buttons = [
-    { key: 0, title: "Podcasts", notifications: 3, color: "#C5DB65", icon: 'mic' },
+    {
+      key: 0,
+      title: "Podcasts",
+      notifications: 3,
+      color: "#C5DB65",
+      icon: "mic",
+    },
     { key: 1, title: "Blogs", notifications: 3 },
     { key: 2, title: "Careers", notifications: 3, color: "#6EC6B3" },
     { key: 3, title: "Events", notifications: 2, color: "#88C5E6" },
-  ]
+  ];
 
   //buttons.sort(function (a, b) { return a.notifications < b.notifications })
 
   return (
     <SafeAreaView>
       <ScrollView style={{ marginHorizontal: 15 }}>
-        <View style={[styles.row, { justifyContent: 'space-between' }]}>
+        <View style={[styles.row, { justifyContent: "space-between" }]}>
           <Text style={styles.heading}> Featured Content </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Saved")}>
             <MaterialIcons name="bookmark" size={40} color="#F9C147" />
           </TouchableOpacity>
         </View>
 
-        <View style={{ alignItems: 'center', padding: 10 }} >
+        <View style={{ alignItems: "center", padding: 10 }}>
           <TouchableOpacity>
             <Image
-              source={require("../../assets/host-meet-up.png")} style={{ width: "100%" }}
+              source={require("../../assets/host-meet-up.png")}
+              style={{ width: "100%" }}
               style={{
-                alignItems: 'center',
+                alignItems: "center",
                 width: 298 * 1.2,
-                height: 135 * 1.2
+                height: 135 * 1.2,
               }}
             />
           </TouchableOpacity>
-
         </View>
 
         <Text style={styles.heading}> Categories </Text>
@@ -63,34 +69,27 @@ const Categories = ({ navigation }) => {
               },
             ]}
           >
-            <MaterialIcons name='mic' size={40}></MaterialIcons>
-            <Text style={styles.buttonText}>
-              Podcast
-            </Text>
+            <MaterialIcons name="mic" size={40}></MaterialIcons>
+            <Text style={styles.buttonText}>Podcast</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: "#00AAEB", }]}
+            style={[styles.button, { backgroundColor: "#00AAEB" }]}
           >
-            <MaterialIcons name='book' size={40}></MaterialIcons>
-            <Text style={styles.buttonText}>
-              Blogs
-            </Text>
+            <MaterialIcons name="book" size={40}></MaterialIcons>
+            <Text style={styles.buttonText}>Blogs</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: "#6EC6B3", }]}
+            style={[styles.button, { backgroundColor: "#6EC6B3" }]}
           >
-            <MaterialIcons name='assignment' size={40}></MaterialIcons>
-            <Text style={styles.buttonText}>
-              Careers
-            </Text>
+            <MaterialIcons name="assignment" size={40}></MaterialIcons>
+            <Text style={styles.buttonText}>Careers</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: "#88C5E6", }]}
+            style={[styles.button, { backgroundColor: "#88C5E6" }]}
+            onPress={() => navigation.navigate("Events")}
           >
-            <MaterialIcons name='event' size={40}></MaterialIcons>
-            <Text style={styles.buttonText}>
-              Events
-            </Text>
+            <MaterialIcons name="event" size={40}></MaterialIcons>
+            <Text style={styles.buttonText}>Events</Text>
           </TouchableOpacity>
           {/*{buttons.map((b) => (
             <Button
@@ -103,7 +102,7 @@ const Categories = ({ navigation }) => {
         <Text style={styles.heading}> Your Feed </Text>
         <FeedScreen navigation={navigation} />
       </ScrollView>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 };
 
@@ -125,11 +124,9 @@ const HomeScreen = ({ navigation }) => {
           width: "90%",
           alignItems: "center",
         }}
-      >
-      </View>
+      ></View>
 
       <Categories navigation={navigation} />
-
     </View>
   );
 };
@@ -148,9 +145,7 @@ function Button(props) {
         ]}
       >
         <MaterialIcons name={props.icon}></MaterialIcons>
-        <Text style={styles.buttonText}>
-          {props.title}
-        </Text>
+        <Text style={styles.buttonText}>{props.title}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -163,7 +158,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "#00AA91",
     marginLeft: "3%",
     paddingTop: 15,

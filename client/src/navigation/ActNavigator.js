@@ -32,7 +32,7 @@ const ActNavigator = ({ navigation }) => {
         }}
         component={ProfileScreen}
       /> */}
-      <ActStack.Screen
+      {/* <ActStack.Screen
         name="About"
         options={{
           title: "About",
@@ -42,7 +42,7 @@ const ActNavigator = ({ navigation }) => {
           headerBackTitleVisible: false,
         }}
         component={AboutScreen}
-      />
+      /> */}
     </ActStack.Navigator>
   );
 };

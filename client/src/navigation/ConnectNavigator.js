@@ -34,21 +34,8 @@ const ConnectNavgiator = ({ navigation }) => {
         }}
         component={ProfileScreen}
       /> */}
-      <ConnectStack.Screen
-        name="Events"
-        options={{
-          title: "Events",
-          headerBackImage: () => (
-            <AntDesign style={styles.profileLeft} name="back" color="white" />
-          ),
-          headerBackTitleVisible: false,
-          tabBarOptions: {
-            showLabel: false,
-          },
-        }}
-        component={EventsScreen}
-      />
-      <ConnectStack.Screen
+
+      {/* <ConnectStack.Screen
         name="About"
         options={{
           title: "About",
@@ -58,7 +45,7 @@ const ConnectNavgiator = ({ navigation }) => {
           headerBackTitleVisible: false,
         }}
         component={AboutScreen}
-      />
+      /> */}
       <ConnectStack.Screen
         name="EventPage"
         options={{
