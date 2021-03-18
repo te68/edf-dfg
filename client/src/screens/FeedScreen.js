@@ -23,6 +23,8 @@ import { SvgXml } from "react-native-svg";
 import { ScrollView } from "react-native-gesture-handler";
 import { CustomSvgs } from "../../constants";
 import { getData } from "../asyncStorage";
+import axios from "axios";
+import moment from "moment";
 // import SaveIcon from "../../assets/save-icon.svg";
 
 const generalFeed = [
@@ -74,23 +76,21 @@ const ArticleCard = ({
             <Text style={{ fontSize: 22, fontWeight: "500" }}>{title}</Text>
             <View style={{ flexDirection: "row" }}>
               <Text style={{ fontSize: 18 }}>By {author} </Text>
-              {subjects.length
-                ? subjects.map((tag) => (
-                    <Text
-                      key={tag}
-                      style={{
-                        fontSize: 12,
-                        borderWidth: 1,
-                        borderRadius: 8,
-                        paddingLeft: 10,
-                        paddingRight: 10,
-                        margin: 2,
-                      }}
-                    >
-                      {tag}
-                    </Text>
-                  ))
-                : null}
+              {/*subjects != null ? subjects.map((tag) => (
+                <Text
+                  key={tag}
+                  style={{
+                    fontSize: 12,
+                    borderWidth: 1,
+                    borderRadius: 8,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    margin: 2,
+                  }}
+                >
+                  {tag}
+                </Text>
+                )) : null*/}
             </View>
             <Text style={{ fontSize: 16 }}>{previewText}</Text>
             <Image source={previewImage} style={{ width: "100%" }} />
@@ -183,6 +183,7 @@ const ArticleButtons = ({ id, updatePost }) => (
     </TouchableOpacity>
   </View>
 );
+
 const ArticlePost = ({ content, updatePost, savePost }) => {
   const onShare = async () => {
     try {
@@ -269,18 +270,70 @@ const FeedScreen = ({ navigation }) => {
     fetchData();
   }, []);
 
-  const ArticleList = ({ feed, updatePost, savePost }) => {
-    return feed.map((content) => {
-      return (
-        <ArticlePost
-          key={content.id}
-          content={content}
-          updatePost={updatePost}
-          savePost={savePost}
-        />
-      );
+  const [content, updateContent] = useState([]);
+  const [displayedContent, updateDisplayedContent] = useState([]);
+  const [savedContentIds, updateSavedContentIds] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getContent = async () => {
+    const res = await axios.get("http://localhost:3000/api/content", {
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+      },
     });
+    if (res.status === 200) {
+      updateContent(res.data.content);
+      updateDisplayedContent(res.data.content);
+      console.log(res.data.content);
+    } else {
+      alert("Error getting content");
+      navigation.goBack();
+    }
   };
+
+  const getMyFeed = async () => {
+    const ids = await getData("@my_content");
+    updateSavedContentIds(ids || []);
+  };
+
+  const onLoad = async () => {
+    console.log("onLoad");
+    setIsLoading(true);
+    await getContent();
+    await getMyFeed();
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    console.log("useEffect");
+    onLoad();
+  }, []);
+
+  const myFeed = content.sort((a, b) =>
+    moment(a.createdAt).isBefore(moment(b.createdAt))
+  );
+
+  const featuredContent = content.filter((a) => a.featured);
+
+  const ArticleList = ({ feed, updatePost, savePost }) => {
+    return myFeed.length
+      ? myFeed.map((content) => {
+          return (
+            <ArticlePost
+              key={content._id}
+              content={content}
+              updatePost={updatePost}
+              savePost={savePost}
+              savedIds={savedContentIds}
+            />
+          );
+        })
+      : null;
+  };
+
   const renderContent = ({ item }) => {
     return (
       <View

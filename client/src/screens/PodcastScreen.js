@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
   StyleSheet,
+  View,
+  Text,
 } from "react-native";
 import SearchBar from "../components/SearchBar";
 import axios from "axios";
+import { EventCard } from "./Events/EventsScreen";
 
 const PodcastScreen = () => {
   const [searchQuery, updateSearchQuery] = useState("");

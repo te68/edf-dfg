@@ -67,12 +67,14 @@ const Categories = ({ navigation }) => {
                 backgroundColor: "#C5DB65",
               },
             ]}
+            onPress={() => navigation.navigate("Podcast")}
           >
             <MaterialIcons name="mic" size={40}></MaterialIcons>
             <Text style={styles.buttonText}>Podcast</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, { backgroundColor: "#00AAEB" }]}
+            onPress={() => navigation.navigate("Blog")}
           >
             <MaterialIcons name="book" size={40}></MaterialIcons>
             <Text style={styles.buttonText}>Blogs</Text>
@@ -147,7 +149,9 @@ const HomeScreen = ({ navigation }) => {
     onLoad();
   }, []);
 
-  const mySavedContents = displayedContent.filter((content) => content.id in myEventIds);
+  const mySavedContents = displayedContent.filter(
+    (content) => content.id in myEventIds
+  );
 
   //const toggleSwitch = (value) => {
   //onValueChange of the switch this function will be called
