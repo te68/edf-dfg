@@ -108,47 +108,6 @@ const Categories = ({ navigation }) => {
 const HomeScreen = ({ navigation }) => {
   const [notifications, setNotifications] = useState("");
   //const [switchValue, setSwitchValue] = useState(true);
-  const [content, updateContent] = useState([]);
-  const [displayedContent, updateDisplayedContent] = useState([]);
-  const [savedContentIds, updateSavedContentIds] = useState([]);
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const getContent = async () => {
-    const res = await axios.get("http://localhost:3000/api/content", {
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTQwODM1OCwiZXhwIjoxNjE1NzY4MzU4fQ.VDPbG9sOErObEFe09CNH1IgA-tZzJ9gZYHcWnXZ0oJM",
-      },
-    });
-    if (res.status === 200) {
-      updateContent(res.data.content);
-      updateDisplayedContent(res.data.content);
-    } else {
-      alert("Error getting content");
-      navigation.goBack();
-    }
-  };
-
-  const getSavedContentIds = async () => {
-    const ids = await getData("@my_events");
-    updateSavedContentIds(ids || []);
-  };
-
-  const onLoad = async () => {
-    setIsLoading(true);
-    await getEvents();
-    await getMyEventIds();
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    onLoad();
-  }, []);
-
-  const mySavedContents = displayedContent.filter((content) => content.id in myEventIds);
-
   //const toggleSwitch = (value) => {
   //onValueChange of the switch this function will be called
   //setSwitchValue(value);
