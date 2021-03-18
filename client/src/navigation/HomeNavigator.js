@@ -7,6 +7,7 @@ import AboutScreen from "../screens/AboutScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
+import PodcastScreen from "../screens/PodcastScreen";
 const HomeStack = createStackNavigator();
 const HomeNavigator = ({ navigation }) => {
   return (
@@ -43,6 +44,17 @@ const HomeNavigator = ({ navigation }) => {
           headerBackTitleVisible: false,
         }}
         component={ProfileScreen}
+      />
+      <HomeStack.Screen
+        name="Podcast"
+        options={{
+          title: "Podcast",
+          headerBackImage: () => (
+            <AntDesign style={styles.profileLeft} name="back" color="white" />
+          ),
+          headerBackTitleVisible: false,
+        }}
+        component={PodcastScreen}
       />
       <HomeStack.Screen
         name="Saved"
