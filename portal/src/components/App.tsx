@@ -4,7 +4,7 @@ import EditEvent from "./Events/EditEvent";
 import EditContent from "./Contents/EditContent";
 import Landing from "./Landing";
 const App = () => {
-  const { data, error, loading } = useTypedSelector((state) => state.auth);
+  const { data, error, loading } = useTypedSelector((state: any) => state.auth);
   console.log(data);
   {
     return (
