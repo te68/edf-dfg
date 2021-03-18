@@ -1,11 +1,10 @@
 import Login from "./Login";
 import { useActions } from "../hooks/useActions";
-import { useTypedSelector } from "../hooks/useTypedSelector";
-
+import NavBar from "./NavBar";
+import EventsTable from "./Events/EventsTable";
+import ContentsTable from "./Contents/ContentsTable";
 const Landing = () => {
   const { logoutUser } = useActions();
-  const { data, error, loading } = useTypedSelector((state) => state.repos);
-  console.log(data);
   const onClick = () => {
     logoutUser();
   };
@@ -13,8 +12,10 @@ const Landing = () => {
   if (localStorage.getItem("token")) {
     return (
       <div>
+        <NavBar />
+        <EventsTable />
+        <ContentsTable />
         <h1>Logged in</h1>
-        <button onClick={onClick}>Logou</button>
       </div>
     );
   } else {

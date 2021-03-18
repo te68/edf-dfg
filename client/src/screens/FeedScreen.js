@@ -24,18 +24,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { CustomSvgs } from "../../constants";
 import { getData } from "../asyncStorage";
 // import SaveIcon from "../../assets/save-icon.svg";
-const pinnedContent = [
-  {
-    id: "1",
-    previewImage: require("../../assets/pinnedImage.png"),
-    title: "What a Changing Climate Means for Human Health",
-  },
-  {
-    id: "2",
-    previewImage: require("../../assets/pinnedImage.png"),
-    title: "What a Changing Climate Means for Human Health",
-  },
-];
+
 const generalFeed = [
   {
     id: "1",
@@ -50,35 +39,7 @@ const generalFeed = [
     angrys: 0,
     url: "https://www.edf.org/",
     saved: false,
-  },
-  {
-    id: "2",
-    title: "Questions to ask recruiters",
-    author: "EDF",
-    subjects: ["Resources", "Job Seeking"],
-    previewText: "Lorem ipsum",
-    previewImage: require("../../assets/articleImage.png"),
-    likes: 20,
-    celebrates: 2,
-    dislikes: 4,
-    angrys: 0,
-    url: "https://www.edf.org/",
-    saved: false,
-  },
-  {
-    id: "3",
-    title: "Questions to ask recruiters",
-    author: "EDF",
-    subjects: ["Resources", "Job Seeking"],
-    previewText: "Lorem ipsum",
-    previewImage: require("../../assets/articleImage.png"),
-    likes: 20,
-    celebrates: 2,
-    dislikes: 4,
-    angrys: 0,
-    url: "https://www.edf.org/",
-    saved: false,
-  },
+  }
 ];
 
 const ArticleCard = ({

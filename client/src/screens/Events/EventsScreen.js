@@ -13,6 +13,7 @@ import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
 import axios from "axios";
 import { getData } from "../../asyncStorage";
+import SearchBar from "../../components/SearchBar";
 export const EventCard = (props) => {
   const { navigation, color, ...eventInfo } = props;
   const { _id, title, date, address, description } = eventInfo;
@@ -43,21 +44,7 @@ export const EventCard = (props) => {
     </TouchableOpacity>
   );
 };
-const SearchBar = ({ value, handleOnChange }) => {
-  return (
-    <View style={styles.searchBarContainer}>
-      <View style={{ flexDirection: "row", width: "100%" }}>
-        <AntDesign name="search1" size={20} color="black" />
-        <TextInput
-          style={styles.searchBar}
-          placholder="Search Event"
-          value={value}
-          onChangeText={(text) => handleOnChange(text)}
-        />
-      </View>
-    </View>
-  );
-};
+
 const EventsScreen = ({ navigation }) => {
   const [searchQuery, updateSearchQuery] = useState("");
   const [events, updateEvents] = useState([]);
@@ -204,19 +191,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 50,
   },
-  searchBarContainer: {
-    alignItems: "center",
-    margin: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  searchBar: {
-    flex: 1,
-    borderRadius: 15,
-    height: 24,
-    paddingLeft: 10,
-    backgroundColor: "rgba(196, 196, 196, 0.3)",
-  },
+  
   eventCard: {
     flexDirection: "row",
     borderRadius: 30,

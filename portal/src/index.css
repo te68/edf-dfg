@@ -11,3 +11,27 @@
   margin-top: 30px;
   width: 100%;
 }
+
+.login-wrapper form input {
+  margin: 10px 0;
+}
+.navbar {
+  width: 100%;
+}
+.google-maps-search {
+  width: 100%;
+}
+.edit-event-button {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.edit-event-button button {
+  width: 70px;
+}
+
+.margin10PercentTop {
+  margin-top: 10%;
+}

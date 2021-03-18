@@ -5,7 +5,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { fetchUser } = useActions();
-  const { data, error, loading } = useTypedSelector((state) => state.repos);
+  const { data, error, loading } = useTypedSelector((state: any) => state.auth);
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -17,6 +17,13 @@ const Login: React.FC = () => {
     event.preventDefault();
     console.log(email, password);
     fetchUser(email, password);
+  };
+  const renderError = () => {
+    return (
+      <article className="message is-small is-danger">
+        <div className="message-body">{error}</div>
+      </article>
+    );
   };
   return (
     <div className="login-wrapper">
@@ -37,6 +44,7 @@ const Login: React.FC = () => {
           onChange={handlePasswordChange}
           value={password}
         />
+        {error ? renderError() : null}
         <button className="button is-success" type="submit">
           Login
         </button>
