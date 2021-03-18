@@ -17,6 +17,8 @@ import {
   styles,
 } from "./helpers";
 import ProfileScreen from "../screens/ProfileScreen";
+import AboutScreen from "../screens/AboutScreen";
+import EventsScreen from "../screens/Events/EventsScreen";
 const Tab = createBottomTabNavigator();
 export const TabNavigator = () => {
   return (
@@ -87,13 +89,37 @@ const AppNavigator = ({ navigation }) => {
       <AppStack.Screen
         name="Profile"
         options={{
-          title: "Profile",
+          title: "",
           headerBackImage: () => (
             <AntDesign style={styles.profileLeft} name="back" color="white" />
           ),
           headerBackTitleVisible: false,
         }}
         component={ProfileScreen}
+      />
+      <AppStack.Screen
+        name="About"
+        options={{
+          title: "",
+          headerBackImage: () => (
+            <AntDesign style={styles.profileLeft} name="back" color="white" />
+          ),
+          headerBackTitleVisible: false,
+        }}
+        component={AboutScreen}
+      />
+      <AppStack.Screen
+        name="Events"
+        options={{
+          headerBackImage: () => (
+            <AntDesign style={styles.profileLeft} name="back" color="white" />
+          ),
+          headerBackTitleVisible: false,
+          tabBarOptions: {
+            showLabel: false,
+          },
+        }}
+        component={EventsScreen}
       />
     </AppStack.Navigator>
   );

@@ -10,10 +10,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import AboutScreen from "../screens/AboutScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import LearnScreen from "../screens/LearnScreen";
-import MainNavigator from "../navigation/MainNavigator";
 import { createStackNavigator } from "@react-navigation/stack";
-import AppNavigator from "../navigation/MainNavigator";
-import HomeNavigator from "./HomeNavigator";
 const LearnStack = createStackNavigator();
 const LearnNavigator = ({ navigation }) => {
   return (
@@ -21,8 +18,7 @@ const LearnNavigator = ({ navigation }) => {
       <LearnStack.Screen
         options={{
           title: "Learn",
-          // headerLeft: navToAbout(navigation),
-          headerLeft: navToHome(navigation),
+          headerLeft: navToAbout(navigation),
           headerRight: navToProfile(navigation),
         }}
         name="Learn"
@@ -43,7 +39,7 @@ const LearnNavigator = ({ navigation }) => {
         component={ProfileScreen}
       /> */}
 
-      <LearnStack.Screen
+      {/* <LearnStack.Screen
         name="About"
         options={{
           title: "About",
@@ -53,7 +49,7 @@ const LearnNavigator = ({ navigation }) => {
           headerBackTitleVisible: false,
         }}
         component={AboutScreen}
-      />
+      /> */}
     </LearnStack.Navigator>
   );
 };

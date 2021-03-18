@@ -6,7 +6,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import BottomButton from "../components/BottomButton";
@@ -29,15 +29,15 @@ const pinnedContent = [
 const categories = [
   {
     id: "1",
-    title: "Guides and Learning Resources"
+    title: "Guides and Learning Resources",
   },
   {
     id: "2",
-    title: "Corporate Climate Action Updates"
+    title: "Corporate Climate Action Updates",
   },
   {
     id: "3",
-    title: "Career Resources"
+    title: "Career Resources",
   },
 ];
 
@@ -53,7 +53,6 @@ const corporateClimate = [
     title: "Podcasts",
   },
 ];
-
 
 function Category(props) {
   const content = props.content;
@@ -72,14 +71,17 @@ function Category(props) {
               paddingBottom: 10,
             }}
           >
-            <Image style={{ width: 168, height: 111 }} source={content.previewImage} />
+            <Image
+              style={{ width: 168, height: 111 }}
+              source={content.previewImage}
+            />
             <Text
               style={{
                 color: "black",
                 fontSize: 14,
                 textAlign: "left",
-                fontWeight: 'bold',
-                padding: 5
+                fontWeight: "bold",
+                padding: 5,
                 //textShadowColor: "rgba(0, 0, 0, 0.75)",
                 //textShadowOffset: { width: -1, height: 1 },
                 //textShadowRadius: 10,
@@ -91,16 +93,20 @@ function Category(props) {
         ))}
       </View>
     </View>
-
   );
 }
 
 const LearnScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}> Learn </Text>
+      <View style={styles.title}>
+        <Text style={styles.titleText}> Learn </Text>
+      </View>
       <Category title="Guides and Learning Resources" content={pinnedContent} />
-      <Category title="Corporate Climate Action Updates" content={corporateClimate} />
+      <Category
+        title="Corporate Climate Action Updates"
+        content={corporateClimate}
+      />
       <Category title="Career Resources" content={pinnedContent} />
     </ScrollView>
   );
@@ -124,16 +130,23 @@ LearnScreen.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10,
   },
   title: {
-    textAlign: 'center',
-    color: "#00AA91",
-    fontSize: 48,
-    fontWeight: 'bold',
-    padding: 10
-
+    backgroundColor: "#00AA90",
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20,
   },
+  titleText: {
+    fontSize: 25,
+    fontWeight: "700",
+    color: "white",
+    padding: 10,
+  },
+
   heading: {
     backgroundColor: "#99D5F1",
     fontSize: 18,
@@ -142,11 +155,10 @@ const styles = StyleSheet.create({
     padding: 5,
     marginHorizontal: 5,
     marginVertical: 10,
-    overflow: 'hidden',
-    shadowColor: "black",
+    overflow: "hidden",
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   icon: {
     flex: 1,
