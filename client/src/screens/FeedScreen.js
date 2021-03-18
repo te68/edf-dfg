@@ -39,11 +39,10 @@ const generalFeed = [
     angrys: 0,
     url: "https://www.edf.org/",
     saved: false,
-  }
+  },
 ];
 
 const ArticleCard = ({
-  id,
   title,
   author,
   previewText,
@@ -75,21 +74,23 @@ const ArticleCard = ({
             <Text style={{ fontSize: 22, fontWeight: "500" }}>{title}</Text>
             <View style={{ flexDirection: "row" }}>
               <Text style={{ fontSize: 18 }}>By {author} </Text>
-              {subjects.map((tag) => (
-                <Text
-                  key={tag}
-                  style={{
-                    fontSize: 12,
-                    borderWidth: 1,
-                    borderRadius: 8,
-                    paddingLeft: 10,
-                    paddingRight: 10,
-                    margin: 2,
-                  }}
-                >
-                  {tag}
-                </Text>
-              ))}
+              {subjects.length
+                ? subjects.map((tag) => (
+                    <Text
+                      key={tag}
+                      style={{
+                        fontSize: 12,
+                        borderWidth: 1,
+                        borderRadius: 8,
+                        paddingLeft: 10,
+                        paddingRight: 10,
+                        margin: 2,
+                      }}
+                    >
+                      {tag}
+                    </Text>
+                  ))
+                : null}
             </View>
             <Text style={{ fontSize: 16 }}>{previewText}</Text>
             <Image source={previewImage} style={{ width: "100%" }} />
@@ -202,13 +203,22 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
     }
   };
   const [isSaved, setIsSaved] = useState(false);
-  const savedIds = [1];
+  const [savedIds, setSavedIds] = useState(["2", "1"]);
+
   useEffect(() => {
     setIsSaved(content.id in savedIds);
-  });
+  }, []);
   const onChangeSaved = () => {
-    if (content.id in savedIds) savedIds.pop(content.id);
-    else savedIds.push(content.id);
+    let newSavedIds = savedIds;
+
+    if (newSavedIds.includes(content.id)) {
+      newSavedIds = newSavedIds.filter((id) => id !== content.id);
+      console.log("Remove");
+    } else {
+      newSavedIds.push(content.id);
+      console.log("Added");
+    }
+    setSavedIds(newSavedIds);
     setIsSaved(!isSaved);
   };
   return (
@@ -251,7 +261,6 @@ const FeedScreen = ({ navigation }) => {
   const [savedArticles, setSavedArticles] = useState([]);
   const SAVED_STORAGE_KEY = "@saved_articles";
   // console.log(savedArticles);
-  const savedIds = [];
   useEffect(() => {
     async function fetchData() {
       const res = (await getData(SAVED_STORAGE_KEY)) || [];
@@ -268,7 +277,6 @@ const FeedScreen = ({ navigation }) => {
           content={content}
           updatePost={updatePost}
           savePost={savePost}
-          savedIds={savedIds}
         />
       );
     });
