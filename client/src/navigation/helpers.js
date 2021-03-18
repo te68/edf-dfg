@@ -6,6 +6,7 @@ export const headerStyle = {
     color: "white",
     fontWeight: "bold",
   },
+  cardStyle: { backgroundColor: "white" },
   headerStyle: {
     backgroundColor: "#0A4D95",
   },

@@ -82,6 +82,7 @@ const generalFeed = [
 ];
 
 const ArticleCard = ({
+  id,
   title,
   author,
   previewText,
@@ -96,7 +97,6 @@ const ArticleCard = ({
   const handlePress = useCallback(async () => {
     // Checking if the link is supported for links with custom URL scheme.
     const supported = await Linking.canOpenURL(url);
-
     if (supported) {
       // Opening the link with some app, if the URL scheme is "http" the web link should be opened
       // by some browser in the mobile
@@ -105,6 +105,7 @@ const ArticleCard = ({
       Alert.alert(`Don't know how to open this URL: ${url}`);
     }
   }, [url]);
+
   return (
     <View style={{ width: 380, alignItems: "flex-start" }}>
       <TouchableOpacity style={styles.articleCard} onPress={handlePress}>
@@ -220,7 +221,7 @@ const ArticleButtons = ({ id, updatePost }) => (
     </TouchableOpacity>
   </View>
 );
-const ArticlePost = ({ content, updatePost, savedIds, savePost }) => {
+const ArticlePost = ({ content, updatePost, savePost }) => {
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -238,6 +239,16 @@ const ArticlePost = ({ content, updatePost, savedIds, savePost }) => {
     } catch (error) {
       alert(error.message);
     }
+  };
+  const [isSaved, setIsSaved] = useState(false);
+  const savedIds = [1];
+  useEffect(() => {
+    setIsSaved(content.id in savedIds);
+  });
+  const onChangeSaved = () => {
+    if (content.id in savedIds) savedIds.pop(content.id);
+    else savedIds.push(content.id);
+    setIsSaved(!isSaved);
   };
   return (
     <View
@@ -259,8 +270,8 @@ const ArticlePost = ({ content, updatePost, savedIds, savePost }) => {
           margin: 5,
         }}
       >
-        <TouchableOpacity style={{ marginBottom: 5 }} onPress={savePost}>
-          {content.id in savedIds ? (
+        <TouchableOpacity style={{ marginBottom: 5 }} onPress={onChangeSaved}>
+          {isSaved ? (
             <Text>Hi</Text>
           ) : (
             <MaterialIcons name="bookmark-border" size={25} color="black" />

@@ -1,16 +1,19 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import BottomButton from "../components/BottomButton";
 
 const LearnScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}> Learn </Text>
-      <Text style={styles.heading}> Guides and Learning Resources </Text>
-      <Text style={styles.heading}> Corporate Climate Action Updates </Text>
-      <Text style={styles.heading}> Career Resources </Text>
-      {/* <BottomButton navigation={navigation} /> */}
+      <View style={styles.title}>
+        <Text style={styles.titleText}> Learn </Text>
+      </View>
+
+      <View style={{ margin: 20 }}>
+        <Text style={styles.heading}> Guides and Learning Resources </Text>
+        <Text style={styles.heading}> Corporate Climate Action Updates </Text>
+        <Text style={styles.heading}> Career Resources </Text>
+      </View>
     </View>
   );
 };
@@ -33,13 +36,23 @@ LearnScreen.navigationOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 20,
   },
   title: {
-    color: "#00AA91",
-    fontSize: 48,
-
+    backgroundColor: "#00AA90",
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20,
   },
+  titleText: {
+    fontSize: 25,
+    fontWeight: "700",
+    color: "white",
+    padding: 10,
+  },
+
   heading: {
     backgroundColor: "#99D5F1",
     fontSize: 18,
@@ -49,10 +62,10 @@ const styles = StyleSheet.create({
     padding: 5,
     //marginHorizontal: 15,
     marginVertical: 10,
-    overflow: 'hidden'
+    overflow: "hidden",
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   icon: {
     flex: 1,
