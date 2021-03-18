@@ -64,7 +64,8 @@ if (process.env.NODE_ENV === "production") {
   // Serve any static files
   app.use(express.static(path.join(__dirname, "portal/build")));
 
-  app.get("/*", (req, res) => {
+  // Handle React routing, return all requests to Front End
+  app.get("/a/*", function (req, res) {
     res.sendFile(path.join(__dirname, "portal/build", "index.html"));
   });
 }
