@@ -9,7 +9,8 @@
     "startDev": "nodemon server.js",
     "server": "nodemon server",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "cd portal && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "author": "Yazan Almatar",
   "license": "ISC",
