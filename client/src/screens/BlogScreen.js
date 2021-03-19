@@ -11,15 +11,15 @@ import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
 
-const BlogScreen = () => {
+const BlogScreen = ({ navigation }) => {
   const [searchQuery, updateSearchQuery] = useState("");
   const [blogs, updateBlogs] = useState([]);
   const [displayedBlogs, updateDisplayedBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getBlogs = async (searchQuery) => {
+  const getBlogs = async (searchQuery = "") => {
     const res = await axios.get(
-      `http://localhost:3000/api/content?searchQuery=${searchQuery}category=blog`,
+      `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${searchQuery}&category=blog`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -29,11 +29,11 @@ const BlogScreen = () => {
       }
     );
     if (res.status === 200) {
-      updateBlogs(res.data.events);
-      updateDisplayedBlogs(res.data.events);
+      updateBlogs(res.data.content);
+      updateDisplayedBlogs(res.data.content);
     } else {
       //TODO: error handling
-      alert("Error getting events");
+      alert("Error getting blogs");
       navigation.goBack();
     }
   };
@@ -45,14 +45,8 @@ const BlogScreen = () => {
   };
 
   const onChangeSearch = async (text) => {
-    if (searchQuery !== "") {
-      let newEvents = events.filter((event) =>
-        event.title.toLowerCase().includes(text.toLowerCase())
-      );
-      updateDisplayedEvents(newEvents);
-    } else {
-      updateDisplayedEvents(events);
-    }
+    //   TODO: Search for Blogs
+    getBlogs(text);
     updateSearchQuery(text.toLowerCase());
   };
 
@@ -71,16 +65,18 @@ const BlogScreen = () => {
           <ActivityIndicator size="large" color="#00AA90" />
         ) : (
           <View>
-            {blogs.length
-              ? blogs.map((event) => (
-                  <EventCard
-                    key={event._id}
-                    {...event}
-                    navigation={navigation}
-                    color={"#99D5F1"}
-                  />
-                ))
-              : null}
+            {blogs.length ? (
+              blogs.map((event) => (
+                <EventCard
+                  key={event._id}
+                  {...event}
+                  navigation={navigation}
+                  color={"#99D5F1"}
+                />
+              ))
+            ) : (
+              <Text>No Blogs Found</Text>
+            )}
           </View>
         )}
       </ScrollView>

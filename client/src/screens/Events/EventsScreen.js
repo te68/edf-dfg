@@ -53,13 +53,16 @@ const EventsScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const getEvents = async () => {
-    const res = await axios.get("http://localhost:3000/api/event", {
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-      },
-    });
+    const res = await axios.get(
+      "https://youth-activism-app-server.herokuapp.com/api/event",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+        },
+      }
+    );
     if (res.status === 200) {
       updateEvents(res.data.events);
       updateDisplayedEvents(res.data.events);
@@ -191,7 +194,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 50,
   },
-  
+
   eventCard: {
     flexDirection: "row",
     borderRadius: 30,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons, Entypo } from "@expo/vector-icons";
-
+// TODO: links for
 const ActScreen = ({ navigation }) => {
   const actions = [
     { key: 0, title: "Influence Your Employer" },
@@ -16,8 +16,8 @@ const ActScreen = ({ navigation }) => {
     { key: 2, title: "Write a Letter to the Editor" },
     { key: 3, title: "Tell Your Story" },
     { key: 4, title: "Support Petitions" },
-    { key: 5, title: "Train With Us" },
   ];
+  const [showDesc, updateShowDesc] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -27,7 +27,7 @@ const ActScreen = ({ navigation }) => {
       <ScrollView contentContainerStyle={{ alignItems: "center" }}>
         <View>
           {actions.map((action) => (
-            <TouchableOpacity style={styles.act}>
+            <TouchableOpacity key={action.key} style={styles.act}>
               <View
                 style={{
                   flexDirection: "row",
@@ -39,6 +39,37 @@ const ActScreen = ({ navigation }) => {
               </View>
             </TouchableOpacity>
           ))}
+          <TouchableOpacity
+            style={styles.act}
+            onPress={() => updateShowDesc(!showDesc)}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={styles.body}> Train With Us </Text>
+              <Entypo name="chevron-right" size={30} color="#00AA91" />
+            </View>
+          </TouchableOpacity>
+
+          {showDesc ? (
+            <View
+              style={{
+                paddingTop: 5,
+                paddingLeft: 20,
+                paddingRight: 20,
+              }}
+            >
+              <Text>
+                If you want to engage with our experts and learn more about the
+                guides and resources to wield your influence for corporate
+                climate action, connect with us. Look out for the upcoming
+                opportunities here:
+              </Text>
+            </View>
+          ) : null}
         </View>
       </ScrollView>
     </View>
