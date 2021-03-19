@@ -5,20 +5,10 @@ import LearnNavigator from "./LearnNavigator";
 import ConnectNavigator from "./ConnectNavigator";
 import ActNavigator from "./ActNavigator";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { SvgXml } from "react-native-svg";
 import { CustomSvgs } from "../../constants";
-import { createStackNavigator } from "@react-navigation/stack";
-import {
-  navToAbout,
-  navToProfile,
-  navToHome,
-  headerStyle,
-  styles,
-} from "./helpers";
-import ProfileScreen from "../screens/ProfileScreen";
-import AboutScreen from "../screens/AboutScreen";
-import EventsScreen from "../screens/Events/EventsScreen";
+
 const Tab = createBottomTabNavigator();
 export const TabNavigator = () => {
   return (
@@ -69,7 +59,6 @@ export const TabNavigator = () => {
       }}
     >
       <Tab.Screen name="Home" component={HomeNavigator} />
-
       <Tab.Screen name="Learn" component={LearnNavigator} />
       <Tab.Screen name="Act" component={ActNavigator} />
       <Tab.Screen name="Connect" component={ConnectNavigator} />
@@ -77,51 +66,4 @@ export const TabNavigator = () => {
   );
 };
 
-const AppStack = createStackNavigator();
-const AppNavigator = ({ navigation }) => {
-  return (
-    <AppStack.Navigator screenOptions={headerStyle}>
-      <AppStack.Screen
-        name="Main"
-        options={{ headerShown: false }}
-        component={TabNavigator}
-      />
-      <AppStack.Screen
-        name="Profile"
-        options={{
-          title: "",
-          headerBackImage: () => (
-            <AntDesign style={styles.profileLeft} name="back" color="white" />
-          ),
-          headerBackTitleVisible: false,
-        }}
-        component={ProfileScreen}
-      />
-      <AppStack.Screen
-        name="About"
-        options={{
-          title: "",
-          headerBackImage: () => (
-            <AntDesign style={styles.profileLeft} name="back" color="white" />
-          ),
-          headerBackTitleVisible: false,
-        }}
-        component={AboutScreen}
-      />
-      <AppStack.Screen
-        name="Events"
-        options={{
-          headerBackImage: () => (
-            <AntDesign style={styles.profileLeft} name="back" color="white" />
-          ),
-          headerBackTitleVisible: false,
-          tabBarOptions: {
-            showLabel: false,
-          },
-        }}
-        component={EventsScreen}
-      />
-    </AppStack.Navigator>
-  );
-};
-export default AppNavigator;
+export default TabNavigator;

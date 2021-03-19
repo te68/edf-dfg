@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   Linking,
   Share,
+  AsyncStorage,
 } from "react-native";
 import {
   AntDesign,
@@ -18,14 +19,11 @@ import {
   MaterialCommunityIcons,
   Feather,
 } from "@expo/vector-icons";
-import BottomButton from "../components/BottomButton";
 import { SvgXml } from "react-native-svg";
-import { ScrollView } from "react-native-gesture-handler";
 import { CustomSvgs } from "../../constants";
-import { getData } from "../asyncStorage";
+import { getData, setData } from "../asyncStorage";
 import axios from "axios";
 import moment from "moment";
-// import SaveIcon from "../../assets/save-icon.svg";
 
 const generalFeed = [
   {
@@ -204,21 +202,31 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
     }
   };
   const [isSaved, setIsSaved] = useState(false);
-  const [savedIds, setSavedIds] = useState(["2", "1"]);
-
+  const [savedIds, setSavedIds] = useState([]);
+  const SAVED_ARTICLES_STORAGE_KEY = "@saved_article_ids";
+  const getSavedArticleIds = async () => {
+    setSavedIds(getData(SAVED_ARTICLES_STORAGE_KEY) || []);
+  };
+  const setSavedArticleIds = async () => {
+    setData(SAVED_ARTICLES_STORAGE_KEY, savedIds);
+  };
   useEffect(() => {
-    setIsSaved(content.id in savedIds);
+    getSavedArticleIds(SAVED_ARTICLES_STORAGE_KEY);
+    setIsSaved(savedIds.includes(content._id));
+    console.log(savedIds);
   }, []);
-  const onChangeSaved = () => {
+  const onChangeSaved = async () => {
+    // TODO: Get saved to work
     let newSavedIds = savedIds;
-
-    if (newSavedIds.includes(content.id)) {
+    console.log(savedIds);
+    if (newSavedIds.length && newSavedIds.includes(content.id)) {
       newSavedIds = newSavedIds.filter((id) => id !== content.id);
       console.log("Remove");
     } else {
       newSavedIds.push(content.id);
       console.log("Added");
     }
+    setSavedArticleIds(newSavedIds);
     setSavedIds(newSavedIds);
     setIsSaved(!isSaved);
   };
@@ -244,7 +252,7 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
       >
         <TouchableOpacity style={{ marginBottom: 5 }} onPress={onChangeSaved}>
           {isSaved ? (
-            <Text>Hi</Text>
+            <MaterialIcons name="bookmark" size={25} color="black" />
           ) : (
             <MaterialIcons name="bookmark-border" size={25} color="black" />
           )}
@@ -275,19 +283,21 @@ const FeedScreen = ({ navigation }) => {
   const [savedContentIds, updateSavedContentIds] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
-
+  // TODO: Loading Indicator
   const getContent = async () => {
-    const res = await axios.get("http://localhost:3000/api/content", {
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-      },
-    });
+    const res = await axios.get(
+      "https://youth-activism-app-server.herokuapp.com/api/content",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+        },
+      }
+    );
     if (res.status === 200) {
       updateContent(res.data.content);
       updateDisplayedContent(res.data.content);
-      console.log(res.data.content);
     } else {
       alert("Error getting content");
       navigation.goBack();

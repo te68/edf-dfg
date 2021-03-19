@@ -11,15 +11,15 @@ import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
 
-const PodcastScreen = ({ navigation }) => {
+const CareerScreen = ({ navigation }) => {
   const [searchQuery, updateSearchQuery] = useState("");
-  const [podcasts, updatePodcasts] = useState([]);
+  const [blogs, updateBlogs] = useState([]);
+  const [displayedBlogs, updateDisplayedBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getPodcasts = async (query = "") => {
-    console.log(query);
+  const getBlogs = async (searchQuery = "") => {
     const res = await axios.get(
-      `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${query}&category=podcast`,
+      `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${searchQuery}&category=career`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -29,22 +29,31 @@ const PodcastScreen = ({ navigation }) => {
       }
     );
     if (res.status === 200) {
-      updatePodcasts(res.data.content);
+      updateBlogs(res.data.content);
+      updateDisplayedBlogs(res.data.content);
     } else {
       //TODO: error handling
-      alert("Error getting podcasts");
+      alert("Error getting blogs");
       navigation.goBack();
     }
   };
 
   const onLoad = async () => {
     setIsLoading(true);
-    await getPodcasts();
+    await getBlogs();
     setIsLoading(false);
   };
 
   const onChangeSearch = async (text) => {
-    getPodcasts(text);
+    //   TODO: Search for Blogs
+    if (searchQuery !== "") {
+      let newEvents = events.filter((event) =>
+        event.title.toLowerCase().includes(text.toLowerCase())
+      );
+      updateDisplayedEvents(newEvents);
+    } else {
+      updateDisplayedEvents(events);
+    }
     updateSearchQuery(text.toLowerCase());
   };
 
@@ -56,15 +65,15 @@ const PodcastScreen = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
         <View style={styles.title}>
-          <Text style={styles.titleText}>Podcast</Text>
+          <Text style={styles.titleText}>Career</Text>
         </View>
         <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
         {isLoading ? (
           <ActivityIndicator size="large" color="#00AA90" />
         ) : (
           <View>
-            {podcasts.length ? (
-              podcasts.map((event) => (
+            {blogs.length ? (
+              blogs.map((event) => (
                 <EventCard
                   key={event._id}
                   {...event}
@@ -73,7 +82,7 @@ const PodcastScreen = ({ navigation }) => {
                 />
               ))
             ) : (
-              <Text>No Podcasts Found</Text>
+              <Text>No Careers Found</Text>
             )}
           </View>
         )}
@@ -98,4 +107,4 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-export default PodcastScreen;
+export default CareerScreen;

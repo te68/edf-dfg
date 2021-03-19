@@ -81,6 +81,7 @@ const Categories = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, { backgroundColor: "#6EC6B3" }]}
+            onPress={() => navigation.navigate("Career")}
           >
             <MaterialIcons name="assignment" size={40}></MaterialIcons>
             <Text style={styles.buttonText}>Careers</Text>
@@ -117,13 +118,16 @@ const HomeScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getContent = async () => {
-    const res = await axios.get("http://localhost:3000/api/content", {
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTQwODM1OCwiZXhwIjoxNjE1NzY4MzU4fQ.VDPbG9sOErObEFe09CNH1IgA-tZzJ9gZYHcWnXZ0oJM",
-      },
-    });
+    const res = await axios.get(
+      "https://youth-activism-app-server.herokuapp.com/api/content",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTQwODM1OCwiZXhwIjoxNjE1NzY4MzU4fQ.VDPbG9sOErObEFe09CNH1IgA-tZzJ9gZYHcWnXZ0oJM",
+        },
+      }
+    );
     if (res.status === 200) {
       updateContent(res.data.content);
       updateDisplayedContent(res.data.content);
