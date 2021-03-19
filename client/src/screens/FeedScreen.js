@@ -23,8 +23,8 @@ import { SvgXml } from "react-native-svg";
 import { ScrollView } from "react-native-gesture-handler";
 import { CustomSvgs } from "../../constants";
 import { getData } from "../asyncStorage";
-import axios from 'axios';
-import moment from 'moment';
+import axios from "axios";
+import moment from "moment";
 // import SaveIcon from "../../assets/save-icon.svg";
 
 const generalFeed = [
@@ -41,12 +41,10 @@ const generalFeed = [
     angrys: 0,
     url: "https://www.edf.org/",
     saved: false,
-  }
+  },
 ];
 
-
 const ArticleCard = ({
-  id,
   title,
   author,
   previewText,
@@ -206,13 +204,22 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
     }
   };
   const [isSaved, setIsSaved] = useState(false);
-  const savedIds = [1];
+  const [savedIds, setSavedIds] = useState(["2", "1"]);
+
   useEffect(() => {
     setIsSaved(content.id in savedIds);
-  });
+  }, []);
   const onChangeSaved = () => {
-    if (content.id in savedIds) savedIds.pop(content.id);
-    else savedIds.push(content.id);
+    let newSavedIds = savedIds;
+
+    if (newSavedIds.includes(content.id)) {
+      newSavedIds = newSavedIds.filter((id) => id !== content.id);
+      console.log("Remove");
+    } else {
+      newSavedIds.push(content.id);
+      console.log("Added");
+    }
+    setSavedIds(newSavedIds);
     setIsSaved(!isSaved);
   };
   return (
@@ -255,7 +262,6 @@ const FeedScreen = ({ navigation }) => {
   const [savedArticles, setSavedArticles] = useState([]);
   const SAVED_STORAGE_KEY = "@saved_articles";
   // console.log(savedArticles);
-  const savedIds = [];
   useEffect(() => {
     async function fetchData() {
       const res = (await getData(SAVED_STORAGE_KEY)) || [];
@@ -294,7 +300,7 @@ const FeedScreen = ({ navigation }) => {
   };
 
   const onLoad = async () => {
-    console.log('onLoad');
+    console.log("onLoad");
     setIsLoading(true);
     await getContent();
     await getMyFeed();
@@ -302,7 +308,7 @@ const FeedScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    console.log('useEffect');
+    console.log("useEffect");
     onLoad();
   }, []);
 
@@ -313,9 +319,8 @@ const FeedScreen = ({ navigation }) => {
   const featuredContent = content.filter((a) => a.featured);
 
   const ArticleList = ({ feed, updatePost, savePost }) => {
-    return (
-      myFeed.length ? (
-        myFeed.map((content) => {
+    return myFeed.length
+      ? myFeed.map((content) => {
           return (
             <ArticlePost
               key={content._id}
@@ -325,7 +330,8 @@ const FeedScreen = ({ navigation }) => {
               savedIds={savedContentIds}
             />
           );
-        })) : null)
+        })
+      : null;
   };
 
   const renderContent = ({ item }) => {
