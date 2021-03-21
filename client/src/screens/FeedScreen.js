@@ -7,9 +7,7 @@ import {
   Image,
   FlatList,
   SafeAreaView,
-  Linking,
   Share,
-  AsyncStorage,
 } from "react-native";
 import {
   AntDesign,
@@ -24,6 +22,7 @@ import { CustomSvgs } from "../../constants";
 import { getData, setData } from "../asyncStorage";
 import axios from "axios";
 import moment from "moment";
+import { handleUrl } from "./screenHelpers";
 
 const generalFeed = [
   {
@@ -54,21 +53,9 @@ const ArticleCard = ({
   angrys,
   url,
 }) => {
-  const handlePress = useCallback(async () => {
-    // Checking if the link is supported for links with custom URL scheme.
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-      // by some browser in the mobile
-      await Linking.openURL(url);
-    } else {
-      Alert.alert(`Don't know how to open this URL: ${url}`);
-    }
-  }, [url]);
-
   return (
     <View style={{ width: 380, alignItems: "flex-start" }}>
-      <TouchableOpacity style={styles.articleCard} onPress={handlePress}>
+      <TouchableOpacity style={styles.articleCard} onPress={handleUrl(url)}>
         <View style={{ paddingRight: 10, paddingLeft: 10 }}>
           <View>
             <Text style={{ fontSize: 22, fontWeight: "500" }}>{title}</Text>
@@ -148,7 +135,6 @@ const ArticleCard = ({
 
 const ArticleButtons = ({ id, updatePost }) => (
   // TODO: Button functionality
-
   <View
     style={{
       flexDirection: "row",

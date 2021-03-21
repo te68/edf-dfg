@@ -7,9 +7,7 @@ import AboutScreen from "../screens/AboutScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
-import PodcastScreen from "../screens/PodcastScreen";
-import BlogScreen from "../screens/BlogScreen";
-import CareerScreen from "../screens/CareerScreen";
+
 const HomeStack = createStackNavigator();
 const HomeNavigator = ({ navigation }) => {
   return (

@@ -10,7 +10,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import BottomButton from "../components/BottomButton";
 import { getData } from "../asyncStorage";
 import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
