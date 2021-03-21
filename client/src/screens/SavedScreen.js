@@ -44,8 +44,8 @@ const SavedScreen = ({ navigation }) => {
   ];
   return (
     <View style={styles.container}>
-      <Text style={styles.title}> Saved Content </Text>
       <ScrollView contentContainerStyle={styles.center}>
+        <Text style={styles.title}> Saved Content </Text>
         <Saved />
       </ScrollView>
     </View>
@@ -109,55 +109,55 @@ const Saved = () => {
   // render() {
   const articleItems = articles.length
     ? articles.map((article) => {
-        return (
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.article}>
+      return (
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.article}>
+            <Text
+              style={{
+                fontSize: 20,
+                margin: 4,
+                fontWeight: "bold",
+              }}
+            >
+              {article.title}
+            </Text>
+            <View style={styles.row}>
               <Text
                 style={{
-                  fontSize: 20,
+                  fontSize: 14,
                   margin: 4,
-                  fontWeight: "bold",
                 }}
               >
-                {article.title}
+                By {article.author}
               </Text>
-              <View style={styles.row}>
+              {article.subjects.map((tag) => (
                 <Text
                   style={{
-                    fontSize: 14,
-                    margin: 4,
+                    fontSize: 12,
+                    borderWidth: 1,
+                    borderRadius: 8,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    margin: 2,
                   }}
                 >
-                  By {article.author}
+                  {tag}
                 </Text>
-                {article.subjects.map((tag) => (
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      borderWidth: 1,
-                      borderRadius: 8,
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                      margin: 2,
-                    }}
-                  >
-                    {tag}
-                  </Text>
-                ))}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                // this.handleChange(article.id), this.setState({ color: "orange" });
-                handleChange(article.id);
-              }}
-              style={{ justifyContent: "center" }}
-            >
-              <Ionicons name="md-close" size={25} color="#C70000" />
-            </TouchableOpacity>
-          </View>
-        );
-      })
+              ))}
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              // this.handleChange(article.id), this.setState({ color: "orange" });
+              handleChange(article.id);
+            }}
+            style={{ justifyContent: "center" }}
+          >
+            <Ionicons name="md-close" size={25} color="#C70000" />
+          </TouchableOpacity>
+        </View>
+      );
+    })
     : [];
   return (
     <View style={styles.container}>

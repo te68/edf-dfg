@@ -56,32 +56,31 @@ const PodcastScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <View style={styles.title}>
-          <Text style={styles.titleText}>Podcast</Text>
-        </View>
-        <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#00AA90" />
-        ) : (
-          <View>
-            {podcasts.length ? (
-              podcasts.map((event) => (
-                <EventCard
-                  key={event._id}
-                  {...event}
-                  navigation={navigation}
-                  color={"#99D5F1"}
-                />
-              ))
-            ) : (
+    <ScrollView>
+      <View style={styles.title}>
+        <Text style={styles.titleText}>Podcast</Text>
+      </View>
+      <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#00AA90" />
+      ) : (
+        <View>
+          {podcasts != null
+            ? podcasts.map((event) => (
+              <EventCard
+                key={event._id}
+                {...event}
+                navigation={navigation}
+                color={"#99D5F1"}
+              />
+            ))
+            : (
               <Text>No Podcasts Found</Text>
             )}
-          </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+        </View>
+      )}
+    </ScrollView>
+
   );
 };
 const styles = StyleSheet.create({

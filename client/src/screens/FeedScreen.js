@@ -50,7 +50,6 @@ const ArticleCard = ({
   likes,
   celebrates,
   dislikes,
-  angrys,
   url,
 }) => {
   return (
@@ -111,7 +110,7 @@ const ArticleCard = ({
               <Text>{dislikes} </Text>
               <Feather name="thumbs-down" size={15} color="black" />
             </View>
-            <View
+            {/*<View
               style={{
                 flexDirection: "row",
                 paddingRight: 5,
@@ -120,12 +119,12 @@ const ArticleCard = ({
             >
               <Text>{angrys} </Text>
               <Fontisto name="mad" size={15} color="black" />
-            </View>
+            </View>*/}
           </View>
         </View>
         <View style={{ justifyContent: "flex-end" }}>
           <TouchableOpacity>
-            <AntDesign name="arrowright" size={24} color="black" />
+            <AntDesign name="arrowright" size={20} color="black" />
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
@@ -159,12 +158,12 @@ const ArticleButtons = ({ id, updatePost }) => (
       <Feather name="thumbs-down" size={15} color="black" />
       <Text style={{ paddingLeft: 2 }}>Dislike</Text>
     </TouchableOpacity>
-    <TouchableOpacity
+    {/*<TouchableOpacity
       style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
     >
       <Fontisto name="mad" size={15} color="black" />
       <Text style={{ paddingLeft: 2 }}>Angry</Text>
-    </TouchableOpacity>
+    </TouchableOpacity>*/}
   </View>
 );
 
@@ -304,7 +303,6 @@ const FeedScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    console.log("useEffect");
     onLoad();
   }, []);
 
@@ -317,16 +315,16 @@ const FeedScreen = ({ navigation }) => {
   const ArticleList = ({ feed, updatePost, savePost }) => {
     return myFeed.length
       ? myFeed.map((content) => {
-          return (
-            <ArticlePost
-              key={content._id}
-              content={content}
-              updatePost={updatePost}
-              savePost={savePost}
-              savedIds={savedContentIds}
-            />
-          );
-        })
+        return (
+          <ArticlePost
+            key={content._id}
+            content={content}
+            updatePost={updatePost}
+            savePost={savePost}
+            savedIds={savedContentIds}
+          />
+        );
+      })
       : null;
   };
 
@@ -397,8 +395,11 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     padding: 10,
     marginBottom: 10,
+    marginRight: 19,
     flexDirection: "row",
     justifyContent: "space-between",
+    flex: 1,
+    flexWrap: 'wrap'
   },
   item: {
     margin: 20,
