@@ -11,15 +11,15 @@ import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
 
-const PodcastScreen = () => {
+const PodcastScreen = ({ navigation }) => {
   const [searchQuery, updateSearchQuery] = useState("");
   const [podcasts, updatePodcasts] = useState([]);
-  const [displayedPodcasts, updateDisplayedPodcasts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getPodcasts = async (searchQuery) => {
+  const getPodcasts = async (query = "") => {
+    console.log(query);
     const res = await axios.get(
-      `http://localhost:3000/api/content?searchQuery=${searchQuery}category=podcast`,
+      `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${query}&category=podcast`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -29,11 +29,10 @@ const PodcastScreen = () => {
       }
     );
     if (res.status === 200) {
-      updatePodcasts(res.data.events);
-      updateDisplayedPodcasts(res.data.events);
+      updatePodcasts(res.data.content);
     } else {
       //TODO: error handling
-      alert("Error getting events");
+      alert("Error getting podcasts");
       navigation.goBack();
     }
   };
@@ -45,14 +44,7 @@ const PodcastScreen = () => {
   };
 
   const onChangeSearch = async (text) => {
-    if (searchQuery !== "") {
-      let newEvents = events.filter((event) =>
-        event.title.toLowerCase().includes(text.toLowerCase())
-      );
-      updateDisplayedEvents(newEvents);
-    } else {
-      updateDisplayedEvents(events);
-    }
+    getPodcasts(text);
     updateSearchQuery(text.toLowerCase());
   };
 
@@ -61,30 +53,31 @@ const PodcastScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <View style={styles.title}>
-          <Text style={styles.titleText}>Podcast</Text>
+    <ScrollView>
+      <View style={styles.title}>
+        <Text style={styles.titleText}>Podcast</Text>
+      </View>
+      <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#00AA90" />
+      ) : (
+        <View>
+          {podcasts != null
+            ? podcasts.map((event) => (
+              <EventCard
+                key={event._id}
+                {...event}
+                navigation={navigation}
+                color={"#99D5F1"}
+              />
+            ))
+            : (
+              <Text>No Podcasts Found</Text>
+            )}
         </View>
-        <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#00AA90" />
-        ) : (
-          <View>
-            {podcasts != null
-              ? podcasts.map((event) => (
-                <EventCard
-                  key={event._id}
-                  {...event}
-                  navigation={navigation}
-                  color={"#99D5F1"}
-                />
-              ))
-              : null}
-          </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+      )}
+    </ScrollView>
+
   );
 };
 const styles = StyleSheet.create({

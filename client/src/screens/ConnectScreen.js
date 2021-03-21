@@ -20,13 +20,16 @@ const ConnectScreen = ({ navigation }) => {
   const [myEventIds, updateMyEventIds] = useState([]);
   const [isLoadingEvents, setIsLoadingEvents] = useState(false);
   const getEvents = async () => {
-    const res = await axios.get("http://localhost:3000/api/event", {
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-      },
-    });
+    const res = await axios.get(
+      "https://youth-activism-app-server.herokuapp.com/api/event",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+        },
+      }
+    );
     if (res.status === 200) {
       updateEvents(res.data.events);
     } else {

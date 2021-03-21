@@ -1,30 +1,19 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   View,
-  FlatList,
   ScrollView,
+  FlatList,
   Text,
   StyleSheet,
   TouchableOpacity,
   Image,
+  Linking,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import BottomButton from "../components/BottomButton";
 import axios from "axios";
+import { Link } from "@react-navigation/native";
+import { stubFalse } from "lodash";
 //import { styles } from "../navigation/helpers";
-
-const pinnedContent = [
-  {
-    id: "1",
-    previewImage: require("../../assets/pinnedImage.png"),
-    title: "What a Changing Climate Means for Human Health",
-  },
-  {
-    id: "2",
-    previewImage: require("../../assets/pinnedImage.png"),
-    title: "What a Changing Climate Means for Human Health",
-  },
-];
 
 const categories = [
   {
@@ -62,6 +51,7 @@ const corporateClimate = [
     id: "1",
     previewImage: require("../../assets/pinnedImage.png"),
     title: "Authenticity Meter Posts",
+    destination: "https://business.edf.org/climate-authenticity-meter/"
   },
   {
     id: "2",
@@ -73,6 +63,7 @@ const corporateClimate = [
     id: "3",
     previewImage: require("../../assets/pinnedImage.png"),
     title: "Blog",
+    destination: "Blog"
   }
 ];
 
@@ -92,51 +83,68 @@ const careerResources = [
   {
     id: "3",
     previewImage: require("../../assets/pinnedImage.png"),
-    title: "Blog",
-    destination: "Blog"
+    title: "Sustainable Career Pathways",
+    destination: "https://sustainablecareerpathways.com/"
   }
 ];
 
+const OpenURLButton = ({ navigation, key, url, image, children }) => {
+  const handleURL = useCallback(async () => {
+    // Checking if the link is supported for links with custom URL scheme.
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+      // by some browser in the mobile
+      await Linking.openURL(url);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${url}`);
+    }
+  }, [url]);
+
+  const handleNav = () => navigation.navigate(url);
+
+  return <TouchableOpacity
+    key={key}
+    style={styles.url}
+    onPress={url != null && url.includes("https") ? handleURL : handleNav}>
+    <Image
+      style={{ width: 168, height: 111 }}
+      source={image}
+    />
+    <Text
+      style={{
+        color: "black",
+        fontSize: 14,
+        textAlign: "left",
+        fontWeight: "bold",
+        padding: 5,
+        //textShadowColor: "rgba(0, 0, 0, 0.75)",
+        //textShadowOffset: { width: -1, height: 1 },
+        //textShadowRadius: 10,
+      }}
+    >
+      {children}
+    </Text>
+  </TouchableOpacity>;
+};
+
 function Category(props) {
   const content = props.content;
-
   return (
     <View>
       <Text style={styles.heading}> {props.title} </Text>
-      <View style={styles.row}>
+      <ScrollView style={styles.row} horizontal={true}>
         {content.map((content) => (
-          <TouchableOpacity
+          <OpenURLButton
+            navigation={props.navigation}
             key={content.id}
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-              width: "50%",
-              paddingBottom: 10,
-            }}
-
-          >
-            <Image
-              style={{ width: 168, height: 111 }}
-              source={content.previewImage}
-            />
-            <Text
-              style={{
-                color: "black",
-                fontSize: 14,
-                textAlign: "left",
-                fontWeight: "bold",
-                padding: 5,
-                //textShadowColor: "rgba(0, 0, 0, 0.75)",
-                //textShadowOffset: { width: -1, height: 1 },
-                //textShadowRadius: 10,
-              }}
-            >
-              {content.title}
-            </Text>
-          </TouchableOpacity>
+            url={content.destination}
+            image={content.previewImage}
+            children={content.title} />
         ))}
-      </View>
-    </View>
+      </ScrollView>
+    </View >
   );
 }
 
@@ -148,14 +156,17 @@ const LearnScreen = ({ navigation }) => {
       </View>
       <Category
         title="Guides and Learning Resources"
-        content={guides} />
+        content={guides}
+        navigation={navigation} />
       <Category
         title="Corporate Climate Action Updates"
         content={corporateClimate}
+        navigation={navigation}
       />
       <Category
         title="Career Resources"
-        content={pinnedContent}
+        content={careerResources}
+        navigation={navigation}
       />
     </ScrollView>
   );
@@ -195,14 +206,19 @@ const styles = StyleSheet.create({
     color: "white",
     padding: 10,
   },
-
+  url: {
+    flexDirection: "column",
+    alignItems: "center",
+    width: 200,
+    paddingBottom: 10,
+  },
   heading: {
-    backgroundColor: "#99D5F1",
-    fontSize: 18,
+    color: "#00AA91",
+    fontSize: 20,
     fontWeight: "bold",
     borderRadius: 15,
     padding: 5,
-    marginHorizontal: 5,
+    marginHorizontal: 15,
     marginVertical: 10,
     overflow: "hidden",
   },

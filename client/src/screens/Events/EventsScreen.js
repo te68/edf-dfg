@@ -53,13 +53,16 @@ const EventsScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const getEvents = async () => {
-    const res = await axios.get("http://localhost:3000/api/event", {
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-      },
-    });
+    const res = await axios.get(
+      "https://youth-activism-app-server.herokuapp.com/api/event",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+        },
+      }
+    );
     if (res.status === 200) {
       updateEvents(res.data.events);
       updateDisplayedEvents(res.data.events);
@@ -103,68 +106,66 @@ const EventsScreen = ({ navigation }) => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <View style={styles.title}>
-          <Text style={styles.titleText}>Events & Opportunities</Text>
-        </View>
-        <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#00AA90" />
-        ) : (
-          <View>
-            {myEvents.length ? (
-              <View>
-                <Text style={styles.sectionTitleText}>My Events</Text>
-                {myEvents.map((event) => (
+    <ScrollView>
+      <View style={styles.title}>
+        <Text style={styles.titleText}>Events & Opportunities</Text>
+      </View>
+      <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#00AA90" />
+      ) : (
+        <View>
+          {myEvents.length ? (
+            <View>
+              <Text style={styles.sectionTitleText}>My Events</Text>
+              {myEvents.map((event) => (
+                <EventCard
+                  key={event._id}
+                  {...event}
+                  navigation={navigation}
+                  color={"#99D5F1"}
+                />
+              ))}
+            </View>
+          ) : null}
+          {futureEvents.length ? (
+            <View>
+              <Text style={styles.sectionTitleText}>Upcoming Events</Text>
+              {futureEvents
+                .sort((event1, event2) =>
+                  moment(event2.date).diff(moment(event1.date))
+                ) // Latest date first
+                .map((event) => (
                   <EventCard
                     key={event._id}
                     {...event}
                     navigation={navigation}
-                    color={"#99D5F1"}
+                    color={"#A4EEC1"}
                   />
                 ))}
-              </View>
-            ) : null}
-            {futureEvents.length ? (
-              <View>
-                <Text style={styles.sectionTitleText}>Upcoming Events</Text>
-                {futureEvents
-                  .sort((event1, event2) =>
-                    moment(event2.date).diff(moment(event1.date))
-                  ) // Latest date first
-                  .map((event) => (
-                    <EventCard
-                      key={event._id}
-                      {...event}
-                      navigation={navigation}
-                      color={"#A4EEC1"}
-                    />
-                  ))}
-              </View>
-            ) : null}
-            {pastEvents.length ? (
-              <View>
-                <Text style={styles.sectionTitleText}>Past Events</Text>
-                {pastEvents
+            </View>
+          ) : null}
+          {pastEvents.length ? (
+            <View>
+              <Text style={styles.sectionTitleText}>Past Events</Text>
+              {pastEvents
 
-                  .sort((event1, event2) =>
-                    moment(event2.date).diff(moment(event1.date))
-                  ) // Latest date first
-                  .map((event) => (
-                    <EventCard
-                      key={event._id}
-                      {...event}
-                      navigation={navigation}
-                      color={"#EF8787"}
-                    />
-                  ))}
-              </View>
-            ) : null}
-          </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+                .sort((event1, event2) =>
+                  moment(event2.date).diff(moment(event1.date))
+                ) // Latest date first
+                .map((event) => (
+                  <EventCard
+                    key={event._id}
+                    {...event}
+                    navigation={navigation}
+                    color={"#EF8787"}
+                  />
+                ))}
+            </View>
+          ) : null}
+        </View>
+      )}
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
@@ -191,7 +192,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 50,
   },
-  
   eventCard: {
     flexDirection: "row",
     borderRadius: 30,

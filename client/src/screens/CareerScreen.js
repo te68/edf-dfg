@@ -11,7 +11,7 @@ import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
 
-const BlogScreen = ({ navigation }) => {
+const CareerScreen = ({ navigation }) => {
   const [searchQuery, updateSearchQuery] = useState("");
   const [blogs, updateBlogs] = useState([]);
   const [displayedBlogs, updateDisplayedBlogs] = useState([]);
@@ -19,7 +19,7 @@ const BlogScreen = ({ navigation }) => {
 
   const getBlogs = async (searchQuery = "") => {
     const res = await axios.get(
-      `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${searchQuery}&category=blog`,
+      `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${searchQuery}&category=career`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +46,14 @@ const BlogScreen = ({ navigation }) => {
 
   const onChangeSearch = async (text) => {
     //   TODO: Search for Blogs
-    getBlogs(text);
+    if (searchQuery !== "") {
+      let newEvents = events.filter((event) =>
+        event.title.toLowerCase().includes(text.toLowerCase())
+      );
+      updateDisplayedEvents(newEvents);
+    } else {
+      updateDisplayedEvents(events);
+    }
     updateSearchQuery(text.toLowerCase());
   };
 
@@ -55,30 +62,32 @@ const BlogScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <ScrollView>
-      <View style={styles.title}>
-        <Text style={styles.titleText}>Blogs</Text>
-      </View>
-      <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#00AA90" />
-      ) : (
-        <View>
-          {blogs != null
-            ? blogs.map((event) => (
-              <EventCard
-                key={event._id}
-                {...event}
-                navigation={navigation}
-                color={"#99D5F1"}
-              />
-            ))
-            : (
-              <Text>No Blogs Found</Text>
-            )}
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>Career</Text>
         </View>
-      )}
-    </ScrollView>
+        <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#00AA90" />
+        ) : (
+          <View>
+            {blogs.length ? (
+              blogs.map((event) => (
+                <EventCard
+                  key={event._id}
+                  {...event}
+                  navigation={navigation}
+                  color={"#99D5F1"}
+                />
+              ))
+            ) : (
+              <Text>No Careers Found</Text>
+            )}
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
@@ -98,4 +107,4 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-export default BlogScreen;
+export default CareerScreen;
