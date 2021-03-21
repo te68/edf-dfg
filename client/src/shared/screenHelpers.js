@@ -1,7 +1,6 @@
 import React from "react";
 import { useCallback } from "react";
 import { Linking } from "react-native";
-
 export const handleUrl = (url) =>
   useCallback(async () => {
     // Checking if the link is supported for links with custom URL scheme.

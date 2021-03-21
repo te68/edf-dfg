@@ -10,42 +10,46 @@ import {
 import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
+import { getContents } from "../api/requests";
 
 const CareerScreen = ({ navigation }) => {
   const [searchQuery, updateSearchQuery] = useState("");
-  const [blogs, updateBlogs] = useState([]);
-  const [displayedBlogs, updateDisplayedBlogs] = useState([]);
+  const [careers, updateCareers] = useState([]);
+  const [displayedCareers, updateDisplayedCareers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getBlogs = async (searchQuery = "") => {
-    const res = await axios.get(
-      `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${searchQuery}&category=career`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-        },
-      }
-    );
+  const getCareers = async (query = "") => {
+    const res = await getContents.get("/", {
+      params: { category: "career", searchQuery: query },
+    });
+    // const res = await axios.get(
+    //   `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${query}&category=career`,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "x-auth-token":
+    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+    //     },
+    //   }
+    // );
     if (res.status === 200) {
-      updateBlogs(res.data.content);
-      updateDisplayedBlogs(res.data.content);
+      updateCareers(res.data.content);
+      updateDisplayedCareers(res.data.content);
     } else {
       //TODO: error handling
-      alert("Error getting blogs");
+      alert("Error getting careers");
       navigation.goBack();
     }
   };
 
   const onLoad = async () => {
     setIsLoading(true);
-    await getBlogs();
+    await getCareers();
     setIsLoading(false);
   };
 
   const onChangeSearch = async (text) => {
-    //   TODO: Search for Blogs
+    //   TODO: Search for careers
     if (searchQuery !== "") {
       let newEvents = events.filter((event) =>
         event.title.toLowerCase().includes(text.toLowerCase())
@@ -72,8 +76,8 @@ const CareerScreen = ({ navigation }) => {
           <ActivityIndicator size="large" color="#00AA90" />
         ) : (
           <View>
-            {blogs.length ? (
-              blogs.map((event) => (
+            {careers.length ? (
+              careers.map((event) => (
                 <EventCard
                   key={event._id}
                   {...event}

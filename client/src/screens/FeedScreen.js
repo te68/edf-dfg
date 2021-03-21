@@ -19,10 +19,10 @@ import {
 } from "@expo/vector-icons";
 import { SvgXml } from "react-native-svg";
 import { CustomSvgs } from "../../constants";
-import { getData, setData } from "../asyncStorage";
+import { getData, setData } from "../shared/asyncStorage";
 import axios from "axios";
 import moment from "moment";
-import { handleUrl } from "./screenHelpers";
+import { handleUrl } from "../shared/screenHelpers";
 
 const generalFeed = [
   {

@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
-import { handleUrl } from "./screenHelpers";
+import { handleUrl } from "../shared/screenHelpers";
 
 const AboutScreen = ({ navigation }) => {
   return (

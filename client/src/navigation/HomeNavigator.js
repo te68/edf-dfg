@@ -1,5 +1,10 @@
 import React from "react";
-import { navToAbout, navToProfile, headerStyle, styles } from "./helpers";
+import {
+  navToAbout,
+  navToProfile,
+  headerStyle,
+  styles,
+} from "../shared/navHelpers";
 import HomeScreen from "../screens/HomeScreen";
 import SavedScreen from "../screens/SavedScreen";
 import SearchScreen from "../screens/SearchScreen";

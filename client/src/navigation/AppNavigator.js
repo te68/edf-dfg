@@ -1,7 +1,7 @@
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
-import { headerStyle, styles } from "./helpers";
+import { headerStyle, styles } from "../shared/navHelpers";
 import ProfileScreen from "../screens/ProfileScreen";
 import AboutScreen from "../screens/AboutScreen";
 import EventsScreen from "../screens/Events/EventsScreen";
@@ -9,6 +9,7 @@ import CareerScreen from "../screens/CareerScreen";
 import BlogScreen from "../screens/BlogScreen";
 import PodcastScreen from "../screens/PodcastScreen";
 import TabNavigator from "./TabNavigator";
+import EventPage from "../screens/Events/EventPage";
 
 const AppStack = createStackNavigator();
 const AppNavigator = ({ navigation }) => {
@@ -86,6 +87,16 @@ const AppNavigator = ({ navigation }) => {
           headerBackTitleVisible: false,
         }}
         component={CareerScreen}
+      />
+      <AppStack.Screen
+        name="EventPage"
+        options={{
+          headerBackImage: () => (
+            <AntDesign style={styles.profileLeft} name="back" color="white" />
+          ),
+          headerBackTitleVisible: false,
+        }}
+        component={EventPage}
       />
     </AppStack.Navigator>
   );

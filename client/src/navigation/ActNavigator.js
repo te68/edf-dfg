@@ -1,5 +1,5 @@
 import React from "react";
-import { navToAbout, navToProfile, headerStyle } from "./helpers";
+import { navToAbout, navToProfile, headerStyle } from "../shared/navHelpers";
 import ActScreen from "../screens/ActScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 

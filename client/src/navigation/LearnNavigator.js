@@ -5,7 +5,7 @@ import {
   navToHome,
   headerStyle,
   styles,
-} from "./helpers";
+} from "../shared/navHelpers";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import AboutScreen from "../screens/AboutScreen";
 import ProfileScreen from "../screens/ProfileScreen";

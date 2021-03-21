@@ -9,22 +9,23 @@ import {
 } from "react-native";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
-import axios from "axios";
+import { getEventDetails } from "../../api/requests";
 const EventPage = ({ route }) => {
   const _id = route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [eventInfo, updateEventInfo] = useState({});
   const getEvent = async () => {
-    const res = await axios.get(
-      `https://youth-activism-app-server.herokuapp.com/api/event/${_id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-        },
-      }
-    );
+    const res = await getEventDetails.get(`/${_id}`);
+    // const res = await axios.get(
+    //   `https://youth-activism-app-server.herokuapp.com/api/event/${_id}`,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "x-auth-token":
+    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+    //     },
+    //   }
+    // );
     if (res.status === 200) {
       updateEventInfo(res.data);
     } else {
