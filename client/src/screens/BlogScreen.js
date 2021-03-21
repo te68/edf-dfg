@@ -55,32 +55,31 @@ const BlogScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
-        <View style={styles.title}>
-          <Text style={styles.titleText}>Blogs</Text>
-        </View>
-        <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#00AA90" />
-        ) : (
-          <View>
-            {blogs.length ? (
-              blogs.map((event) => (
-                <EventCard
-                  key={event._id}
-                  {...event}
-                  navigation={navigation}
-                  color={"#99D5F1"}
-                />
-              ))
-            ) : (
+    <ScrollView>
+      <View style={styles.title}>
+        <Text style={styles.titleText}>Blogs</Text>
+      </View>
+      <SearchBar value={searchQuery} handleOnChange={onChangeSearch} />
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#00AA90" />
+      ) : (
+        <View>
+          {blogs != null
+            ? blogs.map((event) => (
+              <EventCard
+                key={event._id}
+                {...event}
+                navigation={navigation}
+                color={"#99D5F1"}
+              />
+            ))
+            : (
               <Text>No Blogs Found</Text>
             )}
-          </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+        </View>
+      )}
+    </ScrollView>
+
   );
 };
 const styles = StyleSheet.create({
