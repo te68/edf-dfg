@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { getData, setData } from "../asyncStorage";
+import { getData, setData } from "../shared/asyncStorage";
 
 const SavedScreen = ({ navigation }) => {
   let articles = [

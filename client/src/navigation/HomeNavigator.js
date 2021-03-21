@@ -1,5 +1,10 @@
 import React from "react";
-import { navToAbout, navToProfile, headerStyle, styles } from "./helpers";
+import {
+  navToAbout,
+  navToProfile,
+  headerStyle,
+  styles,
+} from "../shared/navHelpers";
 import HomeScreen from "../screens/HomeScreen";
 import SavedScreen from "../screens/SavedScreen";
 import SearchScreen from "../screens/SearchScreen";
@@ -7,9 +12,7 @@ import AboutScreen from "../screens/AboutScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
-import PodcastScreen from "../screens/PodcastScreen";
-import BlogScreen from "../screens/BlogScreen";
-import CareerScreen from "../screens/CareerScreen";
+
 const HomeStack = createStackNavigator();
 const HomeNavigator = ({ navigation }) => {
   return (

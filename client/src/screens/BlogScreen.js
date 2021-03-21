@@ -10,6 +10,7 @@ import {
 import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
+import { getContents } from "../api/requests";
 
 const BlogScreen = ({ navigation }) => {
   const [searchQuery, updateSearchQuery] = useState("");
@@ -17,17 +18,20 @@ const BlogScreen = ({ navigation }) => {
   const [displayedBlogs, updateDisplayedBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getBlogs = async (searchQuery = "") => {
-    const res = await axios.get(
-      `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${searchQuery}&category=blog`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-        },
-      }
-    );
+  const getBlogs = async (query = "") => {
+    const res = await getContents.get("/", {
+      params: { category: "blog", searchQuery: query },
+    });
+    // const res = await axios.get(
+    //   `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${searchQuery}&category=blog`,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "x-auth-token":
+    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+    //     },
+    //   }
+    // );
     if (res.status === 200) {
       updateBlogs(res.data.content);
       updateDisplayedBlogs(res.data.content);

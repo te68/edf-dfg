@@ -5,7 +5,7 @@ import {
   navToHome,
   headerStyle,
   styles,
-} from "./helpers";
+} from "../shared/navHelpers";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import AboutScreen from "../screens/AboutScreen";
 import ProfileScreen from "../screens/ProfileScreen";
@@ -24,32 +24,6 @@ const LearnNavigator = ({ navigation }) => {
         name="Learn"
         component={LearnScreen}
       />
-      {/* <LearnStack.Screen
-        name="Profile"
-        options={{
-          title: "Profile",
-          headerBackImage: () => (
-            <AntDesign style={styles.profileLeft} name="back" color="white" />
-          ),
-          headerBackTitleVisible: false,
-          tabBarOptions: {
-            showLabel: false,
-          },
-        }}
-        component={ProfileScreen}
-      /> */}
-
-      {/* <LearnStack.Screen
-        name="About"
-        options={{
-          title: "About",
-          headerBackImage: () => (
-            <AntDesign style={styles.profileLeft} name="back" color="white" />
-          ),
-          headerBackTitleVisible: false,
-        }}
-        component={AboutScreen}
-      /> */}
     </LearnStack.Navigator>
   );
 };

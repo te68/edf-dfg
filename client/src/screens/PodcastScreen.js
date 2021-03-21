@@ -10,6 +10,7 @@ import {
 import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
+import { getContents } from "../api/requests";
 
 const PodcastScreen = ({ navigation }) => {
   const [searchQuery, updateSearchQuery] = useState("");
@@ -17,17 +18,19 @@ const PodcastScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getPodcasts = async (query = "") => {
-    console.log(query);
-    const res = await axios.get(
-      `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${query}&category=podcast`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-        },
-      }
-    );
+    const res = await getContents.get("/", {
+      params: { category: "podcast", searchQuery: query },
+    });
+    // const res = await axios.get(
+    //   `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${query}&category=podcast`,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "x-auth-token":
+    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+    //     },
+    //   }
+    // );
     if (res.status === 200) {
       updatePodcasts(res.data.content);
     } else {

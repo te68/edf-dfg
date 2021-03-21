@@ -7,26 +7,11 @@ import {
   ScrollView,
   Image,
   SafeAreaView,
-  Linking,
-  Alert,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
+import { handleUrl } from "../shared/screenHelpers";
 
 const AboutScreen = ({ navigation }) => {
-  const redirectToContactLink = useCallback(async () => {
-    // Checking if the link is supported for links with custom URL scheme.
-    const supported = await Linking.canOpenURL("https://www.edf.org/contact");
-
-    if (supported) {
-      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-      // by some browser in the mobile
-      await Linking.openURL("https://www.edf.org/contact");
-    } else {
-      Alert.alert(
-        `Don't know how to open this URL: https://www.edf.org/contact`
-      );
-    }
-  }, ["https://www.edf.org/contact"]);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
@@ -72,7 +57,7 @@ const AboutScreen = ({ navigation }) => {
         </View>
         <TouchableOpacity
           style={styles.contactUs}
-          onPress={redirectToContactLink}
+          onPress={handleUrl("https://www.edf.org/contact")}
         >
           <Text style={styles.contactUsText}>Contact Us</Text>
           <Entypo name="chevron-right" size={30} color="#00AA90" />

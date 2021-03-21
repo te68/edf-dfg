@@ -10,26 +10,27 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import BottomButton from "../components/BottomButton";
-import { getData } from "../asyncStorage";
+import { getData } from "../shared/asyncStorage";
 import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
 import moment from "moment";
+import { getEvents } from "../api/requests";
 const ConnectScreen = ({ navigation }) => {
   const [events, updateEvents] = useState([]);
   const [myEventIds, updateMyEventIds] = useState([]);
   const [isLoadingEvents, setIsLoadingEvents] = useState(false);
-  const getEvents = async () => {
-    const res = await axios.get(
-      "https://youth-activism-app-server.herokuapp.com/api/event",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-        },
-      }
-    );
+  const getAllEvents = async () => {
+    const res = await getEvents.get("/");
+    // const res = await axios.get(
+    //   "https://youth-activism-app-server.herokuapp.com/api/event",
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "x-auth-token":
+    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+    //     },
+    //   }
+    // );
     if (res.status === 200) {
       updateEvents(res.data.events);
     } else {
@@ -44,7 +45,7 @@ const ConnectScreen = ({ navigation }) => {
   };
   const onLoad = async () => {
     setIsLoadingEvents(true);
-    await getEvents();
+    await getAllEvents();
     await getMyEventIds();
     setIsLoadingEvents(false);
   };

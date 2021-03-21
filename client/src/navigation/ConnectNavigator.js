@@ -1,5 +1,10 @@
 import React from "react";
-import { navToAbout, navToProfile, headerStyle, styles } from "./helpers";
+import {
+  navToAbout,
+  navToProfile,
+  headerStyle,
+  styles,
+} from "../shared/navHelpers";
 import { AntDesign } from "@expo/vector-icons";
 import AboutScreen from "../screens/AboutScreen";
 import ProfileScreen from "../screens/ProfileScreen";
@@ -19,42 +24,6 @@ const ConnectNavgiator = ({ navigation }) => {
           headerRight: navToProfile(navigation),
         }}
         component={ConnectScreen}
-      />
-      {/* <ConnectStack.Screen
-        name="Profile"
-        options={{
-          title: "Profile",
-          headerBackImage: () => (
-            <AntDesign style={styles.profileLeft} name="back" color="white" />
-          ),
-          headerBackTitleVisible: false,
-          tabBarOptions: {
-            showLabel: false,
-          },
-        }}
-        component={ProfileScreen}
-      /> */}
-
-      {/* <ConnectStack.Screen
-        name="About"
-        options={{
-          title: "About",
-          headerBackImage: () => (
-            <AntDesign style={styles.profileLeft} name="back" color="white" />
-          ),
-          headerBackTitleVisible: false,
-        }}
-        component={AboutScreen}
-      /> */}
-      <ConnectStack.Screen
-        name="EventPage"
-        options={{
-          headerBackImage: () => (
-            <AntDesign style={styles.profileLeft} name="back" color="white" />
-          ),
-          headerBackTitleVisible: false,
-        }}
-        component={EventPage}
       />
     </ConnectStack.Navigator>
   );

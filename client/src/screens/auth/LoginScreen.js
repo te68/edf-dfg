@@ -1,85 +1,76 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   View,
-  Text,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
   Image,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
-import { CustomSvgs } from "../../constants";
+import { CustomSvgs } from "../../../constants";
 
-const SignupScreen = ({ navigation }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+// import axios from "axios";
+const LoginScreen = ({ navigation }) => {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
-  const onSignUp = () => {
-    if (!name || !email || !password) alert("Missing information");
+  const onLogin = () => {
+    if (!username || !password) alert("Incorrect username or password");
     else navigation.navigate("Home");
   };
-  const onGoogleSignUp = () => {};
+  const onGoogleLogin = () => {};
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Name"
-          placeholderTextColor="rgba(60, 60, 67, 0.3)"
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
+      <View style={styles.header}>
+        <Text style={styles.title}>Welcome to Youth4Change</Text>
+        <Text style={styles.subText}>Welcome Back!</Text>
+        <Text style={styles.subText}>Sign In to Continue</Text>
       </View>
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
           autoCapitalize="none"
           autoCorrect={false}
-          placeholder="Email"
+          placeholder="Email..."
           placeholderTextColor="rgba(60, 60, 67, 0.3)"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
+          value={username}
+          onChangeText={(text) => setUsername(text)}
         />
       </View>
-
-      <View style={styles.inputView}>
+      <View style={styles.passwordView}>
         <TextInput
           secureTextEntry
           style={styles.inputText}
           autoCapitalize="none"
           autoCorrect={false}
-          placeholder="Password"
+          placeholder="Password..."
           placeholderTextColor="rgba(60, 60, 67, 0.3)"
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
+        <Text
+          style={styles.passwordLink}
+          onPress={() => console.log("TODO: Password Page")}
+        >
+          Forgot Password?
+        </Text>
       </View>
-      {/* <CheckBox
-        title="I agree with Terms and Conditions"
-        onPress={() => setToggleCheckBox(!toggleCheckBox)}
-        containerStyle={{ backgroundColor: "white", borderColor: "white" }}
-        checked={toggleCheckBox}
-      /> */}
-      <TouchableOpacity style={styles.signUpBtn} onPress={onSignUp}>
-        <Text style={styles.signUpText}>Create Account</Text>
+      <TouchableOpacity style={styles.signInBtn} onPress={onLogin}>
+        <Text style={styles.signInText}>Sign In</Text>
       </TouchableOpacity>
-      <Text>Sign Up with</Text>
-      <TouchableOpacity onPress={onGoogleSignUp}>
+      <Text>Login with</Text>
+
+      <TouchableOpacity onPress={onGoogleLogin}>
         <SvgXml width="50px" height="50px" xml={CustomSvgs.googleIcon} />
       </TouchableOpacity>
       <Text style={styles.details}>
-        Already have an account?{" "}
+        Don't have an account?{" "}
         <Text
           style={styles.linkText}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("Signup")}
         >
-          Sign In
+          Create Account
         </Text>
       </Text>
     </View>
@@ -88,16 +79,27 @@ const SignupScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "white",
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
+  },
+  header: {
+    marginBottom: 100,
+  },
+  linkText: {
+    color: "#007AFF",
   },
   title: {
     textAlign: "center",
     fontWeight: "400",
     fontSize: 40,
-    marginBottom: 100,
+    marginBottom: 10,
+  },
+  subText: {
+    textAlign: "center",
+    fontSize: 14,
+    color: "rgba(60, 60, 67, 0.6)",
   },
   details: {
     fontSize: 20,
@@ -115,11 +117,25 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: "#3C3C43",
   },
+  passwordView: {
+    width: "90%",
+    borderBottomColor: "rgba(60, 60, 67, 0.3)",
+    borderBottomWidth: 1,
+    height: 50,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  passwordLink: {
+    textAlign: "right",
+    color: "#007AFF",
+  },
   forgot: {
-    color: "#3C3C43",
+    color: "black",
     fontSize: 11,
   },
-  signUpBtn: {
+  signInBtn: {
     width: "80%",
     backgroundColor: "#007AFF",
     borderRadius: 14,
@@ -129,14 +145,11 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
   },
-  signUpText: {
+  signInText: {
     color: "white",
     fontWeight: "400",
     fontSize: 17,
   },
-  linkText: {
-    color: "#007AFF",
-  },
 });
 
-export default SignupScreen;
+export default LoginScreen;
