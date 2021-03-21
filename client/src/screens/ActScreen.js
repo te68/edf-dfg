@@ -67,6 +67,7 @@ const ActScreen = ({ navigation }) => {
       title: "Support Petitions",
       destination: "https://defendourfuture.org/category/the-petitions/"
     },
+
   ];
   const [showDesc, updateShowDesc] = useState(false);
 

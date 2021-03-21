@@ -79,6 +79,7 @@ const BlogScreen = ({ navigation }) => {
         </View>
       )}
     </ScrollView>
+
   );
 };
 const styles = StyleSheet.create({
