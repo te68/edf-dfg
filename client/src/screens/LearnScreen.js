@@ -41,17 +41,60 @@ const categories = [
   },
 ];
 
-const corporateClimate = [
+
+const guides = [
   {
     id: "1",
     previewImage: require("../../assets/pinnedImage.png"),
-    title: "Blogs",
+    title: "A Personal Guide to Corporate Climate Action",
+    destination: "https://www.edf.org/sites/default/files/documents/PersonalGuidetoCORPORATEclimateAction-EDF.pdf"
   },
   {
     id: "2",
     previewImage: require("../../assets/pinnedImage.png"),
-    title: "Podcasts",
+    title: "How to Activate Your Employer on Climate Change",
+    destination: "https://www.edf.org/sites/default/files/documents/GuideToEmployeeActionForClimate-EDF.pdf"
   },
+];
+
+const corporateClimate = [
+  {
+    id: "1",
+    previewImage: require("../../assets/pinnedImage.png"),
+    title: "Authenticity Meter Posts",
+  },
+  {
+    id: "2",
+    previewImage: require("../../assets/pinnedImage.png"),
+    title: "Degree Episodes",
+    destination: "Podcast"
+  },
+  {
+    id: "3",
+    previewImage: require("../../assets/pinnedImage.png"),
+    title: "Blog",
+  }
+];
+
+const careerResources = [
+  {
+    id: "1",
+    previewImage: require("../../assets/pinnedImage.png"),
+    title: "The Climate-Driven Career",
+    destination: "https://www.edf.org/how-get-started-climate-driven-career"
+  },
+  {
+    id: "2",
+    previewImage: require("../../assets/pinnedImage.png"),
+    title: "Net Impact",
+    destination: "https://www.netimpact.org/careers/job-search-tools-and-tips"
+  },
+  {
+    id: "3",
+    previewImage: require("../../assets/pinnedImage.png"),
+    title: "Blog",
+    destination: "Blog"
+  }
 ];
 
 function Category(props) {
@@ -70,6 +113,7 @@ function Category(props) {
               width: "50%",
               paddingBottom: 10,
             }}
+
           >
             <Image
               style={{ width: 168, height: 111 }}
@@ -102,12 +146,17 @@ const LearnScreen = ({ navigation }) => {
       <View style={styles.title}>
         <Text style={styles.titleText}> Learn </Text>
       </View>
-      <Category title="Guides and Learning Resources" content={pinnedContent} />
+      <Category
+        title="Guides and Learning Resources"
+        content={guides} />
       <Category
         title="Corporate Climate Action Updates"
         content={corporateClimate}
       />
-      <Category title="Career Resources" content={pinnedContent} />
+      <Category
+        title="Career Resources"
+        content={pinnedContent}
+      />
     </ScrollView>
   );
 };

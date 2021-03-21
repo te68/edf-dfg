@@ -12,11 +12,10 @@ import { Ionicons, Entypo } from "@expo/vector-icons";
 const ActScreen = ({ navigation }) => {
   const actions = [
     { key: 0, title: "Influence Your Employer" },
-    { key: 1, title: "Influence a Future Employer" },
-    { key: 2, title: "Write a Letter to the Editor" },
-    { key: 3, title: "Tell Your Story" },
-    { key: 4, title: "Support Petitions" },
-    { key: 5, title: "Train With Us" },
+    { key: 1, title: "Write a Letter to the Editor" },
+    { key: 2, title: "Tell Your Story" },
+    { key: 3, title: "Train With Us" },
+    { key: 4, title: "Join Our Team" },
   ];
 
   return (

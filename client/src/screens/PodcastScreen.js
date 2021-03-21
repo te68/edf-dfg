@@ -71,15 +71,15 @@ const PodcastScreen = () => {
           <ActivityIndicator size="large" color="#00AA90" />
         ) : (
           <View>
-            {podcasts.length
+            {podcasts != null
               ? podcasts.map((event) => (
-                  <EventCard
-                    key={event._id}
-                    {...event}
-                    navigation={navigation}
-                    color={"#99D5F1"}
-                  />
-                ))
+                <EventCard
+                  key={event._id}
+                  {...event}
+                  navigation={navigation}
+                  color={"#99D5F1"}
+                />
+              ))
               : null}
           </View>
         )}

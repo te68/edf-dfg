@@ -71,15 +71,15 @@ const BlogScreen = () => {
           <ActivityIndicator size="large" color="#00AA90" />
         ) : (
           <View>
-            {blogs.length
+            {blogs != null
               ? blogs.map((event) => (
-                  <EventCard
-                    key={event._id}
-                    {...event}
-                    navigation={navigation}
-                    color={"#99D5F1"}
-                  />
-                ))
+                <EventCard
+                  key={event._id}
+                  {...event}
+                  navigation={navigation}
+                  color={"#99D5F1"}
+                />
+              ))
               : null}
           </View>
         )}
