@@ -15,16 +15,39 @@ export const TabNavigator = () => {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={({ route }) => ({
-        tabBarIcon: () => {
+        tabBarIcon: ({ focused }) => {
+          let label;
           if (route.name === "Home") {
-            return <AntDesign name="home" size={25} color="white" />;
+            return (
+              <AntDesign
+                name="home"
+                size={(label = focused ? 26 : 25)}
+                color="white"
+              />
+            );
           } else if (route.name === "Learn") {
-            return <SvgXml width="25" height="25" xml={CustomSvgs.learnIcon} />;
+            return (
+              <SvgXml
+                width={(label = focused ? "26" : "25")}
+                height={(label = focused ? "26" : "25")}
+                xml={CustomSvgs.learnIcon}
+              />
+            );
           } else if (route.name === "Act") {
-            return <SvgXml width="25" height="25" xml={CustomSvgs.actIcon} />;
+            return (
+              <SvgXml
+                width={(label = focused ? "26" : "25")}
+                height={(label = focused ? "26" : "25")}
+                xml={CustomSvgs.connectIcon}
+              />
+            );
           } else if (route.name === "Connect") {
             return (
-              <SvgXml width="25" height="25" xml={CustomSvgs.connectIcon} />
+              <SvgXml
+                width={(label = focused ? "26" : "25")}
+                height={(label = focused ? "26" : "25")}
+                xml={CustomSvgs.actIcon}
+              />
             );
           }
         },
@@ -32,27 +55,60 @@ export const TabNavigator = () => {
           let label;
           switch (route.name) {
             case "Learn":
-              return (label = focused ? (
-                <Text style={{ color }}>Learn</Text>
-              ) : null);
+              return (
+                <Text
+                  style={{
+                    color: color,
+                    fontWeight: (label = focused ? "bold" : "normal"),
+                    fontSize: (label = focused ? 15 : 14),
+                  }}
+                >
+                  Learn
+                </Text>
+              );
             case "Act":
-              return (label = focused ? (
-                <Text style={{ color }}>Act</Text>
-              ) : null);
+              return (
+                <Text
+                  style={{
+                    color: color,
+                    fontWeight: (label = focused ? "bold" : "normal"),
+                    fontSize: (label = focused ? 15 : 14),
+                  }}
+                >
+                  Act
+                </Text>
+              );
             case "Connect":
-              return (label = focused ? (
-                <Text style={{ color }}>Connect</Text>
-              ) : null);
+              return (
+                <Text
+                  style={{
+                    color: color,
+                    fontWeight: (label = focused ? "bold" : "normal"),
+                    fontSize: (label = focused ? 15 : 14),
+                  }}
+                >
+                  Connect
+                </Text>
+              );
             case "Home":
-              return (label = focused ? (
-                <Text style={{ color }}>Home</Text>
-              ) : null);
+              return (
+                <Text
+                  style={{
+                    color: color,
+                    fontWeight: (label = focused ? "bold" : "normal"),
+                    fontSize: (label = focused ? 15 : 14),
+                  }}
+                >
+                  Home
+                </Text>
+              );
           }
           return label;
         },
       })}
       tabBarOptions={{
         activeTintColor: "white",
+        inactiveTintColor: "white",
         style: {
           backgroundColor: "#0A4D95",
         },
