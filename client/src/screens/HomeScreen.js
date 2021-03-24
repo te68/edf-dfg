@@ -124,7 +124,7 @@ const HomeScreen = ({ navigation }) => {
         headers: {
           "Content-Type": "application/json",
           "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTQwODM1OCwiZXhwIjoxNjE1NzY4MzU4fQ.VDPbG9sOErObEFe09CNH1IgA-tZzJ9gZYHcWnXZ0oJM",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA1YTY3NzNlMjhkMjQ1MTZjNmM1NWY3In0sImlhdCI6MTYxNjUzNzQ1OSwiZXhwIjoxNjE2ODk3NDU5fQ.D5jsx1pUdGXT5oq4c3njTyfifuxwQOpg0 - f2dBA0v_8",
         },
       }
     );
