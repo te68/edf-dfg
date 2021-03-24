@@ -10,6 +10,8 @@ import BlogScreen from "../screens/BlogScreen";
 import PodcastScreen from "../screens/PodcastScreen";
 import TabNavigator from "./TabNavigator";
 import EventPage from "../screens/Events/EventPage";
+import LoginScreen from "../screens/auth/LoginScreen";
+import SignupScreen from "../screens/auth/SignupScreen";
 
 const AppStack = createStackNavigator();
 const AppNavigator = ({ navigation }) => {
@@ -97,6 +99,16 @@ const AppNavigator = ({ navigation }) => {
           headerBackTitleVisible: false,
         }}
         component={EventPage}
+      />
+      <AppStack.Screen
+        name="Login"
+        options={{ headerShown: false }}
+        component={LoginScreen}
+      />
+      <AppStack.Screen
+        name="Signup"
+        options={{ headerShown: false }}
+        component={SignupScreen}
       />
     </AppStack.Navigator>
   );
