@@ -3,6 +3,7 @@ export const setData = async (STORAGE_KEY, payload) => {
   try {
     await AsyncStorage.setItem(STORAGE_KEY, payload);
     alert("Data successfully saved");
+    //TODO: Remove alerts
   } catch (e) {
     alert("Failed to save the data to the storage");
   }

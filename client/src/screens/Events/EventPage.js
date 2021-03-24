@@ -10,6 +10,7 @@ import {
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
 import { getEventDetails } from "../../api/requests";
+import handleUrl from "../../shared/screenHelpers";
 const EventPage = ({ route }) => {
   const _id = route.params;
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +43,7 @@ const EventPage = ({ route }) => {
   useEffect(() => {
     onLoad();
   }, []);
-  const { title, description, address, time, date } = eventInfo;
+  const { title, description, address, time, date, url } = eventInfo;
   return isLoading ? (
     <View
       style={{ height: "100%", justifyContent: "center", alignItems: "center" }}
@@ -75,7 +76,7 @@ const EventPage = ({ route }) => {
         <View>
           <View flexDirection="row" justifyContent="space-around" margin={10}>
             {moment(date).isAfter(moment()) ? (
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={handleUrl(url)}>
                 <Text>Sign Up</Text>
               </TouchableOpacity>
             ) : null}
