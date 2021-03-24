@@ -10,12 +10,16 @@ import {
 import { SafeAreaView } from "react-navigation";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import BottomButton from "../components/BottomButton";
+import { setData } from "../shared/asyncStorage";
 
 const ProfileScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [location, setLocation] = useState("");
-
+  const handleSignOut = async () => {
+    setData("@user_token", "");
+    navigation.navigate("Login");
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -61,10 +65,7 @@ const ProfileScreen = ({ navigation }) => {
         <Text style={styles.title}> Saved Content </Text>
       </ScrollView>
       <View style={{ alignItems: "center", padding: 5 }}>
-        <TouchableOpacity
-          style={styles.signOutButton}
-          onPress={() => navigation.navigate("Login")}
-        >
+        <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
           <Text style={styles.signOut}>Sign out</Text>
         </TouchableOpacity>
       </View>

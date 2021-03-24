@@ -6,8 +6,10 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
+import { NavigationActions } from "react-navigation";
 import { CustomSvgs } from "../../../constants";
 import { login } from "../../api/requests";
 import { setData } from "../../shared/asyncStorage";
@@ -16,81 +18,81 @@ import { setData } from "../../shared/asyncStorage";
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   const onLogin = async () => {
-    console.log("onLogin");
     // if (!email || !password) alert("Enter email or password");
+    setIsLoading(true);
     try {
       const res = await login.post("/", { email: email, password: password });
       setData("@user_token", res.data.token);
-      navigation.navigate(
-        "AppNavigator",
-        {},
-        NavigationActions.navigate({
-          routeName: "Main",
-        })
-      );
+      navigation.navigate("Main", { screen: "Home" });
     } catch (err) {
       console.log(err);
       alert("Incorrect email or password");
     }
-
+    setIsLoading(false);
     // else navigation.navigate("Home");
   };
   const onGoogleLogin = () => {};
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Welcome to Youth4Change</Text>
-        <Text style={styles.subText}>Welcome Back!</Text>
-        <Text style={styles.subText}>Sign In to Continue</Text>
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Email..."
-          placeholderTextColor="rgba(60, 60, 67, 0.3)"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-      </View>
-      <View style={styles.passwordView}>
-        <TextInput
-          secureTextEntry
-          style={styles.inputText}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Password..."
-          placeholderTextColor="rgba(60, 60, 67, 0.3)"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-        />
-        <Text
-          style={styles.passwordLink}
-          onPress={() => console.log("TODO: Password Page")}
-        >
-          Forgot Password?
-        </Text>
-      </View>
-      <TouchableOpacity style={styles.signInBtn} onPress={onLogin}>
-        <Text style={styles.signInText}>Sign In</Text>
-      </TouchableOpacity>
-      {/* <Text>Login with</Text>
+      {isLoading ? (
+        <ActivityIndicator size={"large"} />
+      ) : (
+        <>
+          <View style={styles.header}>
+            <Text style={styles.title}>Welcome to Youth4Change</Text>
+            <Text style={styles.subText}>Welcome Back!</Text>
+            <Text style={styles.subText}>Sign In to Continue</Text>
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="Email..."
+              placeholderTextColor="rgba(60, 60, 67, 0.3)"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+          <View style={styles.passwordView}>
+            <TextInput
+              secureTextEntry
+              style={styles.inputText}
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="Password..."
+              placeholderTextColor="rgba(60, 60, 67, 0.3)"
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+            <Text
+              style={styles.passwordLink}
+              onPress={() => console.log("TODO: Password Page")}
+            >
+              Forgot Password?
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.signInBtn} onPress={onLogin}>
+            <Text style={styles.signInText}>Sign In</Text>
+          </TouchableOpacity>
+          {/* <Text>Login with</Text>
 
       <TouchableOpacity onPress={onGoogleLogin}>
         <SvgXml width="50px" height="50px" xml={CustomSvgs.googleIcon} />
       </TouchableOpacity> */}
-      <Text style={styles.details}>
-        Don't have an account?{" "}
-        <Text
-          style={styles.linkText}
-          onPress={() => navigation.navigate("Signup")}
-        >
-          Create Account
-        </Text>
-      </Text>
+          <Text style={styles.details}>
+            Don't have an account?{" "}
+            <Text
+              style={styles.linkText}
+              onPress={() => navigation.navigate("Signup")}
+            >
+              Create Account
+            </Text>
+          </Text>
+        </>
+      )}
     </View>
   );
 };
