@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { CustomSvgs } from "../../../constants";
+import { signUp } from "../../api/requests";
 
 const SignupScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -17,9 +18,18 @@ const SignupScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
-  const onSignUp = () => {
-    if (!name || !email || !password) alert("Missing information");
-    else navigation.navigate("Home");
+  const onSignUp = async () => {
+    try {
+      const res = await signUp.post("/", {
+        name: name,
+        email: email,
+        password: password,
+      });
+      setData("@user_token", res.data.token);
+      navigation.navigate("Main", { screen: "Home" });
+    } catch (err) {
+      alert(err);
+    }
   };
   const onGoogleSignUp = () => {};
   return (
@@ -69,10 +79,9 @@ const SignupScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.signUpBtn} onPress={onSignUp}>
         <Text style={styles.signUpText}>Create Account</Text>
       </TouchableOpacity>
-      <Text>Sign Up with</Text>
-      <TouchableOpacity onPress={onGoogleSignUp}>
+      {/* <TouchableOpacity onPress={onGoogleSignUp}>
         <SvgXml width="50px" height="50px" xml={CustomSvgs.googleIcon} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Text style={styles.details}>
         Already have an account?{" "}
         <Text
