@@ -9,15 +9,33 @@ import {
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { CustomSvgs } from "../../../constants";
+import { login } from "../../api/requests";
+import { setData } from "../../shared/asyncStorage";
 
 // import axios from "axios";
 const LoginScreen = ({ navigation }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onLogin = () => {
-    if (!username || !password) alert("Incorrect username or password");
-    else navigation.navigate("Home");
+  const onLogin = async () => {
+    console.log("onLogin");
+    // if (!email || !password) alert("Enter email or password");
+    try {
+      const res = await login.post("/", { email: email, password: password });
+      setData("@user_token", res.data.token);
+      navigation.navigate(
+        "AppNavigator",
+        {},
+        NavigationActions.navigate({
+          routeName: "Main",
+        })
+      );
+    } catch (err) {
+      console.log(err);
+      alert("Incorrect email or password");
+    }
+
+    // else navigation.navigate("Home");
   };
   const onGoogleLogin = () => {};
   return (
@@ -34,8 +52,8 @@ const LoginScreen = ({ navigation }) => {
           autoCorrect={false}
           placeholder="Email..."
           placeholderTextColor="rgba(60, 60, 67, 0.3)"
-          value={username}
-          onChangeText={(text) => setUsername(text)}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
         />
       </View>
       <View style={styles.passwordView}>
@@ -59,11 +77,11 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.signInBtn} onPress={onLogin}>
         <Text style={styles.signInText}>Sign In</Text>
       </TouchableOpacity>
-      <Text>Login with</Text>
+      {/* <Text>Login with</Text>
 
       <TouchableOpacity onPress={onGoogleLogin}>
         <SvgXml width="50px" height="50px" xml={CustomSvgs.googleIcon} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <Text style={styles.details}>
         Don't have an account?{" "}
         <Text

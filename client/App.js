@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./src/navigation/AppNavigator";
+// import { getData } from "./src/shared/asyncStorage";
+// import AuthNavigator from "./src/navigation/auth/AuthNavigator";
+import MainNavigator from "./src/navigation/MainNavigator";
 // import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function App() {
   return (
-    // <SafeAreaProvider>
     <NavigationContainer>
-      <AppNavigator />
+      <MainNavigator />
+      {/* <AppNavigator /> */}
     </NavigationContainer>
-    // </SafeAreaProvider>
   );
 }
 const styles = StyleSheet.create({
