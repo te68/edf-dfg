@@ -12,6 +12,7 @@ import moment from "moment";
 import { getEventDetails } from "../../api/requests";
 import handleUrl from "../../shared/screenHelpers";
 import { getData } from "../../shared/asyncStorage";
+
 const EventPage = ({ route }) => {
   const _id = route.params;
   const [isLoading, setIsLoading] = useState(false);

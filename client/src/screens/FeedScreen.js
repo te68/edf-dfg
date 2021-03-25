@@ -23,6 +23,7 @@ import { getData, setData } from "../shared/asyncStorage";
 import axios from "axios";
 import moment from "moment";
 import { handleUrl } from "../shared/screenHelpers";
+import { postContent } from "../api/requests";
 
 const generalFeed = [
   {
@@ -148,12 +149,14 @@ const ArticleButtons = ({ id, updatePost }) => (
     </TouchableOpacity>
     <TouchableOpacity
       style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
+      onPress={() => updatePost(id, "celebrates")}
     >
       <SvgXml width="20" height="20" xml={CustomSvgs.clappingIcon} />
       <Text style={{ paddingLeft: 2 }}>Celebrate</Text>
     </TouchableOpacity>
     <TouchableOpacity
       style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
+      onPress={() => updatePost(id, "dislikes")}
     >
       <Feather name="thumbs-down" size={15} color="black" />
       <Text style={{ paddingLeft: 2 }}>Dislike</Text>
@@ -186,6 +189,7 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
       alert(error.message);
     }
   };
+
   const [isSaved, setIsSaved] = useState(false);
   const [savedIds, setSavedIds] = useState([]);
   const SAVED_ARTICLES_STORAGE_KEY = "@saved_article_ids";
@@ -198,23 +202,22 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
   useEffect(() => {
     getSavedArticleIds(SAVED_ARTICLES_STORAGE_KEY);
     setIsSaved(savedIds.includes(content._id));
-    console.log(savedIds);
+    //setSavedArticleIds(newSavedIds);
+    //setSavedIds(newSavedIds);
   }, []);
-  const onChangeSaved = async () => {
+
+  const onChangeSaved = () => {
     // TODO: Get saved to work
     let newSavedIds = savedIds;
-    console.log(savedIds);
-    if (newSavedIds.length && newSavedIds.includes(content.id)) {
-      newSavedIds = newSavedIds.filter((id) => id !== content.id);
-      console.log("Remove");
+    if (!isSaved) {
+      newSavedIds = savedIds.filter((id) => id !== content.id);
     } else {
-      newSavedIds.push(content.id);
-      console.log("Added");
+      newSavedIds.push(content._id);
     }
-    setSavedArticleIds(newSavedIds);
-    setSavedIds(newSavedIds);
+    setSavedIds(ids);
     setIsSaved(!isSaved);
-  };
+  }
+
   return (
     <View
       style={{
@@ -226,7 +229,7 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
     >
       <View style={{ width: "90%" }}>
         <ArticleCard {...content} />
-        <ArticleButtons {...content} updatePost={updatePost} />
+        <ArticleButtons id={content} updatePost={updatePost} />
       </View>
       <View
         style={{
@@ -235,7 +238,9 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
           margin: 5,
         }}
       >
-        <TouchableOpacity style={{ marginBottom: 5 }} onPress={onChangeSaved}>
+        <TouchableOpacity
+          style={{ marginBottom: 5 }}
+          onPress={onChangeSaved}>
           {isSaved ? (
             <MaterialIcons name="bookmark" size={25} color="black" />
           ) : (
@@ -254,7 +259,6 @@ const FeedScreen = ({ navigation }) => {
   const [feed, updateFeed] = useState(generalFeed);
   const [savedArticles, setSavedArticles] = useState([]);
   const SAVED_STORAGE_KEY = "@saved_articles";
-  // console.log(savedArticles);
   useEffect(() => {
     async function fetchData() {
       const res = (await getData(SAVED_STORAGE_KEY)) || [];
@@ -276,7 +280,7 @@ const FeedScreen = ({ navigation }) => {
         headers: {
           "Content-Type": "application/json",
           "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA1YTY3NzNlMjhkMjQ1MTZjNmM1NWY3In0sImlhdCI6MTYxNjUzNzQ1OSwiZXhwIjoxNjE2ODk3NDU5fQ.D5jsx1pUdGXT5oq4c3njTyfifuxwQOpg0-f2dBA0v_8",
         },
       }
     );
@@ -295,7 +299,6 @@ const FeedScreen = ({ navigation }) => {
   };
 
   const onLoad = async () => {
-    console.log("onLoad");
     setIsLoading(true);
     await getContent();
     await getMyFeed();
@@ -355,20 +358,66 @@ const FeedScreen = ({ navigation }) => {
       </View>
     );
   };
-  const updatePost = (id, feedback) => {
+
+
+  const updatePost = (post, feedback) => {
     if (feedback === "likes") {
-      let updatedFeed = feed.map((post) => {
-        if (post.id === id) {
-          post.likes += 1;
+      console.log(post._id, 'liked');
+      postContent.put(
+        `/${post._id}`,
+        {
+          title: post.title,
+          url: post.url,
+          preview: post.preview,
+          author: post.author,
+          interest: post.interest,
+          category: post.category,
+          featured: post.featured,
+          likes: post.likes + 1,
+          dislikes: post.dislikes,
+          celebrates: post.celebrates
         }
-        return post;
-      });
-      updateFeed(updatedFeed);
+      );
+    }
+    if (feedback === "celebrates") {
+      console.log(post._id, 'celebrated');
+      postContent.put(
+        `/${post._id}`,
+        {
+          title: post.title,
+          url: post.url,
+          preview: post.preview,
+          author: post.author,
+          interest: post.interest,
+          category: post.category,
+          featured: post.featured,
+          likes: post.likes,
+          dislikes: post.dislikes,
+          celebrates: post.celebrates + 1
+        }
+      );
+    }
+    if (feedback === "dislikes") {
+      console.log(post._id, 'disliked');
+      postContent.put(
+        `/${post._id}`,
+        {
+          title: post.title,
+          url: post.url,
+          preview: post.preview,
+          author: post.author,
+          interest: post.interest,
+          category: post.category,
+          featured: post.featured,
+          likes: post.likes,
+          dislikes: post.dislikes + 1,
+          celebrates: post.celebrates
+        }
+      );
     }
   };
   const savePost = (articleInfo) => {
     const { author, title, subjects, id } = articleInfo;
-    console.log(savedArticles);
   };
   return (
     <View style={styles.container}>

@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
+import { SvgXml } from "react-native-svg";
+import { CustomSvgs } from "../../../constants";
+
 import { signUp } from "../../api/requests";
 
 const SignupScreen = ({ navigation }) => {
@@ -61,7 +64,6 @@ const SignupScreen = ({ navigation }) => {
               onChangeText={(text) => setEmail(text)}
             />
           </View>
-
           <View style={styles.inputView}>
             <TextInput
               secureTextEntry
@@ -74,7 +76,6 @@ const SignupScreen = ({ navigation }) => {
               onChangeText={(text) => setPassword(text)}
             />
           </View>
-
           <TouchableOpacity style={styles.signUpBtn} onPress={onSignUp}>
             <Text style={styles.signUpText}>Create Account</Text>
           </TouchableOpacity>
