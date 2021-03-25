@@ -13,7 +13,7 @@ export const signUp = axios.create({
   baseURL: `${base}/users`,
   method: "POST",
   headers: {
-    "Content-type": "application/json",
+    "Content-Type": "application/json",
   },
 });
 
@@ -29,7 +29,7 @@ export const getUser = axios.create({
   baseURL: `${base}/auth`,
   method: "GET",
   headers: {
-    "Content-type": "application/json",
+    "Content-Type": "application/json",
     // "x-auth-token": token,
   },
 });
