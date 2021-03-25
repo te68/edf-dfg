@@ -1,7 +1,9 @@
 import axios from "axios";
+import { getData } from "../shared/asyncStorage";
 const base = "https://youth-activism-app-server.herokuapp.com/api";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA1YTY3NzNlMjhkMjQ1MTZjNmM1NWY3In0sImlhdCI6MTYxNjUzNzQ1OSwiZXhwIjoxNjE2ODk3NDU5fQ.D5jsx1pUdGXT5oq4c3njTyfifuxwQOpg0-f2dBA0v_8";
+// const token = (async () => {
+//   return await getData("@user_token");
+// })();
 // TODO: Connect to asyncstorage
 
 //AUTHENTICATION
@@ -26,7 +28,7 @@ export const getUser = axios.create({
   method: "GET",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
+    // "x-auth-token": token,
   },
 });
 
@@ -36,7 +38,7 @@ export const createContent = axios.create({
   method: "POST",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
+    // "x-auth-token": token,
   },
 });
 
@@ -45,7 +47,6 @@ export const getContents = axios.create({
   method: "GET",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
   },
 });
 
@@ -54,7 +55,7 @@ export const updateContent = axios.create({
   method: "PUT",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
+    // "x-auth-token": token,
   },
 });
 
@@ -63,7 +64,7 @@ export const deleteContent = axios.create({
   method: "DELTE",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
+    // "x-auth-token": token,
   },
 });
 
@@ -72,7 +73,7 @@ export const getContentDetails = axios.create({
   method: "GET",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
+    // "x-auth-token": token,
   },
 });
 
@@ -82,7 +83,7 @@ export const createEvent = axios.create({
   method: "POST",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
+    // "x-auth-token": token,
   },
 });
 
@@ -91,7 +92,7 @@ export const getEvents = axios.create({
   method: "GET",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
+    // "x-auth-token": token,
   },
 });
 
@@ -100,7 +101,7 @@ export const updateEvent = axios.create({
   method: "PUT",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
+    // "x-auth-token": token,
   },
 });
 
@@ -109,7 +110,7 @@ export const deleteEvent = axios.create({
   method: "DELTE",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
+    // "x-auth-token": token,
   },
 });
 
@@ -118,6 +119,6 @@ export const getEventDetails = axios.create({
   method: "GET",
   headers: {
     "Content-type": "application/json",
-    "x-auth-token": token,
+    // "x-auth-token": token,
   },
 });
