@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import {
@@ -8,6 +9,9 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
+import { SvgXml } from "react-native-svg";
+import { CustomSvgs } from "../../../constants";
+import { setData } from "../../shared/asyncStorage";
 import { signUp } from "../../api/requests";
 
 const SignupScreen = ({ navigation }) => {
@@ -18,20 +22,41 @@ const SignupScreen = ({ navigation }) => {
 
   const onSignUp = async () => {
     setIsLoading(true);
+    console.log(name, email, password)
     try {
-      const res = await signUp.post("/", {
+      {/*const res = await signUp.post("/", {
+        "name": name,
+        "email": email,
+        "password": password,
+      });*/}
+
+      const body = {
         name: name,
         email: email,
-        password: password,
-      });
-      setData("@user_token", res.data.token);
+        password: password
+      };
+
+      const headers = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      await axios.post('https://youth-activism-app-server.herokuapp.com/api/users', body, headers)
+        .then((res) => { setData("@user_token", res.data.token); })
+        .catch((err) => { console.log(err); });
+
+      // const data = res.data;
+      // console.log(data);
+
+      //setData("@user_token", res.data.token);
       navigation.navigate("Main", { screen: "Home" });
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
     setIsLoading(false);
   };
-  const onGoogleSignUp = () => {};
+  const onGoogleSignUp = () => { };
   return (
     <View style={styles.container}>
       {isLoading ? (
@@ -61,7 +86,6 @@ const SignupScreen = ({ navigation }) => {
               onChangeText={(text) => setEmail(text)}
             />
           </View>
-
           <View style={styles.inputView}>
             <TextInput
               secureTextEntry
@@ -74,7 +98,6 @@ const SignupScreen = ({ navigation }) => {
               onChangeText={(text) => setPassword(text)}
             />
           </View>
-
           <TouchableOpacity style={styles.signUpBtn} onPress={onSignUp}>
             <Text style={styles.signUpText}>Create Account</Text>
           </TouchableOpacity>

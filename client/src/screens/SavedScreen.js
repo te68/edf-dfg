@@ -11,43 +11,11 @@ import { getData, setData } from "../shared/asyncStorage";
 import { getContents } from "../api/requests";
 
 const SavedScreen = ({ navigation }) => {
-  let articles = [
-    {
-      id: 0,
-      title: "Questions to Ask Recruiters",
-      byline: "EDF",
-      tags: ["Resource ", "Job Seeking"],
-    },
-    {
-      id: 1,
-      title: "A Feminist Climate Renaissance",
-      byline: "Climate One",
-      tags: ["Podcast"],
-    },
-    {
-      id: 2,
-      title: "Questions to Ask Recruiters",
-      byline: "EDF",
-      tags: ["Resource ", "Job Seeking"],
-    },
-    {
-      id: 3,
-      title: "A Feminist Climate Renaissance",
-      byline: "Climate One",
-      tags: ["Podcast"],
-    },
-    {
-      id: 4,
-      title: "Young People are Turning out for Tomorrow",
-      byline: "Climate Reality Project",
-      tags: ["Blog"],
-    },
-  ];
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.center}>
         <Text style={styles.title}> Saved Content </Text>
-        <Saved />
+        <Saved navigation={navigation} />
       </ScrollView>
     </View>
   );
@@ -92,7 +60,7 @@ const SavedScreen = ({ navigation }) => {
 //     };
 //     this.handleChange = this.handleChange.bind(this);
 //   }
-const Saved = () => {
+const Saved = ({ navigation }) => {
   // TODO: Make request and store IDS
   const SAVED_STORAGE_KEY = "@saved_articles";
   const [articles, setArticles] = useState([]);
@@ -109,12 +77,11 @@ const Saved = () => {
     const res = await getContents.get("/", {
       headers: { "x-auth-token": token },
     });
-    console.log(savedIds);
+
     if (res.status === 200) {
       let filtered = res.data.content.filter((article) =>
         savedIds.includes(article._id)
       );
-      console.log(filtered);
       setArticles(filtered);
     } else {
       alert("Error getting saved content");
