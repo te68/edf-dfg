@@ -21,12 +21,26 @@ const SignupScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSignUp = async () => {
+    if (!email || !password) alert("Enter email or password");
     setIsLoading(true);
-    console.log(name, email, password)
+    if (password.length < 6) {
+      alert("Please pick password 6 characters or longer");
+      setIsLoading(false);
+      return;
+    }
+    // try {
+    // {
+    //   /*const res = await signUp.post("/", {
+    //   "name": name,
+    //   "email": email,
+    //   "password": password,
+    // });*/
+    // }
+
     const body = {
-      "name": name,
-      "email": email,
-      "password": password
+      name: name,
+      email: email,
+      password: password,
     };
 
     const headers = {
@@ -35,25 +49,32 @@ const SignupScreen = ({ navigation }) => {
       },
     };
 
-    await axios.post("https://youth-activism-app-server.herokuapp.com/api/users", body, headers)
+    await axios
+      .post(
+        "https://youth-activism-app-server.herokuapp.com/api/users",
+        body,
+        headers
+      )
       .then((res) => {
-        console.log(res.data.token);
+        console.log("then", res.data.token);
         setData("@user_token", res.data.token);
         navigation.navigate("Main", { screen: "Home" });
-        setIsLoading(false);
       })
       .catch((err) => {
-        alert(err);
+        console.log(err);
       });
 
     // const data = res.data;
-    // console.log(data);
+    // console.log("onSignUp", data);
 
     //setData("@user_token", res.data.token);
-
-
+    // navigation.navigate("Main", { screen: "Home" });
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    setIsLoading(false);
   };
-  const onGoogleSignUp = () => { };
+  const onGoogleSignUp = () => {};
   return (
     <View style={styles.container}>
       {isLoading ? (
