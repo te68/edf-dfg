@@ -38,6 +38,7 @@ const EventPage = ({ route }) => {
     onLoad();
   }, []);
   const { title, description, address, time, date, url } = eventInfo;
+  const handleLink = handleUrl(url);
   return isLoading ? (
     <View
       style={{ height: "100%", justifyContent: "center", alignItems: "center" }}
@@ -70,7 +71,7 @@ const EventPage = ({ route }) => {
         <View>
           <View flexDirection="row" justifyContent="space-around" margin={10}>
             {moment(date).isAfter(moment()) ? (
-              <TouchableOpacity style={styles.button} onPress={handleUrl(url)}>
+              <TouchableOpacity style={styles.button} onPress={handleLink}>
                 <Text>Sign Up</Text>
               </TouchableOpacity>
             ) : null}
