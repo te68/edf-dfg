@@ -21,45 +21,6 @@ const SavedScreen = ({ navigation }) => {
   );
 };
 
-// class Saved extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       articles: [
-//         {
-//           id: 0,
-//           title: "0 Questions to Ask Recruiters",
-//           byline: "EDF",
-//           tags: ["Resource ", "Job Seeking"],
-//         },
-//         {
-//           id: 1,
-//           title: "1 A Feminist Climate Renaissance",
-//           byline: "Climate One",
-//           tags: ["Podcast"],
-//         },
-//         {
-//           id: 2,
-//           title: "2 Questions to Ask Recruiters",
-//           byline: "EDF",
-//           tags: ["Resource ", "Job Seeking"],
-//         },
-//         {
-//           id: 3,
-//           title: "3 A Feminist Climate Renaissance",
-//           byline: "Climate One",
-//           tags: ["Podcast"],
-//         },
-//         {
-//           id: 4,
-//           title: "4 Young People are Turning out for Tomorrow",
-//           byline: "Climate Reality Project",
-//           tags: ["Blog"],
-//         },
-//       ],
-//     };
-//     this.handleChange = this.handleChange.bind(this);
-//   }
 const Saved = ({ navigation }) => {
   // TODO: Make request and store IDS
   const SAVED_STORAGE_KEY = "@saved_articles";

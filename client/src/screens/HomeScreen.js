@@ -15,25 +15,38 @@ import {
   Fontisto,
   MaterialIcons,
 } from "@expo/vector-icons";
-// import SwitchSelector from "react-native-switch-selector";
 import axios from "axios";
-import { Switch } from "react-native-switch";
 
 import FeedScreen from "./FeedScreen";
+import FlatListSlider from "../components/FlatListSlider/FlatListSlider";
+import Card from "../components/FlatListSlider/Card";
+import { getData } from "../shared/asyncStorage";
+import { getContents } from "../api/requests";
 const Categories = ({ navigation }) => {
-  let buttons = [
-    {
-      key: 0,
-      title: "Podcasts",
-      notifications: 3,
-      color: "#C5DB65",
-      icon: "mic",
-    },
-    { key: 1, title: "Blogs", notifications: 3 },
-    { key: 2, title: "Careers", notifications: 3, color: "#6EC6B3" },
-    { key: 3, title: "Events", notifications: 2, color: "#88C5E6" },
-  ];
+  const [featuredContent, setFeaturedContent] = useState([]);
+  const getFeaturedContent = async () => {
+    const token = await getData("@user_token");
+    const res = await getContents.get("/", {
+      headers: { "x-auth-token": token },
+    });
+    if (res.status === 200) {
+      let featured = res.data.content
+        .filter((cont) => cont.featured)
+        .map((cont) => ({
+          image: "../../assets/host-meet-up.png",
+          desc: cont.preview,
+        }));
 
+      console.log(featured);
+      setFeaturedContent(featured);
+    } else {
+      alert("Error getting featured content");
+      navigation.goBack();
+    }
+  };
+  useEffect(() => {
+    getFeaturedContent();
+  }, []);
   return (
     <SafeAreaView>
       <ScrollView style={{ marginHorizontal: 15 }}>
@@ -43,8 +56,18 @@ const Categories = ({ navigation }) => {
             <MaterialIcons name="bookmark" size={40} color="#F9C147" />
           </TouchableOpacity>
         </View>
-
-        <View style={{ alignItems: "center", padding: 10 }}>
+        {featuredContent.length ? (
+          <FlatListSlider
+            data={featuredContent}
+            width={275}
+            timer={4000}
+            component={<Card />}
+            onPress={(item) => alert(JSON.stringify(item))}
+            indicatorActiveWidth={40}
+            contentContainerStyle={styles.contentStyle}
+          />
+        ) : null}
+        {/* <View style={{ alignItems: "center", padding: 10 }}>
           <TouchableOpacity>
             <Image
               source={require("../../assets/host-meet-up.png")}
@@ -56,7 +79,7 @@ const Categories = ({ navigation }) => {
               }}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <Text style={styles.heading}> Categories </Text>
         <View style={styles.row}>
@@ -242,6 +265,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 10,
+  },
+  contentStyle: {
+    paddingHorizontal: 16,
   },
 });
 
