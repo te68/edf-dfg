@@ -19,6 +19,7 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   const onLogin = async () => {
     // if (!email || !password) alert("Enter email or password");
     setIsLoading(true);
