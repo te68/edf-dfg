@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { getData, setData } from "../shared/asyncStorage";
@@ -25,7 +26,7 @@ const Saved = ({ navigation }) => {
   // TODO: Make request and store IDS
   const SAVED_STORAGE_KEY = "@saved_articles";
   const [articles, setArticles] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleChange = (id) => {
     const { articles } = this.state;
     const filtered = articles.filter((x) => x.id !== id);
@@ -33,6 +34,7 @@ const Saved = ({ navigation }) => {
     setArticles(filtered);
   };
   const onLoad = async () => {
+    setIsLoading(true);
     const savedIds = JSON.parse(await getData("@saved_article_ids"));
     const token = await getData("@user_token");
     const res = await getContents.get("/", {
@@ -48,6 +50,7 @@ const Saved = ({ navigation }) => {
       alert("Error getting saved content");
       navigation.goBack();
     }
+    setIsLoading(false);
   };
   useEffect(() => {
     onLoad();
@@ -105,9 +108,16 @@ const Saved = ({ navigation }) => {
         );
       })
     : [];
+
   return (
     <View style={styles.container}>
-      {articleItems.length > 0 ? articleItems : <Text>No Saved Articles</Text>}
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#00AA90" />
+      ) : articleItems.length > 0 ? (
+        articleItems
+      ) : (
+        <Text>No Saved Articles</Text>
+      )}
     </View>
   );
 };
