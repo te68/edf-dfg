@@ -24,6 +24,7 @@ const LoginScreen = ({ navigation }) => {
     setIsLoading(true);
     try {
       const res = await login.post("/", { email: email, password: password });
+      console.log("onLogin", res.data.token);
       setData("@user_token", res.data.token);
       navigation.navigate("Main", { screen: "Home" });
     } catch (err) {
