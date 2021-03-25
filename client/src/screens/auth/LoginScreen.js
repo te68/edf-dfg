@@ -22,18 +22,22 @@ const LoginScreen = ({ navigation }) => {
   const onLogin = async () => {
     // if (!email || !password) alert("Enter email or password");
     setIsLoading(true);
-    try {
-      const res = await login.post("/", { email: email, password: password });
+    await login.post("/", {
+      email: email,
+      password: password
+    }).then((res) => {
+      console.log(res.data.token);
       setData("@user_token", res.data.token);
+      console.log('data set');
       navigation.navigate("Main", { screen: "Home" });
-    } catch (err) {
+      setIsLoading(false);
+    }).catch((err) => {
       console.log(err);
       alert("Incorrect email or password");
-    }
-    setIsLoading(false);
+    });
     // else navigation.navigate("Home");
   };
-  const onGoogleLogin = () => {};
+  const onGoogleLogin = () => { };
   return (
     <View style={styles.container}>
       {isLoading ? (

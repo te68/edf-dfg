@@ -21,56 +21,18 @@ const SavedScreen = ({ navigation }) => {
   );
 };
 
-// class Saved extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       articles: [
-//         {
-//           id: 0,
-//           title: "0 Questions to Ask Recruiters",
-//           byline: "EDF",
-//           tags: ["Resource ", "Job Seeking"],
-//         },
-//         {
-//           id: 1,
-//           title: "1 A Feminist Climate Renaissance",
-//           byline: "Climate One",
-//           tags: ["Podcast"],
-//         },
-//         {
-//           id: 2,
-//           title: "2 Questions to Ask Recruiters",
-//           byline: "EDF",
-//           tags: ["Resource ", "Job Seeking"],
-//         },
-//         {
-//           id: 3,
-//           title: "3 A Feminist Climate Renaissance",
-//           byline: "Climate One",
-//           tags: ["Podcast"],
-//         },
-//         {
-//           id: 4,
-//           title: "4 Young People are Turning out for Tomorrow",
-//           byline: "Climate Reality Project",
-//           tags: ["Blog"],
-//         },
-//       ],
-//     };
-//     this.handleChange = this.handleChange.bind(this);
-//   }
 const Saved = ({ navigation }) => {
   // TODO: Make request and store IDS
-  const SAVED_STORAGE_KEY = "@saved_articles";
+  const SAVED_ARTICLES_STORAGE_KEY = "@saved_article_ids";
   const [articles, setArticles] = useState([]);
 
   const handleChange = (id) => {
-    const { articles } = this.state;
-    const filtered = articles.filter((x) => x.id !== id);
-    setData(SAVED_STORAGE_KEY, filtered);
+    const filtered = articles.filter((x) => x._id !== id);
+    const ids = filtered.map((article) => article._id);
+    setData(SAVED_ARTICLES_STORAGE_KEY, JSON.stringify(ids));
     setArticles(filtered);
   };
+
   const onLoad = async () => {
     const savedIds = JSON.parse(await getData("@saved_article_ids"));
     const token = await getData("@user_token");
@@ -94,28 +56,28 @@ const Saved = ({ navigation }) => {
   // render() {
   const articleItems = articles.length
     ? articles.map((article) => {
-        return (
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.article}>
+      return (
+        <View style={styles.row}>
+          <TouchableOpacity style={styles.article}>
+            <Text
+              style={{
+                fontSize: 20,
+                margin: 4,
+                fontWeight: "bold",
+              }}
+            >
+              {article.title}
+            </Text>
+            <View style={styles.row}>
               <Text
                 style={{
-                  fontSize: 20,
+                  fontSize: 14,
                   margin: 4,
-                  fontWeight: "bold",
                 }}
               >
-                {article.title}
+                By {article.author}
               </Text>
-              <View style={styles.row}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    margin: 4,
-                  }}
-                >
-                  By {article.author}
-                </Text>
-                {/* {article.subjects.map((tag) => (
+              {/* {article.subjects.map((tag) => (
                   <Text
                     style={{
                       fontSize: 12,
@@ -129,20 +91,20 @@ const Saved = ({ navigation }) => {
                     {tag}
                   </Text>
                 ))} */}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                // this.handleChange(article.id), this.setState({ color: "orange" });
-                handleChange(article.id);
-              }}
-              style={{ justifyContent: "center" }}
-            >
-              <Ionicons name="md-close" size={25} color="#C70000" />
-            </TouchableOpacity>
-          </View>
-        );
-      })
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              // this.handleChange(article.id), this.setState({ color: "orange" });
+              handleChange(article._id);
+            }}
+            style={{ justifyContent: "center" }}
+          >
+            <Ionicons name="md-close" size={25} color="#C70000" />
+          </TouchableOpacity>
+        </View>
+      );
+    })
     : [];
   return (
     <View style={styles.container}>

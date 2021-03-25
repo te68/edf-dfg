@@ -23,38 +23,35 @@ const SignupScreen = ({ navigation }) => {
   const onSignUp = async () => {
     setIsLoading(true);
     console.log(name, email, password)
-    try {
-      {/*const res = await signUp.post("/", {
-        "name": name,
-        "email": email,
-        "password": password,
-      });*/}
+    const body = {
+      "name": name,
+      "email": email,
+      "password": password
+    };
 
-      const body = {
-        name: name,
-        email: email,
-        password: password
-      };
+    const headers = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-      const headers = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+    await axios.post("https://youth-activism-app-server.herokuapp.com/api/users", body, headers)
+      .then((res) => {
+        console.log(res.data.token);
+        setData("@user_token", res.data.token);
+        navigation.navigate("Main", { screen: "Home" });
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        alert(err);
+      });
 
-      await axios.post('https://youth-activism-app-server.herokuapp.com/api/users', body, headers)
-        .then((res) => { setData("@user_token", res.data.token); })
-        .catch((err) => { console.log(err); });
+    // const data = res.data;
+    // console.log(data);
 
-      // const data = res.data;
-      // console.log(data);
+    //setData("@user_token", res.data.token);
 
-      //setData("@user_token", res.data.token);
-      navigation.navigate("Main", { screen: "Home" });
-    } catch (err) {
-      console.log(err);
-    }
-    setIsLoading(false);
+
   };
   const onGoogleSignUp = () => { };
   return (
