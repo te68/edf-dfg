@@ -11,12 +11,17 @@ import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
 import { getEventDetails } from "../../api/requests";
 import handleUrl from "../../shared/screenHelpers";
+import { getData } from "../../shared/asyncStorage";
+
 const EventPage = ({ route }) => {
   const _id = route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [eventInfo, updateEventInfo] = useState({});
+  const [token, setToken] = useState("");
   const getEvent = async () => {
-    const res = await getEventDetails.get(`/${_id}`);
+    const res = await getEventDetails.get(`/${_id}`, {
+      headers: { token: token },
+    });
     // const res = await axios.get(
     //   `https://youth-activism-app-server.herokuapp.com/api/event/${_id}`,
     //   {
@@ -41,6 +46,7 @@ const EventPage = ({ route }) => {
     setIsLoading(false);
   };
   useEffect(() => {
+    setToken(getData("@user_token"));
     onLoad();
   }, []);
   const { title, description, address, time, date, url } = eventInfo;

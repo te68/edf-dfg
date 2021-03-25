@@ -6,19 +6,21 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Image,
+  ActivityIndicator,
 } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { CustomSvgs } from "../../../constants";
+
 import { signUp } from "../../api/requests";
 
 const SignupScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSignUp = async () => {
+    setIsLoading(true);
     try {
       const res = await signUp.post("/", {
         name: name,
@@ -30,67 +32,67 @@ const SignupScreen = ({ navigation }) => {
     } catch (err) {
       alert(err);
     }
+    setIsLoading(false);
   };
   const onGoogleSignUp = () => {};
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Name"
-          placeholderTextColor="rgba(60, 60, 67, 0.3)"
-          value={name}
-          onChangeText={(text) => setName(text)}
-        />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Email"
-          placeholderTextColor="rgba(60, 60, 67, 0.3)"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-      </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          secureTextEntry
-          style={styles.inputText}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Password"
-          placeholderTextColor="rgba(60, 60, 67, 0.3)"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-        />
-      </View>
-      {/* <CheckBox
-        title="I agree with Terms and Conditions"
-        onPress={() => setToggleCheckBox(!toggleCheckBox)}
-        containerStyle={{ backgroundColor: "white", borderColor: "white" }}
-        checked={toggleCheckBox}
-      /> */}
-      <TouchableOpacity style={styles.signUpBtn} onPress={onSignUp}>
-        <Text style={styles.signUpText}>Create Account</Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity onPress={onGoogleSignUp}>
+      {isLoading ? (
+        <ActivityIndicator size={"large"} />
+      ) : (
+        <>
+          <Text style={styles.title}>Create Account</Text>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="Name"
+              placeholderTextColor="rgba(60, 60, 67, 0.3)"
+              value={name}
+              onChangeText={(text) => setName(text)}
+            />
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="Email"
+              placeholderTextColor="rgba(60, 60, 67, 0.3)"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+          <View style={styles.inputView}>
+            <TextInput
+              secureTextEntry
+              style={styles.inputText}
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="Password"
+              placeholderTextColor="rgba(60, 60, 67, 0.3)"
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </View>
+          <TouchableOpacity style={styles.signUpBtn} onPress={onSignUp}>
+            <Text style={styles.signUpText}>Create Account</Text>
+          </TouchableOpacity>
+          {/* <TouchableOpacity onPress={onGoogleSignUp}>
         <SvgXml width="50px" height="50px" xml={CustomSvgs.googleIcon} />
       </TouchableOpacity> */}
-      <Text style={styles.details}>
-        Already have an account?{" "}
-        <Text
-          style={styles.linkText}
-          onPress={() => navigation.navigate("Login")}
-        >
-          Sign In
-        </Text>
-      </Text>
+          <Text style={styles.details}>
+            Already have an account?{" "}
+            <Text
+              style={styles.linkText}
+              onPress={() => navigation.navigate("Login")}
+            >
+              Sign In
+            </Text>
+          </Text>
+        </>
+      )}
     </View>
   );
 };
