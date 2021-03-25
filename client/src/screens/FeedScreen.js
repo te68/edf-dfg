@@ -23,7 +23,7 @@ import { getData, setData } from "../shared/asyncStorage";
 import axios from "axios";
 import moment from "moment";
 import { handleUrl } from "../shared/screenHelpers";
-import { getContents } from "../api/requests";
+import { getContents, postContent } from "../api/requests";
 
 const generalFeed = [
   {
@@ -263,12 +263,22 @@ const FeedScreen = ({ navigation }) => {
   const [feed, updateFeed] = useState(generalFeed);
   const [savedArticles, setSavedArticles] = useState([]);
   const SAVED_STORAGE_KEY = "@saved_articles";
+
+  const [token, setToken] = useState("");
+
+  const getToken = async () => {
+    setToken(await getData("@user_token"));
+    console.log('token gotten');
+  };
+
   useEffect(() => {
     async function fetchData() {
       const res = (await getData(SAVED_STORAGE_KEY)) || [];
       setSavedArticles(res);
     }
     fetchData();
+    getToken;
+    console.log(token, ' in feed screen');
   }, []);
 
   const [content, updateContent] = useState([]);
@@ -326,16 +336,16 @@ const FeedScreen = ({ navigation }) => {
   const ArticleList = ({ feed, updatePost, savePost }) => {
     return myFeed.length
       ? myFeed.map((content) => {
-          return (
-            <ArticlePost
-              key={content._id}
-              content={content}
-              updatePost={updatePost}
-              savePost={savePost}
-              savedIds={savedContentIds}
-            />
-          );
-        })
+        return (
+          <ArticlePost
+            key={content._id}
+            content={content}
+            updatePost={updatePost}
+            savePost={savePost}
+            savedIds={savedContentIds}
+          />
+        );
+      })
       : null;
   };
 
@@ -367,21 +377,30 @@ const FeedScreen = ({ navigation }) => {
     );
   };
 
-  const updatePost = (post, feedback) => {
+  const updatePost = async (post, feedback) => {
+    console.log("update post", token);
     if (feedback === "likes") {
       console.log(post._id, "liked");
-      postContent.put(`/${post._id}`, {
-        title: post.title,
-        url: post.url,
-        preview: post.preview,
-        author: post.author,
-        interest: post.interest,
-        category: post.category,
-        featured: post.featured,
-        likes: post.likes + 1,
-        dislikes: post.dislikes,
-        celebrates: post.celebrates,
-      });
+      await postContent.put(`/${post._id}`,
+        {
+          headers: {
+            "x-auth-token": token,
+          },
+        },
+        {
+          title: post.title,
+          url: post.url,
+          preview: post.preview,
+          author: post.author,
+          interest: post.interest,
+          category: post.category,
+          featured: post.featured,
+          likes: post.likes + 1,
+          dislikes: post.dislikes,
+          celebrates: post.celebrates,
+        })
+        .then((res) => { console.log(res.data.message) })
+        .catch((err) => { console.log(err) });
     }
     if (feedback === "celebrates") {
       console.log(post._id, "celebrated");
