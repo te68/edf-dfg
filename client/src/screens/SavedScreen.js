@@ -8,45 +8,14 @@ import {
 } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { getData, setData } from "../shared/asyncStorage";
+import { getContents } from "../api/requests";
 
 const SavedScreen = ({ navigation }) => {
-  let articles = [
-    {
-      id: 0,
-      title: "Questions to Ask Recruiters",
-      byline: "EDF",
-      tags: ["Resource ", "Job Seeking"],
-    },
-    {
-      id: 1,
-      title: "A Feminist Climate Renaissance",
-      byline: "Climate One",
-      tags: ["Podcast"],
-    },
-    {
-      id: 2,
-      title: "Questions to Ask Recruiters",
-      byline: "EDF",
-      tags: ["Resource ", "Job Seeking"],
-    },
-    {
-      id: 3,
-      title: "A Feminist Climate Renaissance",
-      byline: "Climate One",
-      tags: ["Podcast"],
-    },
-    {
-      id: 4,
-      title: "Young People are Turning out for Tomorrow",
-      byline: "Climate Reality Project",
-      tags: ["Blog"],
-    },
-  ];
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.center}>
         <Text style={styles.title}> Saved Content </Text>
-        <Saved />
+        <Saved navigation={navigation} />
       </ScrollView>
     </View>
   );
@@ -91,7 +60,7 @@ const SavedScreen = ({ navigation }) => {
 //     };
 //     this.handleChange = this.handleChange.bind(this);
 //   }
-const Saved = () => {
+const Saved = ({ navigation }) => {
   // TODO: Make request and store IDS
   const SAVED_STORAGE_KEY = "@saved_articles";
   const [articles, setArticles] = useState([]);
@@ -102,62 +71,78 @@ const Saved = () => {
     setData(SAVED_STORAGE_KEY, filtered);
     setArticles(filtered);
   };
+  const onLoad = async () => {
+    const savedIds = JSON.parse(await getData("@saved_article_ids"));
+    const token = await getData("@user_token");
+    const res = await getContents.get("/", {
+      headers: { "x-auth-token": token },
+    });
 
+    if (res.status === 200) {
+      let filtered = res.data.content.filter((article) =>
+        savedIds.includes(article._id)
+      );
+      setArticles(filtered);
+    } else {
+      alert("Error getting saved content");
+      navigation.goBack();
+    }
+  };
   useEffect(() => {
-    setArticles(getData(SAVED_STORAGE_KEY));
+    onLoad();
   }, []);
   // render() {
   const articleItems = articles.length
     ? articles.map((article) => {
-      return (
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.article}>
-            <Text
-              style={{
-                fontSize: 20,
-                margin: 4,
-                fontWeight: "bold",
-              }}
-            >
-              {article.title}
-            </Text>
-            <View style={styles.row}>
+        return (
+          <View style={styles.row}>
+            <TouchableOpacity style={styles.article}>
               <Text
                 style={{
-                  fontSize: 14,
+                  fontSize: 20,
                   margin: 4,
+                  fontWeight: "bold",
                 }}
               >
-                By {article.author}
+                {article.title}
               </Text>
-              {article.subjects.map((tag) => (
+              <View style={styles.row}>
                 <Text
                   style={{
-                    fontSize: 12,
-                    borderWidth: 1,
-                    borderRadius: 8,
-                    paddingLeft: 10,
-                    paddingRight: 10,
-                    margin: 2,
+                    fontSize: 14,
+                    margin: 4,
                   }}
                 >
-                  {tag}
+                  By {article.author}
                 </Text>
-              ))}
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              // this.handleChange(article.id), this.setState({ color: "orange" });
-              handleChange(article.id);
-            }}
-            style={{ justifyContent: "center" }}
-          >
-            <Ionicons name="md-close" size={25} color="#C70000" />
-          </TouchableOpacity>
-        </View>
-      );
-    })
+                {/* {article.subjects.map((tag) => (
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      borderWidth: 1,
+                      borderRadius: 8,
+                      paddingLeft: 10,
+                      paddingRight: 10,
+                      margin: 2,
+                    }}
+                  >
+                    {tag}
+                  </Text>
+                ))} */}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                // this.handleChange(article.id), this.setState({ color: "orange" });
+                handleChange(article.id);
+              }}
+              style={{ justifyContent: "center" }}
+            >
+              <Ionicons name="md-close" size={25} color="#C70000" />
+            </TouchableOpacity>
+          </View>
+        );
+      })
     : [];
   return (
     <View style={styles.container}>

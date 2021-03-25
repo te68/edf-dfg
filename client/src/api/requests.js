@@ -6,8 +6,6 @@ const base = "https://youth-activism-app-server.herokuapp.com/api";
 //   return await getData("@user_token");
 // })();
 
-// TODO: Connect to asyncstorage
-
 //AUTHENTICATION
 export const signUp = axios.create({
   baseURL: `${base}/users`,
@@ -109,7 +107,7 @@ export const updateEvent = axios.create({
 
 export const deleteEvent = axios.create({
   baseURL: `${base}/event`,
-  method: "DELTE",
+  method: "DELETE",
   headers: {
     "Content-type": "application/json",
     // "x-auth-token": token,

@@ -11,6 +11,7 @@ import SearchBar from "../components/SearchBar";
 import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
 import { getContents } from "../api/requests";
+import { getData } from "../shared/asyncStorage";
 
 const CareerScreen = ({ navigation }) => {
   const [searchQuery, updateSearchQuery] = useState("");
@@ -19,8 +20,10 @@ const CareerScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getCareers = async (query = "") => {
+    const token = await getData("@user_token");
     const res = await getContents.get("/", {
       params: { category: "career", searchQuery: query },
+      headers: { "x-auth-token": token },
     });
     // const res = await axios.get(
     //   `https://youth-activism-app-server.herokuapp.com/api/content?searchQuery=${query}&category=career`,

@@ -23,7 +23,7 @@ import { getData, setData } from "../shared/asyncStorage";
 import axios from "axios";
 import moment from "moment";
 import { handleUrl } from "../shared/screenHelpers";
-import { postContent } from "../api/requests";
+import { getContents } from "../api/requests";
 
 const generalFeed = [
   {
@@ -193,30 +193,36 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [savedIds, setSavedIds] = useState([]);
   const SAVED_ARTICLES_STORAGE_KEY = "@saved_article_ids";
+
   const getSavedArticleIds = async () => {
-    setSavedIds(getData(SAVED_ARTICLES_STORAGE_KEY) || []);
+    setSavedIds(JSON.parse(await getData(SAVED_ARTICLES_STORAGE_KEY)) || []);
   };
-  const setSavedArticleIds = async () => {
-    setData(SAVED_ARTICLES_STORAGE_KEY, savedIds);
+
+  const setSavedArticleIds = async (ids) => {
+    setData(SAVED_ARTICLES_STORAGE_KEY, ids);
   };
+
   useEffect(() => {
     getSavedArticleIds(SAVED_ARTICLES_STORAGE_KEY);
     setIsSaved(savedIds.includes(content._id));
-    //setSavedArticleIds(newSavedIds);
-    //setSavedIds(newSavedIds);
-  }, []);
+    // console.log("useEffect", savedIds);
+  }, [savedIds]);
 
   const onChangeSaved = () => {
     // TODO: Get saved to work
     let newSavedIds = savedIds;
-    if (!isSaved) {
-      newSavedIds = savedIds.filter((id) => id !== content.id);
+    if (newSavedIds.length && newSavedIds.includes(content._id)) {
+      newSavedIds = newSavedIds.filter((id) => id !== content._id);
+      console.log("Remove");
     } else {
       newSavedIds.push(content._id);
+      console.log("Added");
     }
-    setSavedIds(ids);
+    setSavedArticleIds(JSON.stringify(newSavedIds));
+    // setSavedArticleIds(newSavedIds);
+    setSavedIds(newSavedIds);
     setIsSaved(!isSaved);
-  }
+  };
 
   return (
     <View
@@ -238,9 +244,7 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
           margin: 5,
         }}
       >
-        <TouchableOpacity
-          style={{ marginBottom: 5 }}
-          onPress={onChangeSaved}>
+        <TouchableOpacity style={{ marginBottom: 5 }} onPress={onChangeSaved}>
           {isSaved ? (
             <MaterialIcons name="bookmark" size={25} color="black" />
           ) : (
@@ -274,16 +278,20 @@ const FeedScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   // TODO: Loading Indicator
   const getContent = async () => {
-    const res = await axios.get(
-      "https://youth-activism-app-server.herokuapp.com/api/content",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA1YTY3NzNlMjhkMjQ1MTZjNmM1NWY3In0sImlhdCI6MTYxNjUzNzQ1OSwiZXhwIjoxNjE2ODk3NDU5fQ.D5jsx1pUdGXT5oq4c3njTyfifuxwQOpg0-f2dBA0v_8",
-        },
-      }
-    );
+    // const res = await axios.get(
+    //   "https://youth-activism-app-server.herokuapp.com/api/content",
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "x-auth-token":
+    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+    //     },
+    //   }
+    // );
+    const token = await getData("@user_token");
+    const res = await getContents.get("/", {
+      headers: { "x-auth-token": token },
+    });
     if (res.status === 200) {
       updateContent(res.data.content);
       updateDisplayedContent(res.data.content);
@@ -318,16 +326,16 @@ const FeedScreen = ({ navigation }) => {
   const ArticleList = ({ feed, updatePost, savePost }) => {
     return myFeed.length
       ? myFeed.map((content) => {
-        return (
-          <ArticlePost
-            key={content._id}
-            content={content}
-            updatePost={updatePost}
-            savePost={savePost}
-            savedIds={savedContentIds}
-          />
-        );
-      })
+          return (
+            <ArticlePost
+              key={content._id}
+              content={content}
+              updatePost={updatePost}
+              savePost={savePost}
+              savedIds={savedContentIds}
+            />
+          );
+        })
       : null;
   };
 
@@ -359,61 +367,51 @@ const FeedScreen = ({ navigation }) => {
     );
   };
 
-
   const updatePost = (post, feedback) => {
     if (feedback === "likes") {
-      console.log(post._id, 'liked');
-      postContent.put(
-        `/${post._id}`,
-        {
-          title: post.title,
-          url: post.url,
-          preview: post.preview,
-          author: post.author,
-          interest: post.interest,
-          category: post.category,
-          featured: post.featured,
-          likes: post.likes + 1,
-          dislikes: post.dislikes,
-          celebrates: post.celebrates
-        }
-      );
+      console.log(post._id, "liked");
+      postContent.put(`/${post._id}`, {
+        title: post.title,
+        url: post.url,
+        preview: post.preview,
+        author: post.author,
+        interest: post.interest,
+        category: post.category,
+        featured: post.featured,
+        likes: post.likes + 1,
+        dislikes: post.dislikes,
+        celebrates: post.celebrates,
+      });
     }
     if (feedback === "celebrates") {
-      console.log(post._id, 'celebrated');
-      postContent.put(
-        `/${post._id}`,
-        {
-          title: post.title,
-          url: post.url,
-          preview: post.preview,
-          author: post.author,
-          interest: post.interest,
-          category: post.category,
-          featured: post.featured,
-          likes: post.likes,
-          dislikes: post.dislikes,
-          celebrates: post.celebrates + 1
-        }
-      );
+      console.log(post._id, "celebrated");
+      postContent.put(`/${post._id}`, {
+        title: post.title,
+        url: post.url,
+        preview: post.preview,
+        author: post.author,
+        interest: post.interest,
+        category: post.category,
+        featured: post.featured,
+        likes: post.likes,
+        dislikes: post.dislikes,
+        celebrates: post.celebrates + 1,
+      });
     }
     if (feedback === "dislikes") {
-      console.log(post._id, 'disliked');
-      postContent.put(
-        `/${post._id}`,
-        {
-          title: post.title,
-          url: post.url,
-          preview: post.preview,
-          author: post.author,
-          interest: post.interest,
-          category: post.category,
-          featured: post.featured,
-          likes: post.likes,
-          dislikes: post.dislikes + 1,
-          celebrates: post.celebrates
-        }
-      );
+      console.log(post._id, "disliked");
+      postContent.put(`/${post._id}`, {
+        title: post.title,
+        url: post.url,
+        preview: post.preview,
+        author: post.author,
+        interest: post.interest,
+        category: post.category,
+        featured: post.featured,
+        likes: post.likes,
+        dislikes: post.dislikes + 1,
+        celebrates: post.celebrates,
+      });
     }
   };
   const savePost = (articleInfo) => {
@@ -448,7 +446,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     flex: 1,
-    flexWrap: 'wrap'
+    flexWrap: "wrap",
   },
   item: {
     margin: 20,

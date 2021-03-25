@@ -15,29 +15,38 @@ import axios from "axios";
 import { getData } from "../../shared/asyncStorage";
 import SearchBar from "../../components/SearchBar";
 import { getEvents } from "../../api/requests";
+import { handleUrl } from "../../shared/screenHelpers";
 export const EventCard = (props) => {
   const { navigation, color, ...eventInfo } = props;
-  const { _id, title, date, address, description } = eventInfo;
+  const { _id, title, date, address, description, category, url } = eventInfo;
   const cardStyle = { ...styles.eventCard };
   cardStyle.backgroundColor = color;
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("EventPage", _id)}
+      onPress={
+        category ? handleUrl(url) : () => navigation.navigate("EventPage", _id)
+      }
       style={cardStyle}
     >
       <View style={{ width: "90%" }}>
         <Text style={{ fontSize: 18, fontWeight: "400" }}>{title}</Text>
-        <View flexDirection="row" alignItems="center">
-          <AntDesign name="calendar" size={24} color="black" />
-          <Text> {moment(date).format("LL")}</Text>
-        </View>
-        <View flexDirection="row" alignItems="center">
-          <EvilIcons name="location" size={24} color="black" />
-          <Text> {address}</Text>
-        </View>
-        <Text numberOfLines={3} ellipsizeMode="tail">
-          {description}
-        </Text>
+        {date ? (
+          <View flexDirection="row" alignItems="center">
+            <AntDesign name="calendar" size={24} color="black" />
+            <Text> {moment(date).format("LL")}</Text>
+          </View>
+        ) : null}
+        {address ? (
+          <View flexDirection="row" alignItems="center">
+            <EvilIcons name="location" size={24} color="black" />
+            <Text> {address}</Text>
+          </View>
+        ) : null}
+        {description ? (
+          <Text numberOfLines={3} ellipsizeMode="tail">
+            {description}
+          </Text>
+        ) : null}
       </View>
       <View style={{ justifyContent: "flex-end" }}>
         <AntDesign name="arrowright" size={24} color="black" />
@@ -54,17 +63,11 @@ const EventsScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const getAllEvents = async () => {
-    const res = await getEvents.get("/");
-    // const res = await axios.get(
-    //   "https://youth-activism-app-server.herokuapp.com/api/event",
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "x-auth-token":
-    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-    //     },
-    //   }
-    // );
+    const token = await getData("@user_token");
+    const res = await getEvents.get("/", {
+      headers: { "x-auth-token": token },
+    });
+
     if (res.status === 200) {
       updateEvents(res.data.events);
       updateDisplayedEvents(res.data.events);

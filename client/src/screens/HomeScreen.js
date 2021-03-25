@@ -144,8 +144,8 @@ const HomeScreen = ({ navigation }) => {
 
   const onLoad = async () => {
     setIsLoading(true);
-    await getEvents();
-    await getMyEventIds();
+    // await getEvents();
+    // await getMyEventIds();
     setIsLoading(false);
   };
 
@@ -177,26 +177,6 @@ const HomeScreen = ({ navigation }) => {
     </View>
   );
 };
-
-function Button(props) {
-  const maxThreeNotifs = Math.min(props.notifications, 3);
-
-  return (
-    <View>
-      <TouchableOpacity
-        style={[
-          styles.button,
-          {
-            backgroundColor: props.color == null ? "#1B8AE6" : props.color,
-          },
-        ]}
-      >
-        <MaterialIcons name={props.icon}></MaterialIcons>
-        <Text style={styles.buttonText}>{props.title}</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   container: {

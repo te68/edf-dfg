@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,32 +10,21 @@ import {
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 import moment from "moment";
 import { getEventDetails } from "../../api/requests";
-import handleUrl from "../../shared/screenHelpers";
+import { handleUrl } from "../../shared/screenHelpers";
 import { getData } from "../../shared/asyncStorage";
 
 const EventPage = ({ route }) => {
   const _id = route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [eventInfo, updateEventInfo] = useState({});
-  const [token, setToken] = useState("");
   const getEvent = async () => {
+    const token = await getData("@user_token");
     const res = await getEventDetails.get(`/${_id}`, {
-      headers: { token: token },
+      headers: { "x-auth-token": token },
     });
-    // const res = await axios.get(
-    //   `https://youth-activism-app-server.herokuapp.com/api/event/${_id}`,
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "x-auth-token":
-    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-    //     },
-    //   }
-    // );
     if (res.status === 200) {
       updateEventInfo(res.data);
     } else {
-      //TODO: error handling
       alert("Error getting event");
       navigation.goBack();
     }
@@ -46,10 +35,10 @@ const EventPage = ({ route }) => {
     setIsLoading(false);
   };
   useEffect(() => {
-    setToken(getData("@user_token"));
     onLoad();
   }, []);
   const { title, description, address, time, date, url } = eventInfo;
+  const handleLink = handleUrl(url);
   return isLoading ? (
     <View
       style={{ height: "100%", justifyContent: "center", alignItems: "center" }}
@@ -82,7 +71,7 @@ const EventPage = ({ route }) => {
         <View>
           <View flexDirection="row" justifyContent="space-around" margin={10}>
             {moment(date).isAfter(moment()) ? (
-              <TouchableOpacity style={styles.button} onPress={handleUrl(url)}>
+              <TouchableOpacity style={styles.button} onPress={handleLink}>
                 <Text>Sign Up</Text>
               </TouchableOpacity>
             ) : null}
