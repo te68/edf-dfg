@@ -120,15 +120,15 @@ exports.updateContent = async (req, res, next) => {
     }
 
     // update
-    content.title = title;
-    content.url = url;
-    content.preview = preview;
-    content.interest = interest;
-    content.category = category;
-    content.likes = likes;
-    content.dislikes = dislikes;
-    content.celebrates = celebrates;
-    content.featured = featured;
+    if (title) content.title = title;
+    if (url) content.url = url;
+    if (preview) content.preview = preview;
+    if (interest) content.interest = interest;
+    if (category) content.category = category;
+    if (likes) content.likes = likes;
+    if (dislikes) content.dislikes = dislikes;
+    if (celebrates) content.celebrates = celebrates;
+    if (featured) content.featured = featured;
 
     const result = await content.save();
     res.status(200).json({ message: "Content Updated", content: result });

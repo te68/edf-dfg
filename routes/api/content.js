@@ -35,24 +35,7 @@ router.post(
 // @route    PUT /api/content/<contentId>
 // @desc     Edit specific content
 // @access   Private
-router.put(
-  "/:contentId",
-  auth,
-  // validation
-  [
-    body("title").notEmpty(),
-    body("url").notEmpty(),
-    body("preview").notEmpty(),
-    body("author").notEmpty(),
-    body("interest").notEmpty(),
-    body("category").notEmpty(),
-    body("featured").notEmpty(),
-    body("likes").notEmpty(),
-    body("dislikes").notEmpty(),
-    body("celebrates").notEmpty(),
-  ],
-  contentControllers.updateContent
-);
+router.put("/:contentId", auth, contentControllers.updateContent);
 
 // @route    DELETE /api/content/<contentId>
 // @desc     Delete content
