@@ -23,6 +23,7 @@ import { getData, setData } from "../shared/asyncStorage";
 import axios from "axios";
 import moment from "moment";
 import { handleUrl } from "../shared/screenHelpers";
+import { getContents } from "../api/requests";
 
 const generalFeed = [
   {
@@ -189,32 +190,37 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [savedIds, setSavedIds] = useState([]);
   const SAVED_ARTICLES_STORAGE_KEY = "@saved_article_ids";
+
   const getSavedArticleIds = async () => {
-    setSavedIds(getData(SAVED_ARTICLES_STORAGE_KEY) || []);
+    setSavedIds(JSON.parse(await getData(SAVED_ARTICLES_STORAGE_KEY)) || []);
   };
-  const setSavedArticleIds = async () => {
-    setData(SAVED_ARTICLES_STORAGE_KEY, savedIds);
+
+  const setSavedArticleIds = async (ids) => {
+    setData(SAVED_ARTICLES_STORAGE_KEY, ids);
   };
+
   useEffect(() => {
     getSavedArticleIds(SAVED_ARTICLES_STORAGE_KEY);
     setIsSaved(savedIds.includes(content._id));
-    console.log(savedIds);
-  }, []);
-  const onChangeSaved = async () => {
+    // console.log("useEffect", savedIds);
+  }, [savedIds]);
+
+  const onChangeSaved = () => {
     // TODO: Get saved to work
     let newSavedIds = savedIds;
-    console.log(savedIds);
-    if (newSavedIds.length && newSavedIds.includes(content.id)) {
-      newSavedIds = newSavedIds.filter((id) => id !== content.id);
+    if (newSavedIds.length && newSavedIds.includes(content._id)) {
+      newSavedIds = newSavedIds.filter((id) => id !== content._id);
       console.log("Remove");
     } else {
-      newSavedIds.push(content.id);
+      newSavedIds.push(content._id);
       console.log("Added");
     }
-    setSavedArticleIds(newSavedIds);
+    setSavedArticleIds(JSON.stringify(newSavedIds));
+    // setSavedArticleIds(newSavedIds);
     setSavedIds(newSavedIds);
     setIsSaved(!isSaved);
   };
+
   return (
     <View
       style={{
@@ -270,16 +276,20 @@ const FeedScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   // TODO: Loading Indicator
   const getContent = async () => {
-    const res = await axios.get(
-      "https://youth-activism-app-server.herokuapp.com/api/content",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
-        },
-      }
-    );
+    // const res = await axios.get(
+    //   "https://youth-activism-app-server.herokuapp.com/api/content",
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "x-auth-token":
+    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjA0OTJjZTY5MjQwMDg5N2M1MTlhY2FmIn0sImlhdCI6MTYxNTk1NzkwMiwiZXhwIjoxNjE2Mzg5OTAyfQ.YeJ7nsJG1uMy0chROpY4AolePegJYiGQrWk8AAiVPpY",
+    //     },
+    //   }
+    // );
+    const token = await getData("@user_token");
+    const res = await getContents.get("/", {
+      headers: { "x-auth-token": token },
+    });
     if (res.status === 200) {
       updateContent(res.data.content);
       updateDisplayedContent(res.data.content);
@@ -295,7 +305,6 @@ const FeedScreen = ({ navigation }) => {
   };
 
   const onLoad = async () => {
-    console.log("onLoad");
     setIsLoading(true);
     await getContent();
     await getMyFeed();
@@ -315,16 +324,16 @@ const FeedScreen = ({ navigation }) => {
   const ArticleList = ({ feed, updatePost, savePost }) => {
     return myFeed.length
       ? myFeed.map((content) => {
-        return (
-          <ArticlePost
-            key={content._id}
-            content={content}
-            updatePost={updatePost}
-            savePost={savePost}
-            savedIds={savedContentIds}
-          />
-        );
-      })
+          return (
+            <ArticlePost
+              key={content._id}
+              content={content}
+              updatePost={updatePost}
+              savePost={savePost}
+              savedIds={savedContentIds}
+            />
+          );
+        })
       : null;
   };
 
@@ -368,7 +377,6 @@ const FeedScreen = ({ navigation }) => {
   };
   const savePost = (articleInfo) => {
     const { author, title, subjects, id } = articleInfo;
-    console.log(savedArticles);
   };
   return (
     <View style={styles.container}>
@@ -399,7 +407,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     flex: 1,
-    flexWrap: 'wrap'
+    flexWrap: "wrap",
   },
   item: {
     margin: 20,
