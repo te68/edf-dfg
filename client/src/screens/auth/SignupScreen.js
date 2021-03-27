@@ -21,7 +21,7 @@ const SignupScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSignUp = async () => {
-    if (!email || !password) alert("Enter email or password");
+    if (!password) alert("Enter password");
     setIsLoading(true);
     if (password.length < 6) {
       alert("Please pick password 6 characters or longer");
@@ -37,9 +37,10 @@ const SignupScreen = ({ navigation }) => {
     // });*/
     // }
 
+
     const body = {
-      name: name,
-      email: email,
+      name: "name",
+      email: email.concat("@email.com"),
       password: password,
     };
 
@@ -48,6 +49,9 @@ const SignupScreen = ({ navigation }) => {
         "Content-Type": "application/json",
       },
     };
+
+    console.log(body);
+    console.log(headers);
 
     await axios
       .post(
@@ -82,7 +86,7 @@ const SignupScreen = ({ navigation }) => {
       ) : (
         <>
           <Text style={styles.title}>Create Account</Text>
-          <View style={styles.inputView}>
+          {/* <View style={styles.inputView}>
             <TextInput
               style={styles.inputText}
               autoCapitalize="none"
@@ -92,13 +96,13 @@ const SignupScreen = ({ navigation }) => {
               value={name}
               onChangeText={(text) => setName(text)}
             />
-          </View>
+          </View> */}
           <View style={styles.inputView}>
             <TextInput
               style={styles.inputText}
               autoCapitalize="none"
               autoCorrect={false}
-              placeholder="Email"
+              placeholder="Username"
               placeholderTextColor="rgba(60, 60, 67, 0.3)"
               value={email}
               onChangeText={(text) => setEmail(text)}
