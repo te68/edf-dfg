@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
+  Linking,
+  Button,
 } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { getData } from "../shared/asyncStorage";
@@ -20,6 +22,7 @@ const ConnectScreen = ({ navigation }) => {
   const [events, updateEvents] = useState([]);
   const [myEventIds, updateMyEventIds] = useState([]);
   const [isLoadingEvents, setIsLoadingEvents] = useState(false);
+
   const getAllEvents = async () => {
     const token = await getData("@user_token");
     const res = await getEvents.get("/", {
@@ -34,10 +37,12 @@ const ConnectScreen = ({ navigation }) => {
       navigation.goBack();
     }
   };
+
   const getMyEventIds = async () => {
     const ids = await getData("@my_events");
     updateMyEventIds(ids || []);
   };
+
   const onLoad = async () => {
     setIsLoadingEvents(true);
     await getAllEvents();
@@ -47,6 +52,12 @@ const ConnectScreen = ({ navigation }) => {
   useEffect(() => {
     onLoad();
   }, []);
+
+  const openURL = (url) => {
+    Linking.openURL(url).catch((err) =>
+      console.error("An error occurred", err)
+    );
+  };
 
   const displayedEvents = events
     .filter((event) => event.id in myEventIds)

@@ -19,26 +19,25 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   const onLogin = async () => {
     // if (!email || !password) alert("Enter email or password");
     setIsLoading(true);
-    await login
-      .post("/", {
-        email: email,
-        password: password,
-      })
-      .then((res) => {
-        console.log(res.data.token);
-        setData("@user_token", res.data.token);
-        console.log("data set");
-        navigation.navigate("Main", { screen: "Home" });
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Incorrect email or password");
-        setIsLoading(false);
+    await login.post("/", {
+      email: email.concat("@email.com"),
+      password: password
+    }).then((res) => {
+      console.log(res.data.token);
+      setData("@user_token", res.data.token).then(() => {
+        navigation.navigate("Main", {screen: "Home"});
       });
+      console.log('data set');
+      // navigation.navigate("About");
+      setIsLoading(false);
+    }).catch((err) => {
+      console.log(err);
+      alert("Incorrect email or password");
+    });
     // else navigation.navigate("Home");
   };
   const onGoogleLogin = () => {};
@@ -58,7 +57,7 @@ const LoginScreen = ({ navigation }) => {
               style={styles.inputText}
               autoCapitalize="none"
               autoCorrect={false}
-              placeholder="Email..."
+              placeholder="Username..."
               placeholderTextColor="rgba(60, 60, 67, 0.3)"
               value={email}
               onChangeText={(text) => setEmail(text)}

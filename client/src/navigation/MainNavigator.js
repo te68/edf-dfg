@@ -24,7 +24,7 @@ const MainNavigator = () => {
     <>
       {isLoading ? (
         <ActivityIndicator />
-      ) : userToken ? (
+      ) : userToken != '' ? (
         <AppNavigator />
       ) : (
         <AuthNavigator />
