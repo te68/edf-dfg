@@ -62,7 +62,7 @@ const SignupScreen = ({ navigation }) => {
       .then((res) => {
         console.log("then", res.data.token);
         setData("@user_token", res.data.token);
-        navigation.navigate("Main", { screen: "Home" });
+        navigation.navigate("Main", {screen: "Home"});
       })
       .catch((err) => {
         console.log(err);
