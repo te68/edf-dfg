@@ -59,28 +59,28 @@ const Saved = ({ navigation }) => {
   // render() {
   const articleItems = articles.length
     ? articles.map((article) => {
-      return (
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.article}>
-            <Text
-              style={{
-                fontSize: 20,
-                margin: 4,
-                fontWeight: "bold",
-              }}
-            >
-              {article.title}
-            </Text>
-            <View style={styles.row}>
+        return (
+          <View key={article._id} style={styles.row}>
+            <TouchableOpacity style={styles.article}>
               <Text
                 style={{
-                  fontSize: 14,
+                  fontSize: 20,
                   margin: 4,
+                  fontWeight: "bold",
                 }}
               >
-                By {article.author}
+                {article.title}
               </Text>
-              {/* {article.subjects.map((tag) => (
+              <View style={styles.row}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    margin: 4,
+                  }}
+                >
+                  By {article.author}
+                </Text>
+                {/* {article.subjects.map((tag) => (
                   <Text
                     style={{
                       fontSize: 12,
@@ -94,20 +94,20 @@ const Saved = ({ navigation }) => {
                     {tag}
                   </Text>
                 ))} */}
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              // this.handleChange(article.id), this.setState({ color: "orange" });
-              handleChange(article._id);
-            }}
-            style={{ justifyContent: "center" }}
-          >
-            <Ionicons name="md-close" size={25} color="#C70000" />
-          </TouchableOpacity>
-        </View>
-      );
-    })
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                // this.handleChange(article.id), this.setState({ color: "orange" });
+                handleChange(article._id);
+              }}
+              style={{ justifyContent: "center" }}
+            >
+              <Ionicons name="md-close" size={25} color="#C70000" />
+            </TouchableOpacity>
+          </View>
+        );
+      })
     : [];
 
   return (

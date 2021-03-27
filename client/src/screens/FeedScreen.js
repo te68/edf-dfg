@@ -52,7 +52,12 @@ const ArticleCard = ({
   celebrates,
   dislikes,
   url,
+  reactions,
+  _id,
 }) => {
+  useEffect(() => {
+    console.log("ArticleCard rendered:", _id);
+  }, [likes, celebrates, dislikes]);
   return (
     <View style={{ width: 380, alignItems: "flex-start" }}>
       <TouchableOpacity style={styles.articleCard} onPress={handleUrl(url)}>
@@ -133,44 +138,49 @@ const ArticleCard = ({
   );
 };
 
-const ArticleButtons = ({ id, updatePost }) => (
+const ArticleButtons = ({ id, updatePost, reactions }) => {
+  useEffect(() => {
+    // console.log("ArticleButtons", reactions);
+  }, [reactions]);
   // TODO: Button functionality
-  <View
-    style={{
-      flexDirection: "row",
-    }}
-  >
-    <TouchableOpacity
-      style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
-      onPress={() => updatePost(id, "likes")}
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+      }}
     >
-      <Feather name="thumbs-up" size={15} color="black" />
-      <Text style={{ paddingLeft: 2 }}>Like</Text>
-    </TouchableOpacity>
-    <TouchableOpacity
-      style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
-      onPress={() => updatePost(id, "celebrates")}
-    >
-      <SvgXml width="20" height="20" xml={CustomSvgs.clappingIcon} />
-      <Text style={{ paddingLeft: 2 }}>Celebrate</Text>
-    </TouchableOpacity>
-    <TouchableOpacity
-      style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
-      onPress={() => updatePost(id, "dislikes")}
-    >
-      <Feather name="thumbs-down" size={15} color="black" />
-      <Text style={{ paddingLeft: 2 }}>Dislike</Text>
-    </TouchableOpacity>
-    {/*<TouchableOpacity
+      <TouchableOpacity
+        style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
+        onPress={() => updatePost(id, "likes")}
+      >
+        <Feather name="thumbs-up" size={15} color="black" />
+        <Text style={{ paddingLeft: 2 }}>Like</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
+        onPress={() => updatePost(id, "celebrates")}
+      >
+        <SvgXml width="20" height="20" xml={CustomSvgs.clappingIcon} />
+        <Text style={{ paddingLeft: 2 }}>Celebrate</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
+        onPress={() => updatePost(id, "dislikes")}
+      >
+        <Feather name="thumbs-down" size={15} color="black" />
+        <Text style={{ paddingLeft: 2 }}>Dislike</Text>
+      </TouchableOpacity>
+      {/*<TouchableOpacity
       style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
     >
       <Fontisto name="mad" size={15} color="black" />
       <Text style={{ paddingLeft: 2 }}>Angry</Text>
     </TouchableOpacity>*/}
-  </View>
-);
+    </View>
+  );
+};
 
-const ArticlePost = ({ content, updatePost, savePost }) => {
+const ArticlePost = ({ content, /*updatePost,*/ savePost }) => {
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -192,6 +202,7 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
 
   const [isSaved, setIsSaved] = useState(false);
   const [savedIds, setSavedIds] = useState([]);
+  const [reactions, setReactions] = useState([0, 0, 0]);
   const SAVED_ARTICLES_STORAGE_KEY = "@saved_article_ids";
 
   const getSavedArticleIds = async () => {
@@ -223,7 +234,60 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
     setSavedIds(newSavedIds);
     setIsSaved(!isSaved);
   };
-
+  const updatePost = async (post, feedback) => {
+    const token = await getData("@user_token");
+    console.log("updatePost");
+    console.log("token: ", token);
+    if (feedback === "likes") {
+      console.log(post._id, "liked");
+      const data = {
+        ...post,
+        likes: post.likes + 1,
+      };
+      await postContent
+        .put(`/${post._id}`, data, {
+          headers: {
+            "x-auth-token": token,
+          },
+        })
+        .then((res) => {
+          console.log(res.data.message);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+    if (feedback === "celebrates") {
+      console.log(post._id, "celebrated");
+      postContent.put(`/${post._id}`, {
+        title: post.title,
+        url: post.url,
+        preview: post.preview,
+        author: post.author,
+        interest: post.interest,
+        category: post.category,
+        featured: post.featured,
+        likes: post.likes,
+        dislikes: post.dislikes,
+        celebrates: post.celebrates + 1,
+      });
+    }
+    if (feedback === "dislikes") {
+      console.log(post._id, "disliked");
+      postContent.put(`/${post._id}`, {
+        title: post.title,
+        url: post.url,
+        preview: post.preview,
+        author: post.author,
+        interest: post.interest,
+        category: post.category,
+        featured: post.featured,
+        likes: post.likes,
+        dislikes: post.dislikes + 1,
+        celebrates: post.celebrates,
+      });
+    }
+  };
   return (
     <View
       style={{
@@ -235,7 +299,11 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
     >
       <View style={{ width: "90%" }}>
         <ArticleCard {...content} />
-        <ArticleButtons id={content} updatePost={updatePost} />
+        <ArticleButtons
+          id={content}
+          reactions={reactions}
+          updatePost={updatePost}
+        />
       </View>
       <View
         style={{
@@ -260,26 +328,26 @@ const ArticlePost = ({ content, updatePost, savePost }) => {
 };
 const FeedScreen = ({ navigation }) => {
   // TODO: SAVE IDS
-  const [feed, updateFeed] = useState(generalFeed);
-  const [savedArticles, setSavedArticles] = useState([]);
-  const SAVED_STORAGE_KEY = "@saved_articles";
+  // const [feed, updateFeed] = useState(generalFeed);
+  // const [savedArticles, setSavedArticles] = useState([]);
+  // const SAVED_STORAGE_KEY = "@saved_articles";
 
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
 
-  const getToken = async () => {
-    setToken(await getData("@user_token"));
-    console.log('token gotten');
-  };
+  // const getToken = async () => {
+  //   setToken(await getData("@user_token"));
+  //   console.log("token gotten");
+  // };
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = (await getData(SAVED_STORAGE_KEY)) || [];
-      setSavedArticles(res);
-    }
-    fetchData();
-    getToken;
-    console.log(token, ' in feed screen');
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const res = (await getData(SAVED_STORAGE_KEY)) || [];
+  //     setSavedArticles(res);
+  //   }
+  //   fetchData();
+  //   getToken;
+  //   console.log(token, " in feed screen");
+  // }, []);
 
   const [content, updateContent] = useState([]);
   const [displayedContent, updateDisplayedContent] = useState([]);
@@ -336,16 +404,16 @@ const FeedScreen = ({ navigation }) => {
   const ArticleList = ({ feed, updatePost, savePost }) => {
     return myFeed.length
       ? myFeed.map((content) => {
-        return (
-          <ArticlePost
-            key={content._id}
-            content={content}
-            updatePost={updatePost}
-            savePost={savePost}
-            savedIds={savedContentIds}
-          />
-        );
-      })
+          return (
+            <ArticlePost
+              key={content._id}
+              content={content}
+              // updatePost={updatePost}
+              savePost={savePost}
+              savedIds={savedContentIds}
+            />
+          );
+        })
       : null;
   };
 
@@ -377,62 +445,60 @@ const FeedScreen = ({ navigation }) => {
     );
   };
 
-  const updatePost = async (post, feedback) => {
-    console.log("update post", token);
-    if (feedback === "likes") {
-      console.log(post._id, "liked");
-      await postContent.put(`/${post._id}`,
-        {
-          headers: {
-            "x-auth-token": token,
-          },
-        },
-        {
-          title: post.title,
-          url: post.url,
-          preview: post.preview,
-          author: post.author,
-          interest: post.interest,
-          category: post.category,
-          featured: post.featured,
-          likes: post.likes + 1,
-          dislikes: post.dislikes,
-          celebrates: post.celebrates,
-        })
-        .then((res) => { console.log(res.data.message) })
-        .catch((err) => { console.log(err) });
-    }
-    if (feedback === "celebrates") {
-      console.log(post._id, "celebrated");
-      postContent.put(`/${post._id}`, {
-        title: post.title,
-        url: post.url,
-        preview: post.preview,
-        author: post.author,
-        interest: post.interest,
-        category: post.category,
-        featured: post.featured,
-        likes: post.likes,
-        dislikes: post.dislikes,
-        celebrates: post.celebrates + 1,
-      });
-    }
-    if (feedback === "dislikes") {
-      console.log(post._id, "disliked");
-      postContent.put(`/${post._id}`, {
-        title: post.title,
-        url: post.url,
-        preview: post.preview,
-        author: post.author,
-        interest: post.interest,
-        category: post.category,
-        featured: post.featured,
-        likes: post.likes,
-        dislikes: post.dislikes + 1,
-        celebrates: post.celebrates,
-      });
-    }
-  };
+  // const updatePost = async (post, feedback) => {
+  //   const token = await getData("@user_token");
+  //   console.log("updatePost");
+  //   console.log("token: ", token);
+  //   if (feedback === "likes") {
+  //     console.log(post._id, "liked");
+  //     const data = {
+  //       ...post,
+  //       likes: post.likes + 1,
+  //     };
+  //     await postContent
+  //       .put(`/${post._id}`, data, {
+  //         headers: {
+  //           "x-auth-token": token,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         console.log(res.data.message);
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //   }
+  //   if (feedback === "celebrates") {
+  //     console.log(post._id, "celebrated");
+  //     postContent.put(`/${post._id}`, {
+  //       title: post.title,
+  //       url: post.url,
+  //       preview: post.preview,
+  //       author: post.author,
+  //       interest: post.interest,
+  //       category: post.category,
+  //       featured: post.featured,
+  //       likes: post.likes,
+  //       dislikes: post.dislikes,
+  //       celebrates: post.celebrates + 1,
+  //     });
+  //   }
+  //   if (feedback === "dislikes") {
+  //     console.log(post._id, "disliked");
+  //     postContent.put(`/${post._id}`, {
+  //       title: post.title,
+  //       url: post.url,
+  //       preview: post.preview,
+  //       author: post.author,
+  //       interest: post.interest,
+  //       category: post.category,
+  //       featured: post.featured,
+  //       likes: post.likes,
+  //       dislikes: post.dislikes + 1,
+  //       celebrates: post.celebrates,
+  //     });
+  //   }
+  // };
   const savePost = (articleInfo) => {
     const { author, title, subjects, id } = articleInfo;
   };
@@ -445,7 +511,7 @@ const FeedScreen = ({ navigation }) => {
         renderItem={renderContent}
         keyExtractor={(item) => item.id}
       />*/}
-      <ArticleList feed={feed} updatePost={updatePost.bind(this)} />
+      <ArticleList /*updatePost={updatePost.bind(this)}*/ />
       {/* <BottomButton navigation={navigation} /> */}
     </View>
   );

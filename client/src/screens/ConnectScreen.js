@@ -15,6 +15,7 @@ import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
 import moment from "moment";
 import { getEvents } from "../api/requests";
+import { handleUrl } from "../shared/screenHelpers";
 const ConnectScreen = ({ navigation }) => {
   const [events, updateEvents] = useState([]);
   const [myEventIds, updateMyEventIds] = useState([]);
@@ -56,6 +57,11 @@ const ConnectScreen = ({ navigation }) => {
         )
         .sort((event1, event2) => moment(event2.date).diff(moment(event1.date)))
     ); // Latest date first;
+  const climateCorpLink = handleUrl(
+    "https://business.edf.org/categories/climate-corps/"
+  );
+  const defendOurFundLink = handleUrl("https://defendourfuture.org/");
+  const degreesPodcastLink = handleUrl("https://business.edf.org/degrees/");
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -84,7 +90,10 @@ const ConnectScreen = ({ navigation }) => {
                 determined to meet their climate and energy goals.
               </Text>
               <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={climateCorpLink}
+                >
                   <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
                     {" "}
                     Learn More{" "}
@@ -121,7 +130,10 @@ const ConnectScreen = ({ navigation }) => {
                 future generations.
               </Text>
               <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={defendOurFundLink}
+                >
                   <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
                     {" "}
                     Learn More{" "}
@@ -153,7 +165,10 @@ const ConnectScreen = ({ navigation }) => {
                 their footsteps and join their changemaker ranks.
               </Text>
               <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={degreesPodcastLink}
+                >
                   <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
                     {" "}
                     Learn More{" "}
