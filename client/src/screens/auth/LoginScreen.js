@@ -28,9 +28,11 @@ const LoginScreen = ({ navigation }) => {
       password: password
     }).then((res) => {
       console.log(res.data.token);
-      setData("@user_token", res.data.token);
+      setData("@user_token", res.data.token).then(() => {
+        navigation.navigate("Main", {screen: "Home"});
+      });
       console.log('data set');
-      navigation.navigate("Main", { screen: "Home" });
+      // navigation.navigate("About");
       setIsLoading(false);
     }).catch((err) => {
       console.log(err);
