@@ -60,7 +60,7 @@ const ActScreen = ({ navigation }) => {
     {
       key: 2,
       title: "Write a Letter to the Editor",
-      destination: "http://defendourfuture.org/write-letter-editor/"
+      destination: "https://defendourfuture.org/write-letter-editor/"
     },
     {
       key: 3,

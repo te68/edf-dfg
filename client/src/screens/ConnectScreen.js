@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
+  Linking, 
+  Button
 } from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { getData } from "../shared/asyncStorage";
@@ -15,10 +17,12 @@ import axios from "axios";
 import { EventCard } from "./Events/EventsScreen";
 import moment from "moment";
 import { getEvents } from "../api/requests";
+
 const ConnectScreen = ({ navigation }) => {
   const [events, updateEvents] = useState([]);
   const [myEventIds, updateMyEventIds] = useState([]);
   const [isLoadingEvents, setIsLoadingEvents] = useState(false);
+
   const getAllEvents = async () => {
     const token = await getData("@user_token");
     const res = await getEvents.get("/", {
@@ -33,10 +37,12 @@ const ConnectScreen = ({ navigation }) => {
       navigation.goBack();
     }
   };
+
   const getMyEventIds = async () => {
     const ids = await getData("@my_events");
     updateMyEventIds(ids || []);
   };
+
   const onLoad = async () => {
     setIsLoadingEvents(true);
     await getAllEvents();
@@ -47,6 +53,10 @@ const ConnectScreen = ({ navigation }) => {
     onLoad();
   }, []);
 
+  const openURL = (url) => {
+    Linking.openURL(url).catch((err) => console.error('An error occurred', err));
+  }
+
   const displayedEvents = events
     .filter((event) => event.id in myEventIds)
     .concat(
@@ -56,6 +66,26 @@ const ConnectScreen = ({ navigation }) => {
         )
         .sort((event1, event2) => moment(event2.date).diff(moment(event1.date)))
     ); // Latest date first;
+
+  const OpenURLButton = ({ url, children }) => {
+      const handlePress = useCallback(async () => {
+        // Checking if the link is supported for links with custom URL scheme.
+        const supported = await Linking.canOpenURL(url);
+    
+        if (supported) {
+          // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+          // by some browser in the mobile
+          await Linking.openURL(url);
+        } else {
+          Alert.alert(`Don't know how to open this URL: ${url}`);
+        }
+      }, [url]);
+    
+      return <TouchableOpacity style={styles.button} onPress={handlePress}>
+          <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>Learn More{" "}</Text>
+      </TouchableOpacity>;
+    };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -84,18 +114,7 @@ const ConnectScreen = ({ navigation }) => {
                 determined to meet their climate and energy goals.
               </Text>
               <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.button}>
-                  <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
-                    {" "}
-                    Learn More{" "}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
-                  <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
-                    {" "}
-                    Apply{" "}
-                  </Text>
-                </TouchableOpacity>
+                  <OpenURLButton style={styles.button} url={"https://business.edf.org/categories/climate-corps/"} />
               </View>
             </View>
           </View>
@@ -121,12 +140,7 @@ const ConnectScreen = ({ navigation }) => {
                 future generations.
               </Text>
               <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.button}>
-                  <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
-                    {" "}
-                    Learn More{" "}
-                  </Text>
-                </TouchableOpacity>
+                <OpenURLButton style={styles.button} url={"https://defendourfuture.org"} />
               </View>
             </View>
           </View>
@@ -153,12 +167,7 @@ const ConnectScreen = ({ navigation }) => {
                 their footsteps and join their changemaker ranks.
               </Text>
               <View style={styles.buttonRow}>
-                <TouchableOpacity style={styles.button}>
-                  <Text style={{ margin: 5, fontSize: 12, fontWeight: "bold" }}>
-                    {" "}
-                    Learn More{" "}
-                  </Text>
-                </TouchableOpacity>
+                <OpenURLButton style={styles.button} url={"https://business.edf.org/degrees/"} />
               </View>
             </View>
           </View>
