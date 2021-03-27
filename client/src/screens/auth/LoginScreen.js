@@ -19,11 +19,12 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   const onLogin = async () => {
     // if (!email || !password) alert("Enter email or password");
     setIsLoading(true);
     await login.post("/", {
-      email: email,
+      email: email.concat("@email.com"),
       password: password
     }).then((res) => {
       console.log(res.data.token);
@@ -54,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
               style={styles.inputText}
               autoCapitalize="none"
               autoCorrect={false}
-              placeholder="Email..."
+              placeholder="Username..."
               placeholderTextColor="rgba(60, 60, 67, 0.3)"
               value={email}
               onChangeText={(text) => setEmail(text)}

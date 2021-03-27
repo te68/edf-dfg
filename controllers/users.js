@@ -13,13 +13,13 @@ exports.register = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, email, password } = req.body;
+  const { name, password } = req.body;
   try {
     //See if user exists
-    let user = await User.findOne({ email });
-    if (user) {
-      return res.status(400).json({ errors: [{ msg: "User already exists" }] });
-    }
+    // let user = await User.findOne({ email });
+    // if (user) {
+    //   return res.status(400).json({ errors: [{ msg: "User already exists" }] });
+    // }
     //Get users gravatar
     const avatar = gravatar.url(email, {
       //s = size
@@ -31,12 +31,13 @@ exports.register = async (req, res) => {
     });
     user = new User({
       name,
-      email,
+      // email,
       avatar,
       password,
     });
     //Encrypt password
     const salt = await bcrypt.genSalt(10);
+    console.log("hi");
     user.password = await bcrypt.hash(password, salt);
     await user.save();
 
