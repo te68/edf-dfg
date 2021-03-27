@@ -33,7 +33,7 @@ export const TabNavigator = () => {
                 xml={CustomSvgs.learnIcon}
               />
             );
-          } else if (route.name === "Act") {
+          } else if (route.name === "Connect") {
             return (
               <SvgXml
                 width={(label = focused ? "26" : "25")}
@@ -41,7 +41,7 @@ export const TabNavigator = () => {
                 xml={CustomSvgs.connectIcon}
               />
             );
-          } else if (route.name === "Connect") {
+          } else if (route.name === "Act") {
             return (
               <SvgXml
                 width={(label = focused ? "26" : "25")}
@@ -116,8 +116,8 @@ export const TabNavigator = () => {
     >
       <Tab.Screen name="Home" component={HomeNavigator} />
       <Tab.Screen name="Learn" component={LearnNavigator} />
-      <Tab.Screen name="Act" component={ActNavigator} />
       <Tab.Screen name="Connect" component={ConnectNavigator} />
+      <Tab.Screen name="Act" component={ActNavigator} />
     </Tab.Navigator>
   );
 };
