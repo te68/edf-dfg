@@ -1,0 +1,104 @@
+#personas {
+  background-color: rgb(255, 255, 255);
+}
+
+img {
+ width: 300px;
+ padding: 20px;
+ display: block;
+ margin-left: auto;
+ margin-right: auto;
+}
+
+h1, h2, h3, h4 {
+  text-align: center;
+  font-family: sans-serif;
+}
+
+p, figcaption {
+  font-family: sans-serif;
+}
+
+li {
+  font-family: sans-serif;
+  font-size: 14.5px;
+}
+
+.part1 {
+  background-color: rgb(118, 155, 242);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px
+}
+
+.sketch {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: justify;
+  margin: 20px;
+}
+
+.sketch-questions {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.part2 {
+  background-color: rgb(118, 228, 242);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px;
+}
+
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  text-align: justify;
+  justify-content: space-evenly;
+}
+
+.users {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  text-align: justify;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.part3 {
+  background-color: rgb(118, 242, 197);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px;
+}
+
+.persona-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  text-align: justify;
+  justify-content: space-evenly;
+}
+
+.part4 {
+  background-color: rgb(133, 242, 118);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px;
+}
