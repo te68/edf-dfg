@@ -1,0 +1,124 @@
+#personas {
+  background-color: rgb(255, 255, 255);
+}
+
+.wrapper {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  background: rgba(52, 152, 219,0.5);
+  z-index: 10;
+}
+
+.wrapper div, .wrapper div::after, .wrapper div::before {
+position: absolute;
+}
+
+.mountain {
+width: 0;
+height: 0;
+border-left: 100px solid transparent;
+border-right: 100px solid transparent;
+border-bottom: 150px solid #7f8c8dc8;
+bottom: 0;
+left: 0;
+}
+
+.mountain::after {
+width: 0;
+height: 0;
+border-left: 100px solid transparent;
+border-right: 100px solid transparent;
+border-bottom: 150px solid #6c7374;
+bottom: -170px;
+left: -130px;
+content: "";
+}
+
+.mountain::before {
+width: 0;
+height: 0;
+border-left: 100px solid transparent;
+border-right: 100px solid transparent;
+border-bottom: 150px solid #7f8c8d;
+bottom: -200px;
+left: -50px;
+content: "";
+}
+
+.sun {
+  width: 30px;
+  height: 30px;
+  top: 20px;
+  left: 110px;
+  background: #dbc908;
+}
+
+img {
+ width: 300px;
+ padding: 20px;
+ display: block;
+ margin-left: auto;
+ margin-right: auto;
+}
+
+h1, h2, h3, h4 {
+  text-align: center;
+  font-family: sans-serif;
+}
+
+p, ul, h3 {
+  font-family: sans-serif;
+}
+
+h3, p {
+  margin-bottom: 0;
+}
+
+.part1 {
+  background-color: #6c7374;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 20px;
+  margin: 10px;
+}
+
+.part2 {
+  background-color: #7f8c8dc8;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px;
+  margin-bottom: 20px;
+}
+
+.part3 {
+  background-color: rgba(52, 152, 219,0.5);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px;
+  margin-bottom: 20px;
+}
+
+
+.part4 {
+  background-color:  #dbc908;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px;
+  margin-bottom: 20px;
+}
