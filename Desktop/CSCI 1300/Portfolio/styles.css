@@ -78,6 +78,14 @@ h3, p {
   margin-bottom: 0;
 }
 
+input{
+  height:400px;
+}
+
+input:hover{
+  transform:scale(1.1);
+}
+
 .part1 {
   background-color: #6c7374;
   display: flex;
